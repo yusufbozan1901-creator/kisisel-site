@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { Analytics } from '@vercel/analytics/react';
 import { SITE_CONFIG } from '@/config/site';
 import { ThemeProvider } from '@/components/common/theme-provider';
 import { Navbar } from '@/components/common/navbar';
@@ -21,11 +22,20 @@ export const metadata: Metadata = {
     siteName: SITE_CONFIG.name,
     locale: 'tr_TR',
     type: 'website',
+    images: [
+      {
+        url: SITE_CONFIG.ogImage,
+        width: 1200,
+        height: 630,
+        alt: SITE_CONFIG.name,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: SITE_CONFIG.title,
     description: SITE_CONFIG.description,
+    images: [SITE_CONFIG.ogImage],
   },
   robots: {
     index: true,
@@ -71,6 +81,7 @@ export default function RootLayout({
             <Footer />
           </div>
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

@@ -29,6 +29,29 @@ export async function generateMetadata({
   return {
     title: `${post.title} | ${SITE_CONFIG.name}`,
     description: post.description,
+    openGraph: {
+      title: post.title,
+      description: post.description,
+      url: `${SITE_CONFIG.url}/blog/${post.slug}`,
+      type: 'article',
+      publishedTime: post.publishedAt,
+      authors: [SITE_CONFIG.author],
+      tags: [...post.tags],
+      images: [
+        {
+          url: SITE_CONFIG.ogImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      images: [SITE_CONFIG.ogImage],
+    },
   };
 }
 
@@ -91,9 +114,9 @@ export default async function BlogPostPage({
           )}
         </header>
 
-        {/* Rendered HTML Content supporting Markdown, Images, Audio controls */}
+        {/* Rendered HTML Content with Tailwind Typography (prose) and Book layout */}
         <div
-          className="prose-editorial pt-8 max-w-none text-foreground/90"
+          className="prose prose-zinc dark:prose-invert prose-editorial pt-8 max-w-none text-foreground/90 prose-headings:font-bold prose-headings:tracking-tight prose-a:underline prose-a:underline-offset-4 prose-pre:border prose-pre:border-zinc-800 prose-pre:bg-zinc-950 prose-code:font-mono prose-code:text-xs sm:prose-code:text-sm prose-blockquote:border-l-2 prose-blockquote:border-zinc-400 dark:prose-blockquote:border-zinc-700"
           dangerouslySetInnerHTML={{ __html: post.htmlContent || '' }}
         />
 

@@ -6,6 +6,7 @@ export const SITE_CONFIG = {
   description: 'Merhaba ben Yusuf kişisel sayfama hoş geldiniz. Teknoloji, sade yaşam ve düşünceler üzerine kişisel notlar.',
   url: 'https://yusufbozan.com',
   author: 'Yusuf Bozan',
+  ogImage: '/og-image.png',
   // E-posta adresi gizlidir, arayüzde gösterilmez, yalnızca API backend tarafından kullanılır
   privateEmail: 'iletisim@yusufbozan.com',
 } as const;

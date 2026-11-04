@@ -2,10 +2,31 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/container';
+import { SITE_CONFIG } from '@/config/site';
 
 export const metadata: Metadata = {
   title: 'Hakkımda',
   description: 'Yusuf Bozan hakkında — Kişisel notlar, ilgi alanları ve bu köşenin ortaya çıkış hikayesi.',
+  openGraph: {
+    title: `Hakkımda | ${SITE_CONFIG.name}`,
+    description: 'Yusuf Bozan hakkında — Kişisel notlar, ilgi alanları ve bu köşenin ortaya çıkış hikayesi.',
+    url: `${SITE_CONFIG.url}/about`,
+    type: 'profile',
+    images: [
+      {
+        url: SITE_CONFIG.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `Hakkımda | ${SITE_CONFIG.name}`,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `Hakkımda | ${SITE_CONFIG.name}`,
+    description: 'Yusuf Bozan hakkında — Kişisel notlar, ilgi alanları ve bu köşenin ortaya çıkış hikayesi.',
+    images: [SITE_CONFIG.ogImage],
+  },
 };
 
 export default function AboutPage() {

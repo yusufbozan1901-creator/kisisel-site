@@ -1,10 +1,31 @@
 import type { Metadata } from 'next';
 import { Container } from '@/components/ui/container';
 import { ContactForm } from '@/components/forms/contact-form';
+import { SITE_CONFIG } from '@/config/site';
 
 export const metadata: Metadata = {
   title: 'İletişim',
   description: 'Yusuf Bozan ile doğrudan ve güvenli iletişim kurun.',
+  openGraph: {
+    title: `İletişim | ${SITE_CONFIG.name}`,
+    description: 'Yusuf Bozan ile doğrudan ve güvenli iletişim kurun.',
+    url: `${SITE_CONFIG.url}/contact`,
+    type: 'website',
+    images: [
+      {
+        url: SITE_CONFIG.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `İletişim | ${SITE_CONFIG.name}`,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `İletişim | ${SITE_CONFIG.name}`,
+    description: 'Yusuf Bozan ile doğrudan ve güvenli iletişim kurun.',
+    images: [SITE_CONFIG.ogImage],
+  },
 };
 
 export default function ContactPage() {
