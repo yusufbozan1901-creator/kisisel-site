@@ -9,4 +9,10 @@ Merhaba, ben Yusuf. Burası internetin bitmek bilmeyen telaşından ve gürült�
 
 Burayı gösterişli bir vitrin ya da büyük iddiaların sergilendiği bir yer olarak değil; sayfalarını dilediğim zaman çevirip baktığım, okuduklarımdan ve yaşadıklarımdan geriye kalanları samimiyetle kaydettiğim kişisel bir dijital not defteri olarak görüyorum.
 
-Yolunuz buraya düştüyse hoş geldiniz. Ara sıra uğrayıp yeni bir nota göz atabilir veya paylaşmak istediğiniz bir düşünce olursa iletişim sayfasından bana yazabilirsiniz.
+![Sakin Bir Not Defteri Köşesi](/gorseller/ornek-gorsel.svg)
+
+Yolunuz buraya düştüyse hoş geldiniz. Ara sıra uğrayıp yeni bir nota göz atabilir, ses kayıtlarını dinleyebilir veya paylaşmak istediğiniz bir düşünce olursa iletişim sayfasından bana yazabilirsiniz.
+
+<audio controls src="/sesler/ornek-ses.mp3" preload="metadata">
+  Tarayıcınız ses oynatıcısını desteklemiyor.
+</audio>
