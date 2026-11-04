@@ -12,6 +12,7 @@ Yusuf Bozan için bağımsız Markdown (.md) dosyalarıyla beslenen, sade, samim
 - İnce ve zarif saç teli sınır çizgileri (`border-zinc-200/80` ve `dark:border-zinc-800/80`)
 - Yalnızca tek ve samimi bir karşılama yazısı: *"Burası Neresi?"* (`yazilar/burasi-neresi.md`)
 - Gizli ve güvenli arka uç iletişim altyapısı (`/api/contact`)
+- Canlı üretim URL'si: `https://kisisel-site-cyan.vercel.app`
 
 ---
 
@@ -24,4 +25,5 @@ Yusuf Bozan için bağımsız Markdown (.md) dosyalarıyla beslenen, sade, samim
 - [x] **Yazılarım (`/blog`):** Markdown dosyalarından derlenen dinamik arşiv
 - [x] **Yazı Okuma (`/blog/burasi-neresi`):** Editoryal tipografi, görsel ve ses oynatma desteği (SSG)
 - [x] **Güvenli İletişim (`/contact` & `/api/contact`):** E-posta açıkta görünmez; Zod ve rate-limit korumalı
+- [x] **Vercel Analytics & Open Graph Kartları:** Canlı üretim URL'si (`https://kisisel-site-cyan.vercel.app`) ve mutlak OG görseli
 - [x] **Git & GitHub Senkronizasyonu:** Tüm güncellemeler GitHub deposuna push edildi

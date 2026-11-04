@@ -4,9 +4,9 @@ export const SITE_CONFIG = {
   name: 'Yusuf Bozan',
   title: 'Yusuf Bozan | Kişisel Blog',
   description: 'Merhaba ben Yusuf kişisel sayfama hoş geldiniz. Teknoloji, sade yaşam ve düşünceler üzerine kişisel notlar.',
-  url: 'https://yusufbozan.com',
+  url: 'https://kisisel-site-cyan.vercel.app',
   author: 'Yusuf Bozan',
-  ogImage: '/og-image.png',
+  ogImage: 'https://kisisel-site-cyan.vercel.app/og-image.png',
   // E-posta adresi gizlidir, arayüzde gösterilmez, yalnızca API backend tarafından kullanılır
   privateEmail: 'iletisim@yusufbozan.com',
 } as const;
