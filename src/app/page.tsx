@@ -3,10 +3,12 @@ import { ArrowRight, Clock, Calendar } from 'lucide-react';
 import { HeroSection } from '@/components/sections/hero-section';
 import { Container } from '@/components/ui/container';
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { BLOG_POSTS } from '@/data/posts';
+import { getAllPosts } from '@/lib/posts';
 import { formatDate } from '@/lib/utils';
 
 export default function HomePage() {
+  const posts = getAllPosts();
+
   return (
     <>
       <HeroSection />
@@ -22,12 +24,12 @@ export default function HomePage() {
               href="/blog"
               className="text-xs text-muted-foreground hover:text-foreground transition-colors"
             >
-              Arşiv ({BLOG_POSTS.length})
+              Arşiv ({posts.length})
             </Link>
           </div>
 
           <div className="space-y-6">
-            {BLOG_POSTS.map((post) => (
+            {posts.map((post) => (
               <Card
                 key={post.slug}
                 className="group border border-zinc-200/80 dark:border-zinc-800/80 bg-card hover:border-zinc-400 dark:hover:border-zinc-750 transition-all duration-200 rounded-lg p-1 sm:p-2"

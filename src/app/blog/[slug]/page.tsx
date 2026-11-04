@@ -3,14 +3,13 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import { Container } from '@/components/ui/container';
-import { BLOG_POSTS } from '@/data/posts';
+import { getPostBySlug, getAllPostSlugs } from '@/lib/posts';
 import { formatDate } from '@/lib/utils';
 import { SITE_CONFIG } from '@/config/site';
 
 export function generateStaticParams() {
-  return BLOG_POSTS.map((post) => ({
-    slug: post.slug,
-  }));
+  const slugs = getAllPostSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -19,7 +18,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return {
@@ -39,7 +38,7 @@ export default async function BlogPostPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -81,39 +80,22 @@ export default async function BlogPostPage({
             {post.description}
           </p>
 
-          <div className="flex items-center gap-2 pt-2">
-            {post.tags.map((tag) => (
-              <span key={tag} className="text-xs text-muted-foreground font-mono">
-                #{tag}
-              </span>
-            ))}
-          </div>
+          {post.tags.length > 0 && (
+            <div className="flex items-center gap-2 pt-2">
+              {post.tags.map((tag) => (
+                <span key={tag} className="text-xs text-muted-foreground font-mono">
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          )}
         </header>
 
-        {/* Editorial Essay Content */}
-        <div className="pt-10 max-w-none text-base sm:text-lg text-foreground/90 leading-[1.85] space-y-6">
-          {post.content.trim().split('\n\n').map((paragraph, index) => {
-            if (paragraph.startsWith('### ')) {
-              return (
-                <h3 key={index} className="text-lg sm:text-xl font-bold tracking-tight text-foreground pt-4">
-                  {paragraph.replace('### ', '')}
-                </h3>
-              );
-            }
-            if (paragraph.startsWith('## ')) {
-              return (
-                <h2 key={index} className="text-xl sm:text-2xl font-bold tracking-tight text-foreground pt-6">
-                  {paragraph.replace('## ', '')}
-                </h2>
-              );
-            }
-            return (
-              <p key={index} className="text-foreground/90 leading-[1.85]">
-                {paragraph}
-              </p>
-            );
-          })}
-        </div>
+        {/* Rendered HTML Content supporting Markdown, Images, Audio controls */}
+        <div
+          className="prose-editorial pt-8 max-w-none text-foreground/90"
+          dangerouslySetInnerHTML={{ __html: post.htmlContent || '' }}
+        />
 
         {/* Quiet Sign-off */}
         <div className="mt-16 pt-8 border-t border-zinc-200/70 dark:border-zinc-900/80 flex items-center justify-between text-xs text-muted-foreground">

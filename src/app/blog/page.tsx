@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ArrowRight, Clock, Calendar } from 'lucide-react';
 import { Container } from '@/components/ui/container';
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
-import { BLOG_POSTS } from '@/data/posts';
+import { getAllPosts } from '@/lib/posts';
 import { formatDate } from '@/lib/utils';
 
 export const metadata: Metadata = {
@@ -12,6 +12,8 @@ export const metadata: Metadata = {
 };
 
 export default function BlogPage() {
+  const posts = getAllPosts();
+
   return (
     <div className="py-20 sm:py-28">
       <Container size="narrow">
@@ -25,7 +27,7 @@ export default function BlogPage() {
         </div>
 
         <div className="space-y-6">
-          {BLOG_POSTS.map((post) => (
+          {posts.map((post) => (
             <Card
               key={post.slug}
               className="group border border-zinc-200/80 dark:border-zinc-800/80 bg-card hover:border-zinc-400 dark:hover:border-zinc-750 transition-all duration-200 rounded-lg p-1 sm:p-2"
