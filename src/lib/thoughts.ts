@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import { resolveTurkeyTimestamp } from './date-resolver';
 
 const AKIS_DIRECTORY = path.join(process.cwd(), 'akis');
 
@@ -17,7 +18,7 @@ export interface Thought {
 }
 
 /**
- * Formats date/datetime to a clean Turkish string.
+ * Formats date/datetime to a clean Turkish string in Europe/Istanbul timezone.
  * e.g., "5 Kasım 2026 • 20:30" or "5 Kasım 2026"
  */
 export function formatThoughtDate(dateString: string): string {
@@ -33,6 +34,7 @@ export function formatThoughtDate(dateString: string): string {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
+      timeZone: 'Europe/Istanbul',
     }).format(d);
 
     if (hasTime) {
@@ -40,8 +42,13 @@ export function formatThoughtDate(dateString: string): string {
         hour: '2-digit',
         minute: '2-digit',
         hour12: false,
+        timeZone: 'Europe/Istanbul',
       }).format(d);
-      return `${dateFormatted} • ${timeFormatted}`;
+
+      // Do not display midnight as an explicit time
+      if (timeFormatted !== '00:00') {
+        return `${dateFormatted} • ${timeFormatted}`;
+      }
     }
 
     return dateFormatted;
@@ -82,7 +89,7 @@ export async function getAllThoughts(): Promise<Thought[]> {
 
         const { data, content } = matter(fileContents);
 
-        const date = data.date ? String(data.date) : new Date().toISOString();
+        const date = resolveTurkeyTimestamp(data.date, fullPath);
         const formattedDate = formatThoughtDate(date);
         const htmlContent = await marked.parse(content);
 

@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
+import { resolveTurkeyTimestamp } from './date-resolver';
 
 const POSTS_DIRECTORY = path.join(process.cwd(), 'yazilar');
 
@@ -60,7 +61,7 @@ export function getAllPosts(): Post[] {
     const { data, content } = matter(fileContents);
 
     const wordCount = getWordCount(content);
-    const publishedAt = data.date ? String(data.date) : new Date().toISOString().split('T')[0]!;
+    const publishedAt = resolveTurkeyTimestamp(data.date, fullPath);
     const readingTime = data.readingTime ? String(data.readingTime) : calculateReadingTime(wordCount);
     const tags = Array.isArray(data.tags) ? data.tags : [];
     const audio = data.audio ? String(data.audio) : undefined;
@@ -115,7 +116,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   const htmlContent = await marked.parse(content);
 
   const wordCount = getWordCount(content);
-  const publishedAt = data.date ? String(data.date) : new Date().toISOString().split('T')[0]!;
+  const publishedAt = resolveTurkeyTimestamp(data.date, fullPath);
   const readingTime = data.readingTime ? String(data.readingTime) : calculateReadingTime(wordCount);
   const tags = Array.isArray(data.tags) ? data.tags : [];
   const audio = data.audio ? String(data.audio) : undefined;

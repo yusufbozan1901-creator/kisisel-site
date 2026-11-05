@@ -44,14 +44,20 @@ content:
       - name: image
         label: Kapak Görseli
         type: image
+        options:
+          media: gorseller
 
       - name: audio
         label: Ses Dosyası
         type: file
+        options:
+          media: sesler
 
       - name: body
         label: İçerik
         type: rich-text
+        options:
+          media: gorseller
 
   # 2. Akış (Mikro-Blog / Anlık Düşünceler)
   - name: akis
@@ -59,7 +65,7 @@ content:
     type: collection
     path: akis
     format: yaml-frontmatter
-    filename: "{year}-{month}-{day}-{slug}.md"
+    filename: "{year}-{month}-{day}-{hour}-{minute}-{second}.md"
     view:
       primary: date
       sort: date
@@ -68,19 +74,27 @@ content:
       - name: date
         label: Tarih ve Saat
         type: date
+        options:
+          time: true
         required: true
 
       - name: image
         label: Görsel
         type: image
+        options:
+          media: gorseller
 
       - name: audio
         label: Ses Dosyası
         type: file
+        options:
+          media: sesler
 
       - name: body
         label: Düşünce Metni
         type: rich-text
+        options:
+          media: gorseller
         required: true
 
   # 3. Profil, Hakkımda ve Sosyal Medya Ayarları
@@ -96,6 +110,8 @@ content:
       - name: bio
         label: Biyografi Metni
         type: rich-text
+        options:
+          media: gorseller
 
       - name: x
         label: X (Twitter)
