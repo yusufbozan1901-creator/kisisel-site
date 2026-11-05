@@ -15,6 +15,8 @@ export interface Post {
   readonly tags: readonly string[];
   readonly content: string;
   readonly htmlContent?: string;
+  readonly audio?: string;
+  readonly image?: string;
 }
 
 /**
@@ -61,6 +63,8 @@ export function getAllPosts(): Post[] {
     const publishedAt = data.date ? String(data.date) : new Date().toISOString().split('T')[0]!;
     const readingTime = data.readingTime ? String(data.readingTime) : calculateReadingTime(wordCount);
     const tags = Array.isArray(data.tags) ? data.tags : [];
+    const audio = data.audio ? String(data.audio) : undefined;
+    const image = data.image ? String(data.image) : undefined;
 
     return {
       slug,
@@ -71,6 +75,8 @@ export function getAllPosts(): Post[] {
       wordCount,
       tags,
       content,
+      audio,
+      image,
     };
   });
 
@@ -112,6 +118,8 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   const publishedAt = data.date ? String(data.date) : new Date().toISOString().split('T')[0]!;
   const readingTime = data.readingTime ? String(data.readingTime) : calculateReadingTime(wordCount);
   const tags = Array.isArray(data.tags) ? data.tags : [];
+  const audio = data.audio ? String(data.audio) : undefined;
+  const image = data.image ? String(data.image) : undefined;
 
   return {
     slug,
@@ -123,6 +131,8 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     tags,
     content,
     htmlContent,
+    audio,
+    image,
   };
 }
 

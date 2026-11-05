@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Container } from '@/components/ui/container';
 import { SITE_CONFIG } from '@/config/site';
+import { getProfileData, getActiveSocialLinks } from '@/lib/profile';
+import { SocialLinks } from '@/components/common/social-links';
 
 export const metadata: Metadata = {
   title: 'Hakkımda',
@@ -29,51 +31,53 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const profile = await getProfileData();
+  const activeSocialLinks = getActiveSocialLinks(profile);
+
   return (
     <div className="py-20 sm:py-28">
       <Container size="narrow">
         {/* Header */}
-        <div className="space-y-4 mb-14 max-w-xl">
+        <div className="space-y-4 mb-12 max-w-xl">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-            Hakkımda
+            {profile.title}
           </h1>
           <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal">
             Merhaba, ben Yusuf. Kişisel sayfama hoş geldiniz.
           </p>
         </div>
 
-        {/* Narrative Essay */}
-        <div className="max-w-none text-base sm:text-lg text-foreground/90 leading-[1.85] space-y-8">
-          <p>
-            Burası internetin bitmek bilmeyen telaşından ve gürültüsünden biraz olsun uzaklaşmak, zihnimi toparlamak ve zaman içinde biriktirdiğim notları sade bir düzende saklamak için açtığım kişisel bir alan.
-          </p>
+        {/* Narrative Essay from profil.json */}
+        <div className="space-y-8">
+          <div
+            className="prose prose-zinc dark:prose-invert prose-editorial max-w-none text-foreground/90 text-base sm:text-lg leading-[1.85]"
+            dangerouslySetInnerHTML={{ __html: profile.bioHtml || '' }}
+          />
 
-          <p>
-            Eski internetin o iddiasız ama samimi kişisel sayfalarını her zaman çok kıymetli buldum. Gösterişli unvanlar, algoritmaların peşinden koşan başlıklar ya da dikkat çekme yarışının olmadığı; insanların yalnızca merak ettikleri şeyleri kendi ritimlerinde yazdığı o dingin atmosferi burada da yaşatmaya çalışıyorum.
-          </p>
+          {/* Social Links if active */}
+          {activeSocialLinks.length > 0 && (
+            <div className="pt-6 border-t border-zinc-200/70 dark:border-zinc-800/80 space-y-3">
+              <h2 className="text-xs uppercase tracking-widest font-mono text-zinc-500 dark:text-zinc-400">
+                Sosyal Medya & Bağlantılar
+              </h2>
+              <SocialLinks links={activeSocialLinks} />
+            </div>
+          )}
 
-          <div className="pt-4 border-t border-zinc-200/70 dark:border-zinc-800/80 space-y-4">
+          {/* Contact Section */}
+          <div className="pt-6 border-t border-zinc-200/70 dark:border-zinc-800/80 space-y-4">
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-              Bu Köşede Neler Var?
+              İletişim
             </h2>
-            <p className="text-zinc-700 dark:text-zinc-300">
-              Hayatı biraz daha yalınlaştırma arayışı, teknolojinin düşüncelerimiz ve alışkanlıklarımız üzerindeki sessiz etkileri, okuduğum kitaplardan altını çizdiğim satırlar ve zaman zaman kaydettiğim ses notları... Kısacası kalıcı olmasını dilediğim düşünce kırıntıları.
-            </p>
-          </div>
-
-          <div className="pt-4 border-t border-zinc-200/70 dark:border-zinc-800/80 space-y-4">
-            <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-              Bir Not Bırakmak İsterseniz
-            </h2>
-            <p className="text-zinc-700 dark:text-zinc-300">
-              Buradaki yazılarla ilgili aklınıza takılan bir düşünceyi paylaşmak, bir kitap tavsiyesi vermek veya yalnızca selam iletmek isterseniz her zaman memnuniyetle okurum.
+            <p className="text-zinc-600 dark:text-zinc-400 text-sm sm:text-base leading-relaxed">
+              Buradaki notlarla ilgili bir düşüncenizi paylaşmak, bir soru sormak ya da sadece bir merhaba demek isterseniz her zaman memnuniyetle okurum.
             </p>
 
-            <div className="pt-2">
+            <div className="pt-1">
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground underline underline-offset-4 hover:opacity-85 transition-opacity"
+                className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground underline underline-offset-4 hover:opacity-80 transition-opacity"
               >
                 İletişim Sayfasına Geçin
                 <ArrowRight className="h-3.5 w-3.5" />

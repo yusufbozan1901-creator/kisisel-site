@@ -20,6 +20,15 @@ export interface BlogPostMeta {
   readonly readingTime: string;
   readonly tags: readonly string[];
   readonly coverImage?: string;
+  readonly audio?: string;
+}
+
+export interface ThoughtMeta {
+  readonly slug: string;
+  readonly date: string;
+  readonly content: string;
+  readonly image?: string;
+  readonly audio?: string;
 }
 
 export interface ContactFormData {

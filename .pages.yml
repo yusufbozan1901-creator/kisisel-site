@@ -10,6 +10,7 @@ media:
     output: /sesler
 
 content:
+  # 1. Uzun Makaleler & Notlar
   - name: yazilar
     label: Yazılar
     type: collection
@@ -40,6 +41,139 @@ content:
         type: string
         list: true
 
+      - name: image
+        label: Kapak Görseli
+        type: image
+
+      - name: audio
+        label: Ses Dosyası
+        type: file
+
       - name: body
         label: İçerik
         type: rich-text
+
+  # 2. Akış (Mikro-Blog / Anlık Düşünceler)
+  - name: akis
+    label: Akış (Anlık Düşünceler)
+    type: collection
+    path: akis
+    format: yaml-frontmatter
+    filename: "{year}-{month}-{day}-{slug}.md"
+    view:
+      primary: date
+      sort: date
+      order: desc
+    fields:
+      - name: date
+        label: Tarih ve Saat
+        type: date
+        required: true
+
+      - name: image
+        label: Görsel
+        type: image
+
+      - name: audio
+        label: Ses Dosyası
+        type: file
+
+      - name: body
+        label: Düşünce Metni
+        type: rich-text
+        required: true
+
+  # 3. Profil, Hakkımda ve Sosyal Medya Ayarları
+  - name: profil
+    label: Hakkımda & Sosyal Medya
+    type: file
+    path: src/content/profil.json
+    fields:
+      - name: title
+        label: Hakkımda Başlığı
+        type: string
+
+      - name: bio
+        label: Biyografi Metni
+        type: rich-text
+
+      - name: x
+        label: X (Twitter)
+        type: object
+        fields:
+          - name: enabled
+            label: Aktif Et
+            type: boolean
+          - name: url
+            label: Profil Linki
+            type: string
+
+      - name: instagram
+        label: Instagram
+        type: object
+        fields:
+          - name: enabled
+            label: Aktif Et
+            type: boolean
+          - name: url
+            label: Profil Linki
+            type: string
+
+      - name: youtube
+        label: YouTube
+        type: object
+        fields:
+          - name: enabled
+            label: Aktif Et
+            type: boolean
+          - name: url
+            label: Profil Linki
+            type: string
+
+      - name: facebook
+        label: Facebook
+        type: object
+        fields:
+          - name: enabled
+            label: Aktif Et
+            type: boolean
+          - name: url
+            label: Profil Linki
+            type: string
+
+      - name: github
+        label: GitHub
+        type: object
+        fields:
+          - name: enabled
+            label: Aktif Et
+            type: boolean
+          - name: url
+            label: Profil Linki
+            type: string
+
+      - name: linkedin
+        label: LinkedIn
+        type: object
+        fields:
+          - name: enabled
+            label: Aktif Et
+            type: boolean
+          - name: url
+            label: Profil Linki
+            type: string
+
+      - name: customLinks
+        label: Özel Bağlantılar
+        type: object
+        list: true
+        fields:
+          - name: name
+            label: Platform Adı
+            type: string
+          - name: url
+            label: Bağlantı URL
+            type: string
+          - name: enabled
+            label: Aktif
+            type: boolean

@@ -12,6 +12,7 @@ export const SITE_CONFIG = {
 export const NAV_ITEMS: readonly NavItem[] = [
   { title: 'Ana Sayfa', href: '/' },
   { title: 'Yazılarım', href: '/blog' },
+  { title: 'Akış', href: '/akis' },
   { title: 'Hakkımda', href: '/about' },
   { title: 'İletişim', href: '/contact' },
 ] as const;

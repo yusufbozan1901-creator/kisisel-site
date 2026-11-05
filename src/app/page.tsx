@@ -1,41 +1,112 @@
 import Link from 'next/link';
-import { ArrowRight, Clock, Calendar } from 'lucide-react';
+import { ArrowRight, Clock, Calendar, Sparkles } from 'lucide-react';
 import { HeroSection } from '@/components/sections/hero-section';
 import { Container } from '@/components/ui/container';
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { getAllPosts } from '@/lib/posts';
+import { getAllThoughts } from '@/lib/thoughts';
 import { formatDate } from '@/lib/utils';
+import { getProfileData, getActiveSocialLinks } from '@/lib/profile';
+import { ShareButton } from '@/components/common/share-button';
+import { ImageLightbox } from '@/components/mdx/image-lightbox';
 
-export default function HomePage() {
+export default async function HomePage() {
   const posts = getAllPosts();
+  const thoughts = await getAllThoughts();
+  const profile = await getProfileData();
+  const activeSocialLinks = getActiveSocialLinks(profile);
+
+  const recentThoughts = thoughts.slice(0, 3);
+  const recentPosts = posts.slice(0, 3);
 
   return (
     <>
-      <HeroSection />
+      <ImageLightbox />
+      <HeroSection socialLinks={activeSocialLinks} />
 
-      {/* Featured Note Section */}
-      <section className="pb-24 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/80">
+      {/* Akış (Mikro-Blog / Anlık Düşünceler) Section */}
+      {recentThoughts.length > 0 && (
+        <section className="pb-16 pt-4 border-t border-zinc-200/60 dark:border-zinc-900/80">
+          <Container size="narrow">
+            <div className="flex items-baseline justify-between mb-8">
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-3.5 w-3.5 text-zinc-500" />
+                <h2 className="text-xs uppercase tracking-widest font-semibold text-zinc-600 dark:text-zinc-400 font-mono">
+                  Son Akış Notları
+                </h2>
+              </div>
+              <Link
+                href="/akis"
+                className="inline-flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-400 hover:text-foreground transition-colors group"
+              >
+                <span>Tüm Akışı Gör</span>
+                <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
+              </Link>
+            </div>
+
+            <div className="space-y-4">
+              {recentThoughts.map((thought) => (
+                <div
+                  key={thought.slug}
+                  className="rounded-lg border border-zinc-200/80 dark:border-zinc-800/80 bg-card p-4 sm:p-5 transition-all duration-200 hover:border-zinc-400 dark:hover:border-zinc-650"
+                >
+                  <div className="flex items-center justify-between gap-2 mb-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                    <time dateTime={thought.date}>
+                      {thought.formattedDate}
+                    </time>
+                    <ShareButton
+                      title={`Yusuf Bozan — Akış (${thought.formattedDate})`}
+                      text={thought.content.slice(0, 140)}
+                      url={`/akis#${thought.slug}`}
+                    />
+                  </div>
+
+                  <div
+                    className="prose prose-zinc dark:prose-invert max-w-none text-foreground/90 text-sm leading-relaxed prose-p:my-1"
+                    dangerouslySetInnerHTML={{ __html: thought.htmlContent }}
+                  />
+
+                  {thought.image && (
+                    <div className="mt-3 overflow-hidden rounded-md border border-zinc-200 dark:border-zinc-800">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={thought.image}
+                        alt="Akış görseli"
+                        className="w-full max-h-60 object-cover cursor-zoom-in"
+                      />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
+
+      {/* Featured Articles Section */}
+      <section className="pb-24 pt-8 border-t border-zinc-200/60 dark:border-zinc-900/80">
         <Container size="narrow">
           <div className="flex items-baseline justify-between mb-8">
-            <h2 className="text-xs uppercase tracking-widest font-semibold text-muted-foreground">
-              Son Eklenen Not
+            <h2 className="text-xs uppercase tracking-widest font-semibold text-zinc-600 dark:text-zinc-400 font-mono">
+              Son Yazılar
             </h2>
             <Link
               href="/blog"
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+              className="inline-flex items-center gap-1 text-xs text-zinc-600 dark:text-zinc-400 hover:text-foreground transition-colors group"
             >
-              Arşiv ({posts.length})
+              <span>Tüm Yazılar ({posts.length})</span>
+              <ArrowRight className="h-3 w-3 group-hover:translate-x-0.5 transition-transform" />
             </Link>
           </div>
 
           <div className="space-y-6">
-            {posts.map((post) => (
+            {recentPosts.map((post) => (
               <Card
                 key={post.slug}
-                className="group border border-zinc-200/80 dark:border-zinc-800/80 bg-card hover:border-zinc-400 dark:hover:border-zinc-750 transition-all duration-200 rounded-lg p-1 sm:p-2"
+                className="group border border-zinc-200/80 dark:border-zinc-800/80 bg-card hover:border-zinc-400 dark:hover:border-zinc-650 transition-all duration-200 rounded-lg p-1 sm:p-2"
               >
                 <CardHeader className="p-6 pb-3">
-                  <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3 font-mono">
+                  <div className="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400 mb-3 font-mono">
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3.5 w-3.5" />
                       {formatDate(post.publishedAt)}
@@ -53,7 +124,7 @@ export default function HomePage() {
                     </Link>
                   </CardTitle>
 
-                  <CardDescription className="text-sm sm:text-base text-muted-foreground leading-relaxed pt-2">
+                  <CardDescription className="text-sm sm:text-base text-zinc-600 dark:text-zinc-400 leading-relaxed pt-2">
                     {post.description}
                   </CardDescription>
                 </CardHeader>
@@ -63,20 +134,27 @@ export default function HomePage() {
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs text-muted-foreground/80 font-normal"
+                        className="text-xs text-zinc-500 dark:text-zinc-400 font-normal"
                       >
                         #{tag}
                       </span>
                     ))}
                   </div>
 
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:underline underline-offset-4"
-                  >
-                    Yazıyı Oku
-                    <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
+                  <div className="flex items-center gap-3">
+                    <ShareButton
+                      title={post.title}
+                      text={post.description}
+                      url={`/blog/${post.slug}`}
+                    />
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-foreground hover:underline underline-offset-4"
+                    >
+                      Yazıyı Oku
+                      <ArrowRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
                 </CardFooter>
               </Card>
             ))}
