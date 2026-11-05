@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Container } from '@/components/ui/container';
 import { ContactForm } from '@/components/forms/contact-form';
+import { DirectContactCard } from '@/components/forms/direct-contact-card';
 import { SITE_CONFIG } from '@/config/site';
 
 export const metadata: Metadata = {
@@ -33,13 +34,18 @@ export default function ContactPage() {
     <div className="py-20 sm:py-28">
       <Container size="narrow">
         {/* Header */}
-        <div className="max-w-xl mb-12 space-y-3">
+        <div className="max-w-xl mb-10 space-y-3">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
             İletişim
           </h1>
-          <p className="text-muted-foreground text-base leading-relaxed">
-            Yazılarım hakkında bir fikir paylaşmak, soru sormak veya selam vermek için aşağıdaki formu kullanabilirsiniz.
+          <p className="text-zinc-600 dark:text-zinc-400 text-base leading-relaxed">
+            Buradaki yazılar hakkında bir fikir paylaşmak, bir soru iletmek ya da sadece merhaba demek için doğrudan e-posta gönderebilir veya formu doldurabilirsiniz.
           </p>
+        </div>
+
+        {/* Direct Email Card */}
+        <div className="max-w-xl">
+          <DirectContactCard />
         </div>
 
         {/* Secure Form */}

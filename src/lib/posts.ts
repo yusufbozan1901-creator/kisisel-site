@@ -11,17 +11,24 @@ export interface Post {
   readonly description: string;
   readonly publishedAt: string;
   readonly readingTime: string;
+  readonly wordCount: number;
   readonly tags: readonly string[];
   readonly content: string;
   readonly htmlContent?: string;
 }
 
 /**
- * Calculates estimated reading time in Turkish.
+ * Calculates word count from raw Markdown content.
  */
-function calculateReadingTime(content: string): string {
-  const words = content.trim().split(/\s+/).length;
-  const minutes = Math.max(1, Math.ceil(words / 200));
+function getWordCount(content: string): number {
+  return content.trim().split(/\s+/).filter(Boolean).length;
+}
+
+/**
+ * Calculates estimated reading time in Turkish based on real word count.
+ */
+function calculateReadingTime(wordCount: number): string {
+  const minutes = Math.max(1, Math.ceil(wordCount / 200));
   return `${minutes} dk okuma`;
 }
 
@@ -50,8 +57,9 @@ export function getAllPosts(): Post[] {
 
     const { data, content } = matter(fileContents);
 
+    const wordCount = getWordCount(content);
     const publishedAt = data.date ? String(data.date) : new Date().toISOString().split('T')[0]!;
-    const readingTime = data.readingTime ? String(data.readingTime) : calculateReadingTime(content);
+    const readingTime = data.readingTime ? String(data.readingTime) : calculateReadingTime(wordCount);
     const tags = Array.isArray(data.tags) ? data.tags : [];
 
     return {
@@ -60,6 +68,7 @@ export function getAllPosts(): Post[] {
       description: String(data.description || ''),
       publishedAt,
       readingTime,
+      wordCount,
       tags,
       content,
     };
@@ -99,8 +108,9 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
   const htmlContent = await marked.parse(content);
 
+  const wordCount = getWordCount(content);
   const publishedAt = data.date ? String(data.date) : new Date().toISOString().split('T')[0]!;
-  const readingTime = data.readingTime ? String(data.readingTime) : calculateReadingTime(content);
+  const readingTime = data.readingTime ? String(data.readingTime) : calculateReadingTime(wordCount);
   const tags = Array.isArray(data.tags) ? data.tags : [];
 
   return {
@@ -109,9 +119,34 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     description: String(data.description || ''),
     publishedAt,
     readingTime,
+    wordCount,
     tags,
     content,
     htmlContent,
   };
 }
 
+/**
+ * Returns adjacent (previous and next) posts relative to the given slug,
+ * ordered chronologically (newest first).
+ */
+export function getAdjacentPosts(slug: string): {
+  previous: { slug: string; title: string } | null;
+  next: { slug: string; title: string } | null;
+} {
+  const posts = getAllPosts();
+  const index = posts.findIndex((p) => p.slug === slug);
+
+  if (index === -1) {
+    return { previous: null, next: null };
+  }
+
+  // Posts are sorted newest-first: index-1 is newer, index+1 is older
+  const newer = index > 0 ? posts[index - 1]! : null;
+  const older = index < posts.length - 1 ? posts[index + 1]! : null;
+
+  return {
+    previous: older ? { slug: older.slug, title: older.title } : null,
+    next: newer ? { slug: newer.slug, title: newer.title } : null,
+  };
+}
