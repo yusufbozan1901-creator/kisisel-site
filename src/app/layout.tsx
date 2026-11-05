@@ -48,6 +48,12 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
+  alternates: {
+    canonical: SITE_CONFIG.url,
+    types: {
+      'application/rss+xml': [{ url: `${SITE_CONFIG.url}/rss.xml`, title: `${SITE_CONFIG.name} RSS Beslemesi` }],
+    },
+  },
 };
 
 export const viewport: Viewport = {

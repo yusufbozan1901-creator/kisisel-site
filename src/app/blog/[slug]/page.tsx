@@ -34,20 +34,31 @@ export async function generateMetadata({
     };
   }
 
+  const postUrl = `${SITE_CONFIG.url}/blog/${post.slug}`;
+  const ogImageUrl = post.image
+    ? post.image.startsWith('http')
+      ? post.image
+      : `${SITE_CONFIG.url}${post.image.startsWith('/') ? '' : '/'}${post.image}`
+    : `${SITE_CONFIG.url}/blog/${post.slug}/opengraph-image`;
+
   return {
     title: `${post.title} | ${SITE_CONFIG.name}`,
     description: post.description,
+    metadataBase: new URL(SITE_CONFIG.url),
+    alternates: {
+      canonical: postUrl,
+    },
     openGraph: {
       title: post.title,
       description: post.description,
-      url: `${SITE_CONFIG.url}/blog/${post.slug}`,
+      url: postUrl,
       type: 'article',
       publishedTime: post.publishedAt,
       authors: [SITE_CONFIG.author],
       tags: [...post.tags],
       images: [
         {
-          url: SITE_CONFIG.ogImage,
+          url: ogImageUrl,
           width: 1200,
           height: 630,
           alt: post.title,
@@ -58,7 +69,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: post.title,
       description: post.description,
-      images: [SITE_CONFIG.ogImage],
+      images: [ogImageUrl],
     },
   };
 }

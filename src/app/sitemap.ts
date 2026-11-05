@@ -1,22 +1,50 @@
 import type { MetadataRoute } from 'next';
-import { SITE_CONFIG, NAV_ITEMS } from '@/config/site';
+import { SITE_CONFIG } from '@/config/site';
 import { getAllPosts } from '@/lib/posts';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = NAV_ITEMS.map((item) => ({
-    url: `${SITE_CONFIG.url}${item.href}`,
-    lastModified: new Date(),
-    changeFrequency: 'monthly' as const,
-    priority: item.href === '/' ? 1.0 : 0.8,
-  }));
+  const baseUrl = SITE_CONFIG.url;
+
+  const staticPages: MetadataRoute.Sitemap = [
+    {
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/akis`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/contact`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
+  ];
 
   const posts = getAllPosts();
-  const postRoutes = posts.map((post) => ({
-    url: `${SITE_CONFIG.url}/blog/${post.slug}`,
+  const postEntries: MetadataRoute.Sitemap = posts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
     lastModified: new Date(post.publishedAt),
-    changeFrequency: 'yearly' as const,
-    priority: 0.7,
+    changeFrequency: 'monthly',
+    priority: 0.8,
   }));
 
-  return [...staticRoutes, ...postRoutes];
+  return [...staticPages, ...postEntries];
 }

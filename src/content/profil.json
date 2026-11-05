@@ -1,29 +1,42 @@
 {
   "title": "Hakkımda",
   "bio": "Merhaba, ben Yusuf. Kişisel sayfama hoş geldiniz.\n\nBurası internetin bitmek bilmeyen telaşından ve gürültüsünden biraz olsun uzaklaşmak, zihnimi toparlamak ve zaman içinde biriktirdiğim notları sade bir düzende saklamak için açtığım kişisel bir alan.\n\nEski internetin o iddiasız ama samimi kişisel sayfalarını her zaman çok kıymetli buldum. Gösterişli unvanlar, algoritmaların peşinden koşan başlıklar ya da dikkat çekme yarışının olmadığı; insanların yalnızca merak ettikleri şeyleri kendi ritimlerinde yazdığı o dingin atmosferi burada da yaşatmaya çalışıyorum.\n\n### Bu Köşede Neler Var?\nHayatı biraz daha yalınlaştırma arayışı, teknolojinin düşüncelerimiz ve alışkanlıklarımız üzerindeki sessiz etkileri, okuduğum kitaplardan altını çizdiğim satırlar ve zaman zaman kaydettiğim ses notları... Kısacası kalıcı olmasını dilediğim düşünce kırıntıları.\n\n### Bir Not Bırakmak İsterseniz\nBuradaki yazılarla ilgili aklınıza takılan bir düşünceyi paylaşmak, bir kitap tavsiyesi vermek veya yalnızca selam iletmek isterseniz her zaman memnuniyetle okurum.",
-  "x": {
-    "enabled": false,
-    "url": ""
-  },
-  "instagram": {
-    "enabled": false,
-    "url": ""
-  },
-  "youtube": {
-    "enabled": false,
-    "url": ""
-  },
-  "facebook": {
-    "enabled": false,
-    "url": ""
-  },
-  "github": {
-    "enabled": false,
-    "url": ""
-  },
-  "linkedin": {
-    "enabled": false,
-    "url": ""
-  },
-  "customLinks": []
+  "socialLinks": [
+    {
+      "platform": "github",
+      "name": "GitHub",
+      "url": "https://github.com",
+      "enabled": false
+    },
+    {
+      "platform": "x",
+      "name": "X (Twitter)",
+      "url": "https://x.com",
+      "enabled": false
+    },
+    {
+      "platform": "linkedin",
+      "name": "LinkedIn",
+      "url": "https://linkedin.com",
+      "enabled": false
+    },
+    {
+      "platform": "instagram",
+      "name": "Instagram",
+      "url": "https://instagram.com",
+      "enabled": false
+    },
+    {
+      "platform": "youtube",
+      "name": "YouTube",
+      "url": "https://youtube.com",
+      "enabled": false
+    },
+    {
+      "platform": "facebook",
+      "name": "Facebook",
+      "url": "https://facebook.com",
+      "enabled": false
+    }
+  ]
 }

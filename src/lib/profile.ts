@@ -2,28 +2,31 @@ import fs from 'fs';
 import path from 'path';
 import { marked } from 'marked';
 
-export interface SocialPlatform {
-  readonly enabled?: boolean;
-  readonly url?: string;
-}
-
-export interface CustomLink {
-  readonly name: string;
+export interface SocialLinkItem {
+  readonly platform: 'x' | 'instagram' | 'youtube' | 'facebook' | 'github' | 'linkedin' | 'custom' | string;
+  readonly name?: string;
   readonly url: string;
   readonly enabled?: boolean;
+}
+
+export interface LegacySocialPlatform {
+  readonly enabled?: boolean;
+  readonly url?: string;
 }
 
 export interface ProfileData {
   readonly title: string;
   readonly bio: string;
   readonly bioHtml?: string;
-  readonly x?: SocialPlatform;
-  readonly instagram?: SocialPlatform;
-  readonly youtube?: SocialPlatform;
-  readonly facebook?: SocialPlatform;
-  readonly github?: SocialPlatform;
-  readonly linkedin?: SocialPlatform;
-  readonly customLinks?: readonly CustomLink[];
+  readonly socialLinks?: readonly SocialLinkItem[];
+  // Legacy fields for backward compatibility
+  readonly x?: LegacySocialPlatform;
+  readonly instagram?: LegacySocialPlatform;
+  readonly youtube?: LegacySocialPlatform;
+  readonly facebook?: LegacySocialPlatform;
+  readonly github?: LegacySocialPlatform;
+  readonly linkedin?: LegacySocialPlatform;
+  readonly customLinks?: readonly { name: string; url: string; enabled?: boolean }[];
 }
 
 export interface ActiveSocialLink {
@@ -35,16 +38,20 @@ export interface ActiveSocialLink {
 const DEFAULT_PROFILE: ProfileData = {
   title: 'Hakkımda',
   bio: 'Merhaba, ben Yusuf. Kişisel sayfama hoş geldiniz.\n\nBurası internetin telaşından uzakta, kendi kendime düşündüğüm şeyleri not etmek için oluşturduğum sade bir köşe.',
-  x: { enabled: false, url: '' },
-  instagram: { enabled: false, url: '' },
-  youtube: { enabled: false, url: '' },
-  facebook: { enabled: false, url: '' },
-  github: { enabled: false, url: '' },
-  linkedin: { enabled: false, url: '' },
-  customLinks: [],
+  socialLinks: [],
 };
 
 const PROFILE_FILE_PATH = path.join(process.cwd(), 'src', 'content', 'profil.json');
+
+const DEFAULT_PLATFORM_NAMES: Record<string, string> = {
+  x: 'X (Twitter)',
+  instagram: 'Instagram',
+  youtube: 'YouTube',
+  facebook: 'Facebook',
+  github: 'GitHub',
+  linkedin: 'LinkedIn',
+  custom: 'Web',
+};
 
 /**
  * Safely retrieves profile data from src/content/profil.json with fallback.
@@ -73,12 +80,13 @@ export async function getProfileData(): Promise<ProfileData> {
       title,
       bio,
       bioHtml,
-      x: parsed.x || DEFAULT_PROFILE.x,
-      instagram: parsed.instagram || DEFAULT_PROFILE.instagram,
-      youtube: parsed.youtube || DEFAULT_PROFILE.youtube,
-      facebook: parsed.facebook || DEFAULT_PROFILE.facebook,
-      github: parsed.github || DEFAULT_PROFILE.github,
-      linkedin: parsed.linkedin || DEFAULT_PROFILE.linkedin,
+      socialLinks: Array.isArray(parsed.socialLinks) ? parsed.socialLinks : [],
+      x: parsed.x,
+      instagram: parsed.instagram,
+      youtube: parsed.youtube,
+      facebook: parsed.facebook,
+      github: parsed.github,
+      linkedin: parsed.linkedin,
       customLinks: Array.isArray(parsed.customLinks) ? parsed.customLinks : [],
     };
   } catch (error) {
@@ -88,40 +96,83 @@ export async function getProfileData(): Promise<ProfileData> {
 }
 
 /**
- * Returns only the active and valid social links.
+ * Normalizes platform string to a known platform type.
+ */
+function normalizePlatform(platform: string): ActiveSocialLink['platform'] {
+  const p = platform.toLowerCase().trim();
+  if (['x', 'twitter'].includes(p)) return 'x';
+  if (['instagram', 'ig'].includes(p)) return 'instagram';
+  if (['youtube', 'yt'].includes(p)) return 'youtube';
+  if (['facebook', 'fb'].includes(p)) return 'facebook';
+  if (['github', 'gh'].includes(p)) return 'github';
+  if (['linkedin', 'in'].includes(p)) return 'linkedin';
+  return 'custom';
+}
+
+/**
+ * Returns only the active and valid social links from both new socialLinks list and legacy fields.
  */
 export function getActiveSocialLinks(profile: ProfileData): ActiveSocialLink[] {
   const active: ActiveSocialLink[] = [];
+  const addedUrls = new Set<string>();
 
-  const checkPlatform = (
+  // 1. Process new compact socialLinks array
+  if (Array.isArray(profile.socialLinks)) {
+    profile.socialLinks.forEach((item) => {
+      if (item && item.enabled && item.url && item.url.trim().length > 0) {
+        const trimmedUrl = item.url.trim();
+        if (!addedUrls.has(trimmedUrl)) {
+          addedUrls.add(trimmedUrl);
+          const platform = normalizePlatform(item.platform || 'custom');
+          const name = item.name?.trim() || DEFAULT_PLATFORM_NAMES[platform] || 'Bağlantı';
+          active.push({
+            platform,
+            name,
+            url: trimmedUrl,
+          });
+        }
+      }
+    });
+  }
+
+  // 2. Fallback to legacy object keys if present and not already added
+  const checkLegacy = (
     platform: 'x' | 'instagram' | 'youtube' | 'facebook' | 'github' | 'linkedin',
-    name: string,
-    data?: SocialPlatform
+    defaultName: string,
+    data?: LegacySocialPlatform
   ) => {
     if (data?.enabled && data.url && data.url.trim().length > 0) {
-      active.push({
-        platform,
-        name,
-        url: data.url.trim(),
-      });
+      const trimmedUrl = data.url.trim();
+      if (!addedUrls.has(trimmedUrl)) {
+        addedUrls.add(trimmedUrl);
+        active.push({
+          platform,
+          name: defaultName,
+          url: trimmedUrl,
+        });
+      }
     }
   };
 
-  checkPlatform('x', 'X (Twitter)', profile.x);
-  checkPlatform('instagram', 'Instagram', profile.instagram);
-  checkPlatform('youtube', 'YouTube', profile.youtube);
-  checkPlatform('facebook', 'Facebook', profile.facebook);
-  checkPlatform('github', 'GitHub', profile.github);
-  checkPlatform('linkedin', 'LinkedIn', profile.linkedin);
+  checkLegacy('x', 'X (Twitter)', profile.x);
+  checkLegacy('instagram', 'Instagram', profile.instagram);
+  checkLegacy('youtube', 'YouTube', profile.youtube);
+  checkLegacy('facebook', 'Facebook', profile.facebook);
+  checkLegacy('github', 'GitHub', profile.github);
+  checkLegacy('linkedin', 'LinkedIn', profile.linkedin);
 
   if (Array.isArray(profile.customLinks)) {
     profile.customLinks.forEach((item) => {
-      if (item.enabled && item.url && item.url.trim().length > 0 && item.name?.trim().length > 0) {
-        active.push({
-          platform: 'custom',
-          name: item.name.trim(),
-          url: item.url.trim(),
-        });
+      if (item.enabled && item.url && item.url.trim().length > 0) {
+        const trimmedUrl = item.url.trim();
+        if (!addedUrls.has(trimmedUrl)) {
+          addedUrls.add(trimmedUrl);
+          active.push({
+            platform: 'custom',
+            name: item.name?.trim() || 'Bağlantı',
+            url: trimmedUrl,
+          });
+        }
       }
     });
   }

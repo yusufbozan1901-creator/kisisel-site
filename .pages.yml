@@ -65,7 +65,7 @@ content:
     type: collection
     path: akis
     format: yaml-frontmatter
-    filename: "{year}-{month}-{day}-{hour}-{minute}-{second}.md"
+    filename: "{year}-{month}-{day}-{hour}-{minute}.md"
     view:
       primary: date
       sort: date
@@ -113,83 +113,39 @@ content:
         options:
           media: gorseller
 
-      - name: x
-        label: X (Twitter)
-        type: object
-        fields:
-          - name: enabled
-            label: Aktif Et
-            type: boolean
-          - name: url
-            label: Profil Linki
-            type: string
-
-      - name: instagram
-        label: Instagram
-        type: object
-        fields:
-          - name: enabled
-            label: Aktif Et
-            type: boolean
-          - name: url
-            label: Profil Linki
-            type: string
-
-      - name: youtube
-        label: YouTube
-        type: object
-        fields:
-          - name: enabled
-            label: Aktif Et
-            type: boolean
-          - name: url
-            label: Profil Linki
-            type: string
-
-      - name: facebook
-        label: Facebook
-        type: object
-        fields:
-          - name: enabled
-            label: Aktif Et
-            type: boolean
-          - name: url
-            label: Profil Linki
-            type: string
-
-      - name: github
-        label: GitHub
-        type: object
-        fields:
-          - name: enabled
-            label: Aktif Et
-            type: boolean
-          - name: url
-            label: Profil Linki
-            type: string
-
-      - name: linkedin
-        label: LinkedIn
-        type: object
-        fields:
-          - name: enabled
-            label: Aktif Et
-            type: boolean
-          - name: url
-            label: Profil Linki
-            type: string
-
-      - name: customLinks
-        label: Özel Bağlantılar
+      - name: socialLinks
+        label: Sosyal Medya Hesapları
         type: object
         list: true
+        collapsible: true
         fields:
+          - name: platform
+            label: Platform
+            type: select
+            options:
+              values:
+                - value: x
+                  label: X (Twitter)
+                - value: instagram
+                  label: Instagram
+                - value: youtube
+                  label: YouTube
+                - value: facebook
+                  label: Facebook
+                - value: github
+                  label: GitHub
+                - value: linkedin
+                  label: LinkedIn
+                - value: custom
+                  label: Özel Bağlantı / Web Sitesi
           - name: name
-            label: Platform Adı
+            label: Görünen İsim (İsteğe bağlı)
             type: string
           - name: url
-            label: Bağlantı URL
+            label: Profil Bağlantısı (URL)
             type: string
+            required: true
           - name: enabled
             label: Aktif
             type: boolean
+            default: true
