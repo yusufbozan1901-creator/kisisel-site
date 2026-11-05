@@ -43,23 +43,31 @@ export function ContactForm() {
     setServerMessage('');
 
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          access_key: '3dc6f0d6-c238-46e4-9b00-697b65953a7f',
+          name: data.name,
+          email: data.email,
+          subject: data.subject,
+          message: data.message,
+          botcheck: data.website || '',
+        }),
       });
 
       const result = await response.json();
 
       if (response.ok && result.success) {
         setStatus('success');
-        setServerMessage(result.message || 'Mesajınız başarıyla iletildi.');
+        setServerMessage(result.message || 'Mesajınız başarıyla iletildi. Teşekkür ederim, en kısa sürede dönüş yapacağım.');
         reset();
       } else {
         setStatus('error');
-        setServerMessage(result.error || 'Mesaj iletilemedi. Lütfen tekrar deneyin.');
+        setServerMessage(result.message || result.error || 'Mesaj iletilemedi. Lütfen tekrar deneyin.');
       }
     } catch {
       setStatus('error');

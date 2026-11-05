@@ -65,7 +65,7 @@ export function getAllPosts(): Post[] {
     return {
       slug,
       title: String(data.title || slug),
-      description: String(data.description || ''),
+      description: String(data.summary || data.description || ''),
       publishedAt,
       readingTime,
       wordCount,
@@ -116,7 +116,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   return {
     slug,
     title: String(data.title || slug),
-    description: String(data.description || ''),
+    description: String(data.summary || data.description || ''),
     publishedAt,
     readingTime,
     wordCount,

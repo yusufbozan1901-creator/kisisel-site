@@ -72,16 +72,41 @@ export async function POST(request: Request) {
       });
     }
 
-    // In production, send via email provider (Resend, SendGrid, SMTP) or save to encrypted DB
-    // All message details are securely retained on the backend; site owner email is never exposed to the client.
-    console.info(`[Güvenli İletişim Formu] Gönderen: ${name} (${email}) - Konu: ${subject}`);
+    // Forward to Web3Forms API
+    const web3Response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        access_key: '3dc6f0d6-c238-46e4-9b00-697b65953a7f',
+        name,
+        email,
+        subject,
+        message,
+        botcheck: website || '',
+      }),
+    });
+
+    const web3Result = await web3Response.json();
+
+    if (web3Response.ok && web3Result.success) {
+      return NextResponse.json(
+        {
+          success: true,
+          message: 'Mesajınız güvenli bir şekilde iletildi. Teşekkür ederim, en kısa sürede dönüş yapacağım.',
+        },
+        { status: 200 }
+      );
+    }
 
     return NextResponse.json(
       {
-        success: true,
-        message: 'Mesajınız güvenli bir şekilde alındı. Teşekkür ederim, en kısa sürede dönüş yapacağım.',
+        success: false,
+        error: web3Result.message || 'Mesaj iletilemedi. Lütfen tekrar deneyin.',
       },
-      { status: 200 }
+      { status: 400 }
     );
   } catch {
     return NextResponse.json(

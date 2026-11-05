@@ -1,5 +1,6 @@
 ---
 title: "Burası Neresi?"
+summary: "Kişisel düşüncelerimi, hayata dair notlarımı ve zamanla biriktireceğim yazıları paylaşmak için açtığım sade bir köşe."
 description: "Kişisel düşüncelerimi, hayata dair notlarımı ve zamanla biriktireceğim yazıları paylaşmak için açtığım sade bir köşe."
 date: "2026-11-05"
 tags: ["Notlar", "Başlangıç"]
@@ -11,8 +12,4 @@ Burayı gösterişli bir vitrin ya da büyük iddiaların sergilendiği bir yer 
 
 ![Sakin Bir Not Defteri Köşesi](/gorseller/ornek-gorsel.svg)
 
-Yolunuz buraya düştüyse hoş geldiniz. Ara sıra uğrayıp yeni bir nota göz atabilir, ses kayıtlarını dinleyebilir veya paylaşmak istediğiniz bir düşünce olursa iletişim sayfasından bana yazabilirsiniz.
-
-<audio controls src="/sesler/ornek-ses.mp3" preload="metadata">
-  Tarayıcınız ses oynatıcısını desteklemiyor.
-</audio>
+Yolunuz buraya düştüyse hoş geldiniz. Ara sıra uğrayıp yeni bir nota göz atabilir veya paylaşmak istediğiniz bir düşünce olursa iletişim sayfasından bana yazabilirsiniz.

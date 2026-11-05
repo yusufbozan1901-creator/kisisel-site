@@ -7,8 +7,6 @@ export const SITE_CONFIG = {
   url: 'https://kisisel-site-cyan.vercel.app',
   author: 'Yusuf Bozan',
   ogImage: 'https://kisisel-site-cyan.vercel.app/og-image.png',
-  // E-posta adresi gizlidir, arayüzde gösterilmez, yalnızca API backend tarafından kullanılır
-  privateEmail: 'iletisim@yusufbozan.com',
 } as const;
 
 export const NAV_ITEMS: readonly NavItem[] = [

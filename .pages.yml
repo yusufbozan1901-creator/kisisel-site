@@ -1,0 +1,45 @@
+media:
+  - name: gorseller
+    label: Görseller
+    input: public/gorseller
+    output: /gorseller
+
+  - name: sesler
+    label: Sesler
+    input: public/sesler
+    output: /sesler
+
+content:
+  - name: yazilar
+    label: Yazılar
+    type: collection
+    path: yazilar
+    format: yaml-frontmatter
+    filename: "{slug}.md"
+    view:
+      primary: title
+      sort: date
+      order: desc
+    fields:
+      - name: title
+        label: Başlık
+        type: string
+        required: true
+
+      - name: date
+        label: Tarih
+        type: date
+        required: true
+
+      - name: summary
+        label: Özet
+        type: text
+
+      - name: tags
+        label: Etiketler
+        type: string
+        list: true
+
+      - name: body
+        label: İçerik
+        type: rich-text
