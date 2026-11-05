@@ -113,39 +113,34 @@ content:
         options:
           media: gorseller
 
-      - name: socialLinks
-        label: Sosyal Medya Hesapları
+      - name: social
+        label: Sosyal Medya Bağlantıları
         type: object
-        list: true
-        collapsible: true
+        collapsed: true
+        options:
+          collapsed: true
+          collapsible: true
         fields:
-          - name: platform
-            label: Platform
-            type: select
-            options:
-              values:
-                - value: x
-                  label: X (Twitter)
-                - value: instagram
-                  label: Instagram
-                - value: youtube
-                  label: YouTube
-                - value: facebook
-                  label: Facebook
-                - value: github
-                  label: GitHub
-                - value: linkedin
-                  label: LinkedIn
-                - value: custom
-                  label: Özel Bağlantı / Web Sitesi
-          - name: name
-            label: Görünen İsim (İsteğe bağlı)
+          - name: twitter
+            label: X (Twitter) URL
             type: string
-          - name: url
-            label: Profil Bağlantısı (URL)
+
+          - name: instagram
+            label: Instagram URL
             type: string
-            required: true
-          - name: enabled
-            label: Aktif
-            type: boolean
-            default: true
+
+          - name: youtube
+            label: YouTube URL
+            type: string
+
+          - name: facebook
+            label: Facebook URL
+            type: string
+
+          - name: linkedin
+            label: LinkedIn URL
+            type: string
+
+          - name: telegram
+            label: Telegram URL
+            type: string

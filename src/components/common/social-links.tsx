@@ -7,6 +7,7 @@ import {
   FacebookIcon,
   GitHubIcon,
   LinkedInIcon,
+  TelegramIcon,
 } from '@/components/common/icons';
 import type { ActiveSocialLink } from '@/lib/profile';
 import { cn } from '@/lib/utils';
@@ -31,6 +32,8 @@ function getPlatformIcon(platform: ActiveSocialLink['platform']) {
       return <GitHubIcon className="h-4 w-4" />;
     case 'linkedin':
       return <LinkedInIcon className="h-4 w-4" />;
+    case 'telegram':
+      return <TelegramIcon className="h-4 w-4" />;
     case 'custom':
     default:
       return <Globe className="h-4 w-4" />;

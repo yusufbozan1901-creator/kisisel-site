@@ -54,6 +54,9 @@ export const metadata: Metadata = {
       'application/rss+xml': [{ url: `${SITE_CONFIG.url}/rss.xml`, title: `${SITE_CONFIG.name} RSS Beslemesi` }],
     },
   },
+  verification: {
+    google: 'googlec0182533b61ea1a1',
+  },
 };
 
 export const viewport: Viewport = {
