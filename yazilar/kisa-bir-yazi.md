@@ -1,5 +1,5 @@
 ---
-title: kısa bir yazı
+title: kısa bir yazı.
 date: 2026-11-05
 summary: havadan sudan şeyler
 tags:
