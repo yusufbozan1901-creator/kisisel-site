@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { SITE_CONFIG } from '@/config/site';
 import { ThemeProvider } from '@/components/common/theme-provider';
 import { Navbar } from '@/components/common/navbar';
@@ -82,6 +83,7 @@ export default function RootLayout({
           </div>
         </ThemeProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
