@@ -13,12 +13,17 @@ content:
     format: yaml-frontmatter
     filename: "{slug}.md"
     view:
-      primary: title
       fields:
+        - title
         - date
-        - tags
-      sort: date
-      order: desc
+        - summary
+      primary: title
+      sort:
+        - date
+        - title
+      default:
+        sort: date
+        order: desc
     fields:
       - name: title
         label: Başlık
@@ -45,6 +50,12 @@ content:
         options:
           media: gorseller
 
+      - name: audio
+        label: Ses Dosyası (İsteğe bağlı)
+        type: file
+        options:
+          media: gorseller
+
       - name: body
         label: İçerik
         type: rich-text
@@ -60,11 +71,15 @@ content:
     format: yaml-frontmatter
     filename: "{year}-{month}-{day}-{hour}-{minute}.md"
     view:
-      primary: body
       fields:
+        - body
         - date
-      sort: date
-      order: desc
+      primary: body
+      sort:
+        - date
+      default:
+        sort: date
+        order: desc
     fields:
       - name: body
         label: Düşünce Metni
@@ -83,6 +98,12 @@ content:
       - name: image
         label: Görsel (İsteğe bağlı)
         type: image
+        options:
+          media: gorseller
+
+      - name: audio
+        label: Ses Notu (İsteğe bağlı)
+        type: file
         options:
           media: gorseller
 
