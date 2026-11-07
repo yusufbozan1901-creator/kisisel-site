@@ -117,6 +117,12 @@ content:
         label: Hakkımda Başlığı
         type: string
 
+      - name: avatar
+        label: Profil Fotoğrafı (İsteğe bağlı)
+        type: image
+        options:
+          media: gorseller
+
       - name: bio
         label: Biyografi Metni
         type: rich-text
@@ -124,33 +130,88 @@ content:
           media: gorseller
 
       - name: social
-        label: Sosyal Medya Bağlantıları
+        label: Sosyal Medya Platformları
         type: object
-        collapsed: true
-        options:
-          collapsed: true
-          collapsible: true
         fields:
           - name: twitter
-            label: X (Twitter) URL
-            type: string
+            label: X (Twitter)
+            type: object
+            fields:
+              - name: active
+                label: Aktif Et
+                type: boolean
+              - name: url
+                label: Profil Bağlantısı
+                type: string
 
           - name: instagram
-            label: Instagram URL
-            type: string
+            label: Instagram
+            type: object
+            fields:
+              - name: active
+                label: Aktif Et
+                type: boolean
+              - name: url
+                label: Profil Bağlantısı
+                type: string
 
           - name: youtube
-            label: YouTube URL
-            type: string
+            label: YouTube
+            type: object
+            fields:
+              - name: active
+                label: Aktif Et
+                type: boolean
+              - name: url
+                label: Profil Bağlantısı
+                type: string
 
           - name: facebook
-            label: Facebook URL
-            type: string
+            label: Facebook
+            type: object
+            fields:
+              - name: active
+                label: Aktif Et
+                type: boolean
+              - name: url
+                label: Profil Bağlantısı
+                type: string
+
+          - name: github
+            label: GitHub
+            type: object
+            fields:
+              - name: active
+                label: Aktif Et
+                type: boolean
+              - name: url
+                label: Profil Bağlantısı
+                type: string
 
           - name: linkedin
-            label: LinkedIn URL
+            label: LinkedIn
+            type: object
+            fields:
+              - name: active
+                label: Aktif Et
+                type: boolean
+              - name: url
+                label: Profil Bağlantısı
+                type: string
+
+      - name: customLinks
+        label: Özel Bağlantılar (Spotify, Substack vb.)
+        type: object
+        list: true
+        fields:
+          - name: title
+            label: Platform Adı
             type: string
 
-          - name: telegram
-            label: Telegram URL
+          - name: url
+            label: Bağlantı Adresi
             type: string
+
+          - name: active
+            label: Aktif Et
+            type: boolean

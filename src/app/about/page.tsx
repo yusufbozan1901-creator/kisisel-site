@@ -38,14 +38,26 @@ export default async function AboutPage() {
   return (
     <div className="py-20 sm:py-28">
       <Container size="narrow">
-        {/* Header */}
-        <div className="space-y-4 mb-12 max-w-xl">
-          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-            {profile.title}
-          </h1>
-          <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal">
-            Merhaba, ben Yusuf. Kişisel sayfama hoş geldiniz.
-          </p>
+        {/* Header with optional Avatar */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-6 mb-12">
+          {profile.avatar && (
+            <div className="relative h-24 w-24 sm:h-28 sm:w-28 shrink-0 overflow-hidden rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm bg-zinc-100 dark:bg-zinc-900">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={profile.avatar}
+                alt={profile.title}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          )}
+          <div className="space-y-3 max-w-xl">
+            <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+              {profile.title}
+            </h1>
+            <p className="text-base sm:text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed font-normal">
+              Merhaba, ben Yusuf. Kişisel sayfama hoş geldiniz.
+            </p>
+          </div>
         </div>
 
         {/* Narrative Essay from profil.json */}

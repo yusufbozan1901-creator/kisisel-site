@@ -90,3 +90,4 @@ export function ThoughtPermalink({ slug, className = '' }: ThoughtPermalinkProps
     </button>
   );
 }
+

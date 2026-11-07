@@ -4,6 +4,7 @@ import { SITE_CONFIG } from '@/config/site';
 import { ThemeProvider } from '@/components/common/theme-provider';
 import { Navbar } from '@/components/common/navbar';
 import { Footer } from '@/components/common/footer';
+import { InstallPrompt } from '@/components/pwa/install-prompt';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -54,6 +55,12 @@ export const metadata: Metadata = {
       'application/rss+xml': [{ url: `${SITE_CONFIG.url}/rss.xml`, title: `${SITE_CONFIG.name} RSS Beslemesi` }],
     },
   },
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'YB',
+  },
   verification: {
     google: 'googlec0182533b61ea1a1',
   },
@@ -62,7 +69,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#09090b' },
+    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
   ],
   width: 'device-width',
   initialScale: 1,
@@ -88,6 +95,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <InstallPrompt />
           </div>
         </ThemeProvider>
         <Analytics />

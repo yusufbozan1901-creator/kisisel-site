@@ -2,14 +2,26 @@ import fs from 'fs';
 import path from 'path';
 import { marked } from 'marked';
 
+export interface SocialPlatformConfig {
+  readonly active?: boolean;
+  readonly url?: string;
+}
+
+export interface CustomSocialLink {
+  readonly title?: string;
+  readonly url?: string;
+  readonly active?: boolean;
+}
+
 export interface SocialLinksObject {
-  readonly twitter?: string;
-  readonly instagram?: string;
-  readonly youtube?: string;
-  readonly facebook?: string;
-  readonly linkedin?: string;
-  readonly telegram?: string;
-  readonly [key: string]: string | undefined;
+  readonly twitter?: SocialPlatformConfig | string;
+  readonly instagram?: SocialPlatformConfig | string;
+  readonly youtube?: SocialPlatformConfig | string;
+  readonly facebook?: SocialPlatformConfig | string;
+  readonly github?: SocialPlatformConfig | string;
+  readonly linkedin?: SocialPlatformConfig | string;
+  readonly telegram?: SocialPlatformConfig | string;
+  readonly [key: string]: SocialPlatformConfig | string | undefined;
 }
 
 export interface ActiveSocialLink {
@@ -20,26 +32,26 @@ export interface ActiveSocialLink {
 
 export interface ProfileData {
   readonly title: string;
+  readonly avatar?: string;
   readonly bio: string;
   readonly bioHtml?: string;
   readonly social?: SocialLinksObject;
-  // Backward compatibility with previous structures
-  readonly socialLinks?: unknown;
-  readonly x?: { enabled?: boolean; url?: string };
-  readonly github?: { enabled?: boolean; url?: string };
+  readonly customLinks?: readonly CustomSocialLink[];
 }
 
 const DEFAULT_PROFILE: ProfileData = {
   title: 'Hakkımda',
-  bio: 'Merhaba, ben Yusuf. Kişisel sayfama hoş geldiniz.\n\nBurası internetin telaşından uzakta, kendi kendime düşündüğüm şeyleri not etmek için oluşturduğum sade bir köşe.',
+  avatar: '',
+  bio: 'Merhaba, ben Yusuf. Kişisel sayfama hoş geldiniz.\n\nBurası internetin bitmek bilmeyen telaşından ve gürültüsünden biraz olsun uzaklaşmak, zihnimi toparlamak ve zaman içinde biriktirdiğim notları sade bir düzende saklamak için açtığım kişisel bir alan.\n\nEski internetin o iddiasız ama samimi kişisel sayfalarını her zaman çok kıymetli buldum. Gösterişli unvanlar, algoritmaların peşinden koşan başlıklar ya da dikkat çekme yarışının olmadığı; insanların yalnızca merak ettikleri şeyleri kendi ritimlerinde yazdığı o dingin atmosferi burada da yaşatmaya çalışıyorum.\n\n### Bu Köşede Neler Var?\nHayatı biraz daha yalınlaştırma arayışı, teknolojinin düşüncelerimiz ve alışkanlıklarımız üzerindeki sessiz etkileri, okuduğum kitaplardan altını çizdiğim satırlar ve zaman zaman kaydettiğim ses notları... Kısacası kalıcı olmasını dilediğim düşünce kırıntıları.\n\n### Bir Not Bırakmak İsterseniz\nBuradaki yazılarla ilgili aklınıza takılan bir düşünceyi paylaşmak, bir kitap tavsiyesi vermek veya yalnızca selam iletmek isterseniz her zaman memnuniyetle okurum.',
   social: {
-    twitter: '',
-    instagram: '',
-    youtube: '',
-    facebook: '',
-    linkedin: '',
-    telegram: '',
+    twitter: { active: false, url: '' },
+    instagram: { active: false, url: '' },
+    youtube: { active: false, url: '' },
+    facebook: { active: false, url: '' },
+    github: { active: false, url: '' },
+    linkedin: { active: false, url: '' },
   },
+  customLinks: [],
 };
 
 const PROFILE_FILE_PATH = path.join(process.cwd(), 'src', 'content', 'profil.json');
@@ -61,6 +73,7 @@ export async function getProfileData(): Promise<ProfileData> {
     const parsed = JSON.parse(raw) as Partial<ProfileData>;
 
     const title = parsed.title?.trim() || DEFAULT_PROFILE.title;
+    const avatar = parsed.avatar?.trim() || undefined;
     const bio = parsed.bio?.trim() || DEFAULT_PROFILE.bio;
 
     // Configure marked for safe HTML conversion of bio
@@ -69,12 +82,11 @@ export async function getProfileData(): Promise<ProfileData> {
 
     return {
       title,
+      avatar,
       bio,
       bioHtml,
       social: parsed.social || DEFAULT_PROFILE.social,
-      socialLinks: parsed.socialLinks,
-      x: parsed.x,
-      github: parsed.github,
+      customLinks: parsed.customLinks || [],
     };
   } catch (error) {
     console.error('Failed to read profil.json:', error);
@@ -83,8 +95,8 @@ export async function getProfileData(): Promise<ProfileData> {
 }
 
 /**
- * Returns only the active social links whose URLs are non-empty strings.
- * If URL is present and filled, it is automatically displayed.
+ * Returns only the active social links whose toggle is enabled and URLs are non-empty strings.
+ * Supports both predefined platforms and custom repeater links.
  */
 export function getActiveSocialLinks(profile: ProfileData): ActiveSocialLink[] {
   const active: ActiveSocialLink[] = [];
@@ -93,84 +105,57 @@ export function getActiveSocialLinks(profile: ProfileData): ActiveSocialLink[] {
   const addLink = (
     platform: ActiveSocialLink['platform'],
     name: string,
-    urlCandidate?: string
+    config?: SocialPlatformConfig | string
   ) => {
-    if (typeof urlCandidate === 'string' && urlCandidate.trim().length > 0) {
-      const trimmed = urlCandidate.trim();
-      if (!addedUrls.has(trimmed)) {
-        addedUrls.add(trimmed);
-        active.push({
-          platform,
-          name,
-          url: trimmed,
-        });
-      }
+    if (!config) return;
+
+    let isEnabled = false;
+    let url = '';
+
+    if (typeof config === 'string') {
+      url = config.trim();
+      isEnabled = url.length > 0;
+    } else if (typeof config === 'object') {
+      isEnabled = config.active === true;
+      url = (config.url || '').trim();
+    }
+
+    if (isEnabled && url.length > 0 && !addedUrls.has(url)) {
+      addedUrls.add(url);
+      active.push({
+        platform,
+        name,
+        url,
+      });
     }
   };
 
-  // 1. Primary: Single 'social' object (twitter, instagram, youtube, facebook, linkedin, telegram)
+  // 1. Predefined standard platforms
   if (profile.social) {
     addLink('x', 'X (Twitter)', profile.social.twitter);
     addLink('instagram', 'Instagram', profile.social.instagram);
     addLink('youtube', 'YouTube', profile.social.youtube);
     addLink('facebook', 'Facebook', profile.social.facebook);
+    addLink('github', 'GitHub', profile.social.github);
     addLink('linkedin', 'LinkedIn', profile.social.linkedin);
     addLink('telegram', 'Telegram', profile.social.telegram);
+  }
 
-    // Support any custom or additional keys in social object
-    Object.entries(profile.social).forEach(([key, val]) => {
-      if (!['twitter', 'instagram', 'youtube', 'facebook', 'linkedin', 'telegram'].includes(key)) {
-        if (key === 'github') {
-          addLink('github', 'GitHub', val);
-        } else {
-          addLink('custom', key.charAt(0).toUpperCase() + key.slice(1), val);
+  // 2. Custom repeater links
+  if (Array.isArray(profile.customLinks)) {
+    profile.customLinks.forEach((item) => {
+      if (item && item.active === true && typeof item.url === 'string') {
+        const url = item.url.trim();
+        if (url.length > 0 && !addedUrls.has(url)) {
+          addedUrls.add(url);
+          active.push({
+            platform: 'custom',
+            name: item.title?.trim() || 'Bağlantı',
+            url,
+          });
         }
       }
     });
-  }
-
-  // 2. Fallback: Array-based socialLinks if user previously saved as list
-  if (Array.isArray(profile.socialLinks)) {
-    profile.socialLinks.forEach((item: { platform?: string; name?: string; url?: string; enabled?: boolean }) => {
-      if (item && item.url && item.url.trim().length > 0 && item.enabled !== false) {
-        const p = (item.platform || 'custom').toLowerCase();
-        let plat: ActiveSocialLink['platform'] = 'custom';
-        let defaultName = item.name || 'Bağlantı';
-
-        if (p === 'x' || p === 'twitter') {
-          plat = 'x';
-          defaultName = item.name || 'X (Twitter)';
-        } else if (p === 'instagram') {
-          plat = 'instagram';
-          defaultName = item.name || 'Instagram';
-        } else if (p === 'youtube') {
-          plat = 'youtube';
-          defaultName = item.name || 'YouTube';
-        } else if (p === 'facebook') {
-          plat = 'facebook';
-          defaultName = item.name || 'Facebook';
-        } else if (p === 'linkedin') {
-          plat = 'linkedin';
-          defaultName = item.name || 'LinkedIn';
-        } else if (p === 'telegram') {
-          plat = 'telegram';
-          defaultName = item.name || 'Telegram';
-        } else if (p === 'github') {
-          plat = 'github';
-          defaultName = item.name || 'GitHub';
-        }
-
-        addLink(plat, defaultName, item.url);
-      }
-    });
-  }
-
-  // 3. Fallback: Legacy top-level keys
-  if (profile.x?.url) {
-    addLink('x', 'X (Twitter)', profile.x.url);
-  }
-  if (profile.github?.url) {
-    addLink('github', 'GitHub', profile.github.url);
   }
 
   return active;
