@@ -1,10 +1,16 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { marked } from 'marked';
+import { Marked } from 'marked';
 import { resolveTurkeyTimestamp } from './date-resolver';
 
 const POSTS_DIRECTORY = path.join(process.cwd(), 'yazilar');
+
+export interface TocItem {
+  readonly id: string;
+  readonly text: string;
+  readonly level: 2 | 3;
+}
 
 export interface Post {
   readonly slug: string;
@@ -18,6 +24,80 @@ export interface Post {
   readonly htmlContent?: string;
   readonly audio?: string;
   readonly image?: string;
+  readonly toc?: readonly TocItem[];
+}
+
+const TURKISH_CHAR_MAP: Record<string, string> = {
+  'ç': 'c', 'Ç': 'c',
+  'ğ': 'g', 'Ğ': 'g',
+  'ı': 'i', 'I': 'i', 'İ': 'i',
+  'ö': 'o', 'Ö': 'o',
+  'ş': 's', 'Ş': 's',
+  'ü': 'u', 'Ü': 'u',
+};
+
+/**
+ * Robust Turkish slugify utility for headings and URLs.
+ * Correctly converts Turkish letters, strips punctuation, and collapses hyphens.
+ */
+export function turkishSlugify(text: string): string {
+  const normalized = text
+    .split('')
+    .map((char) => TURKISH_CHAR_MAP[char] || char)
+    .join('')
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, '')
+    .replace(/[\s_-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  return normalized || 'baslik';
+}
+
+/**
+ * Compiles markdown content to HTML while extracting H2 and H3 headings for TOC,
+ * and injecting deterministic, duplicate-safe ID attributes into heading tags.
+ */
+export async function parseMarkdownWithToc(markdown: string): Promise<{
+  readonly html: string;
+  readonly toc: readonly TocItem[];
+}> {
+  const toc: TocItem[] = [];
+  const existingSlugs = new Map<string, number>();
+
+  const markedInstance = new Marked({
+    gfm: true,
+    breaks: true,
+  });
+
+  markedInstance.use({
+    renderer: {
+      heading(token) {
+        const text = this.parser.parseInline(token.tokens);
+        const plainText = token.text.replace(/<[^>]*>/g, '').trim();
+
+        if (token.depth === 2 || token.depth === 3) {
+          const rawSlug = turkishSlugify(plainText);
+          const count = existingSlugs.get(rawSlug) || 0;
+          existingSlugs.set(rawSlug, count + 1);
+          const id = count === 0 ? rawSlug : `${rawSlug}-${count}`;
+
+          toc.push({
+            id,
+            text: plainText,
+            level: token.depth as 2 | 3,
+          });
+
+          return `<h${token.depth} id="${id}" class="scroll-mt-24">${text}</h${token.depth}>\n`;
+        }
+
+        return `<h${token.depth}>${text}</h${token.depth}>\n`;
+      },
+    },
+  });
+
+  const parsed = await markedInstance.parse(markdown);
+  return { html: parsed, toc };
 }
 
 /**
@@ -107,13 +187,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   const fileContents = fs.readFileSync(fullPath, 'utf8');
   const { data, content } = matter(fileContents);
 
-  // Configure marked for GitHub Flavored Markdown and HTML support
-  marked.use({
-    gfm: true,
-    breaks: true,
-  });
-
-  const htmlContent = await marked.parse(content);
+  const { html: htmlContent, toc } = await parseMarkdownWithToc(content);
 
   const wordCount = getWordCount(content);
   const publishedAt = resolveTurkeyTimestamp(data.date, fullPath);
@@ -134,6 +208,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     htmlContent,
     audio,
     image,
+    toc,
   };
 }
 

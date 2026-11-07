@@ -80,6 +80,7 @@
   letter-spacing: -0.02em;
   margin-top: 2.5rem;
   margin-bottom: 0.75rem;
+  scroll-margin-top: 6rem;
   color: hsl(var(--foreground));
 }
 
@@ -89,7 +90,19 @@
   letter-spacing: -0.015em;
   margin-top: 2rem;
   margin-bottom: 0.5rem;
+  scroll-margin-top: 6rem;
   color: hsl(var(--foreground));
+}
+
+/* Deep-linked target focus ring for thoughts without JS animation */
+article:target .thought-card-box {
+  border-color: hsl(var(--foreground) / 0.45);
+  box-shadow: 0 0 0 2px hsl(var(--foreground) / 0.12), 0 8px 24px -4px rgba(0, 0, 0, 0.08);
+}
+
+article:target > div:first-child {
+  background-color: hsl(var(--foreground));
+  box-shadow: 0 0 0 4px hsl(var(--foreground) / 0.2);
 }
 
 .prose-editorial img {

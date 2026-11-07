@@ -4,6 +4,7 @@ import * as React from 'react';
 import type { Thought } from '@/lib/thoughts';
 import { AudioPlayer } from '@/components/mdx/audio-player';
 import { ShareButton } from '@/components/common/share-button';
+import { ThoughtPermalink } from '@/components/thoughts/thought-permalink';
 import { Sparkles } from 'lucide-react';
 
 interface ThoughtCardProps {
@@ -14,16 +15,16 @@ export function ThoughtCard({ thought }: ThoughtCardProps) {
   return (
     <article
       id={thought.slug}
-      className="relative pl-6 sm:pl-8 group scroll-mt-24"
+      className="relative pl-6 sm:pl-8 group scroll-mt-28"
     >
       {/* Timeline Node */}
       <div
-        className="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full border-2 border-background bg-zinc-300 dark:bg-zinc-700 group-hover:bg-foreground transition-colors"
+        className="absolute -left-[9px] top-1.5 h-4 w-4 rounded-full border-2 border-background bg-zinc-300 dark:bg-zinc-700 group-hover:bg-foreground transition-colors group-target:bg-foreground"
         aria-hidden="true"
       />
 
-      <div className="rounded-xl border border-zinc-200/80 dark:border-zinc-850 dark:border-zinc-800/80 bg-card p-5 sm:p-6 transition-all duration-200 hover:border-zinc-400 dark:hover:border-zinc-650">
-        {/* Meta / Date */}
+      <div className="thought-card-box rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-card p-5 sm:p-6 transition-all duration-300 hover:border-zinc-400 dark:hover:border-zinc-650">
+        {/* Meta / Date & Actions */}
         <div className="flex items-center justify-between gap-2 mb-3">
           <time
             dateTime={thought.date}
@@ -33,11 +34,14 @@ export function ThoughtCard({ thought }: ThoughtCardProps) {
             {thought.formattedDate}
           </time>
 
-          <ShareButton
-            title={`Yusuf Bozan — Akış (${thought.formattedDate})`}
-            text={thought.content.slice(0, 140)}
-            url={`/akis#${thought.slug}`}
-          />
+          <div className="flex items-center gap-1.5">
+            <ThoughtPermalink slug={thought.slug} />
+            <ShareButton
+              title={`Yusuf Bozan — Akış (${thought.formattedDate})`}
+              text={thought.content.slice(0, 140)}
+              url={`/akis#${thought.slug}`}
+            />
+          </div>
         </div>
 
         {/* Optional Title */}
