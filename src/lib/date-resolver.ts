@@ -88,16 +88,36 @@ export function resolveTurkeyTimestamp(rawDate: unknown, filePath: string): stri
       datePart = dateOnlyMatch[1]!;
       hasValidTime = false;
     } else {
-      const parsed = new Date(trimmed);
-      if (!isNaN(parsed.getTime())) {
-        const hasExplicitMidnight = /T00:00(:00)?(\.000)?(Z|\+00:00)?$/.test(trimmed) || /\s00:00(:00)?$/.test(trimmed);
-        if (!hasExplicitMidnight) {
-          hasValidTime = true;
-          datePart = getTurkeyDateString(parsed);
-          timePart = getTurkeyTimeString(parsed);
-        } else {
-          datePart = getTurkeyDateString(parsed);
+      // Pages CMS writes local datetime directly without offset (e.g. 2026-11-06T17:18)
+      // The time selected by the user is ALREADY local Turkey time; avoid double-shifting it!
+      const localDateTimeMatch = trimmed.match(/^(\d{4}-\d{2}-\d{2})[T\s](\d{2}:\d{2}(?::\d{2})?)$/);
+      if (localDateTimeMatch) {
+        datePart = localDateTimeMatch[1]!;
+        let time = localDateTimeMatch[2]!;
+        if (time.length === 5) {
+          time = `${time}:00`;
+        }
+
+        // If explicitly 00:00:00, resolve real time from Git commit or file creation
+        if (time.startsWith('00:00')) {
           hasValidTime = false;
+        } else {
+          hasValidTime = true;
+          timePart = time;
+        }
+      } else {
+        // String has explicit timezone offset or Z
+        const parsed = new Date(trimmed);
+        if (!isNaN(parsed.getTime())) {
+          const hasExplicitMidnight = /T00:00(:00)?(\.000)?(Z|\+00:00)?$/.test(trimmed) || /\s00:00(:00)?$/.test(trimmed);
+          if (!hasExplicitMidnight) {
+            hasValidTime = true;
+            datePart = getTurkeyDateString(parsed);
+            timePart = getTurkeyTimeString(parsed);
+          } else {
+            datePart = getTurkeyDateString(parsed);
+            hasValidTime = false;
+          }
         }
       }
     }
