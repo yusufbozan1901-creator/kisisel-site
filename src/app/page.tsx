@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowRight, Clock, Calendar, Sparkles } from 'lucide-react';
+import { ArrowRight, Clock, Calendar, Sparkles, Star } from 'lucide-react';
 import { HeroSection } from '@/components/sections/hero-section';
 import { Container } from '@/components/ui/container';
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
@@ -8,7 +8,26 @@ import { getAllThoughts } from '@/lib/thoughts';
 import { formatDate } from '@/lib/utils';
 import { getProfileData, getActiveSocialLinks } from '@/lib/profile';
 import { ShareButton } from '@/components/common/share-button';
+import { ThoughtPermalink } from '@/components/thoughts/thought-permalink';
 import { ImageLightbox } from '@/components/mdx/image-lightbox';
+
+function formatEpisodeBadge(season?: string, episode?: string): string | null {
+  const s = season?.trim();
+  const e = episode?.trim();
+
+  if (s && e) {
+    const sFormatted = /^\d+$/.test(s) ? `S${s.padStart(2, '0')}` : `S${s}`;
+    const eFormatted = /^\d+$/.test(e) ? `B${e.padStart(2, '0')}` : `B${e}`;
+    return `${sFormatted} • ${eFormatted}`;
+  }
+  if (s) {
+    return /^\d+$/.test(s) ? `S${s.padStart(2, '0')}` : `S${s}`;
+  }
+  if (e) {
+    return /^\d+$/.test(e) ? `B${e.padStart(2, '0')}` : `B${e}`;
+  }
+  return null;
+}
 
 export default async function HomePage() {
   const posts = getAllPosts();
@@ -45,21 +64,37 @@ export default async function HomePage() {
             </div>
 
             <div className="space-y-4">
-              {recentThoughts.map((thought) => (
-                <div
-                  key={thought.slug}
-                  className="rounded-lg border border-zinc-200/80 dark:border-zinc-800/80 bg-card p-4 sm:p-5 transition-all duration-200 hover:border-zinc-400 dark:hover:border-zinc-650"
-                >
-                  <div className="flex items-center justify-between gap-2 mb-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
-                    <time dateTime={thought.date}>
-                      {thought.formattedDate}
-                    </time>
-                    <ShareButton
-                      title={`Yusuf Bozan — Akış (${thought.formattedDate})`}
-                      text={thought.content.slice(0, 140)}
-                      url={`/akis#${thought.slug}`}
-                    />
-                  </div>
+              {recentThoughts.map((thought) => {
+                const episodeBadge = formatEpisodeBadge(thought.season, thought.episode);
+                return (
+                  <div
+                    key={thought.slug}
+                    className="rounded-lg border border-zinc-200/80 dark:border-zinc-800/80 bg-card p-4 sm:p-5 transition-all duration-200 hover:border-zinc-400 dark:hover:border-zinc-650"
+                  >
+                    <div className="flex items-center justify-between gap-2 mb-2 text-xs font-mono text-zinc-500 dark:text-zinc-400">
+                      <time dateTime={thought.date}>
+                        {thought.formattedDate}
+                      </time>
+                      <div className="flex items-center gap-1.5 flex-wrap justify-end">
+                        {episodeBadge && (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono font-medium border border-zinc-200 dark:border-zinc-800 bg-zinc-100/90 dark:bg-zinc-800/70 text-zinc-800 dark:text-zinc-200">
+                            {episodeBadge}
+                          </span>
+                        )}
+                        {thought.rating && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-mono font-medium border border-amber-200/70 dark:border-amber-900/40 bg-amber-50/70 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400">
+                            <Star className="h-2.5 w-2.5 fill-current" />
+                            <span>{thought.rating}</span>
+                          </span>
+                        )}
+                        <ThoughtPermalink slug={thought.slug} />
+                        <ShareButton
+                          title={`Yusuf Bozan — Akış (${thought.formattedDate})`}
+                          text={thought.content.slice(0, 140)}
+                          url={`/akis#${thought.slug}`}
+                        />
+                      </div>
+                    </div>
 
                   <div
                     className="prose prose-zinc dark:prose-invert max-w-none text-foreground/90 text-sm leading-relaxed prose-p:my-1"
@@ -76,8 +111,9 @@ export default async function HomePage() {
                       />
                     </div>
                   )}
-                </div>
-              ))}
+                  </div>
+                );
+              })}
             </div>
           </Container>
         </section>

@@ -15,6 +15,9 @@ export interface Thought {
   readonly title?: string;
   readonly image?: string;
   readonly audio?: string;
+  readonly season?: string;
+  readonly episode?: string;
+  readonly rating?: string;
 }
 
 /**
@@ -102,6 +105,15 @@ export async function getAllThoughts(): Promise<Thought[]> {
           title: data.title ? String(data.title) : undefined,
           image: data.image ? String(data.image) : undefined,
           audio: data.audio ? String(data.audio) : undefined,
+          season: data.season !== undefined && data.season !== null && String(data.season).trim().length > 0
+            ? String(data.season).trim()
+            : undefined,
+          episode: data.episode !== undefined && data.episode !== null && String(data.episode).trim().length > 0
+            ? String(data.episode).trim()
+            : undefined,
+          rating: data.rating !== undefined && data.rating !== null && String(data.rating).trim().length > 0
+            ? String(data.rating).trim()
+            : undefined,
         };
       })
     );

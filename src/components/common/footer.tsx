@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Rss } from 'lucide-react';
 import { Container } from '@/components/ui/container';
 import { SITE_CONFIG, NAV_ITEMS } from '@/config/site';
 import { getProfileData, getActiveSocialLinks } from '@/lib/profile';
@@ -21,8 +22,8 @@ export async function Footer() {
             )}
           </div>
 
-          {/* Quick minimal nav */}
-          <div className="flex items-center gap-5">
+          {/* Quick minimal nav & RSS */}
+          <div className="flex items-center gap-4 sm:gap-5 flex-wrap justify-center sm:justify-end">
             {NAV_ITEMS.map((item) => (
               <Link
                 key={item.href}
@@ -32,6 +33,16 @@ export async function Footer() {
                 {item.title}
               </Link>
             ))}
+            <Link
+              href="/feed.xml"
+              className="inline-flex items-center gap-1 hover:text-foreground transition-colors"
+              title="RSS Akışı"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Rss className="h-3 w-3" />
+              <span>RSS</span>
+            </Link>
           </div>
         </div>
       </Container>

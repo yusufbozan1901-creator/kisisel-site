@@ -5,13 +5,33 @@ import type { Thought } from '@/lib/thoughts';
 import { AudioPlayer } from '@/components/mdx/audio-player';
 import { ShareButton } from '@/components/common/share-button';
 import { ThoughtPermalink } from '@/components/thoughts/thought-permalink';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Star } from 'lucide-react';
 
 interface ThoughtCardProps {
   readonly thought: Thought;
 }
 
+function formatEpisodeBadge(season?: string, episode?: string): string | null {
+  const s = season?.trim();
+  const e = episode?.trim();
+
+  if (s && e) {
+    const sFormatted = /^\d+$/.test(s) ? `S${s.padStart(2, '0')}` : `S${s}`;
+    const eFormatted = /^\d+$/.test(e) ? `B${e.padStart(2, '0')}` : `B${e}`;
+    return `${sFormatted} • ${eFormatted}`;
+  }
+  if (s) {
+    return /^\d+$/.test(s) ? `S${s.padStart(2, '0')}` : `S${s}`;
+  }
+  if (e) {
+    return /^\d+$/.test(e) ? `B${e.padStart(2, '0')}` : `B${e}`;
+  }
+  return null;
+}
+
 export function ThoughtCard({ thought }: ThoughtCardProps) {
+  const episodeBadge = formatEpisodeBadge(thought.season, thought.episode);
+
   return (
     <article
       id={thought.slug}
@@ -34,7 +54,18 @@ export function ThoughtCard({ thought }: ThoughtCardProps) {
             {thought.formattedDate}
           </time>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 flex-wrap justify-end">
+            {episodeBadge && (
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-mono font-medium border border-zinc-200 dark:border-zinc-800 bg-zinc-100/90 dark:bg-zinc-800/70 text-zinc-800 dark:text-zinc-200">
+                {episodeBadge}
+              </span>
+            )}
+            {thought.rating && (
+              <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-mono font-medium border border-amber-200/70 dark:border-amber-900/40 bg-amber-50/70 dark:bg-amber-950/30 text-amber-800 dark:text-amber-400">
+                <Star className="h-2.5 w-2.5 fill-current" />
+                <span>{thought.rating}</span>
+              </span>
+            )}
             <ThoughtPermalink slug={thought.slug} />
             <ShareButton
               title={`Yusuf Bozan — Akış (${thought.formattedDate})`}

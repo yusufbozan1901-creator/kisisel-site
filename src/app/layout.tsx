@@ -52,7 +52,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_CONFIG.url,
     types: {
-      'application/rss+xml': [{ url: `${SITE_CONFIG.url}/rss.xml`, title: `${SITE_CONFIG.name} RSS Beslemesi` }],
+      'application/rss+xml': [
+        { url: `${SITE_CONFIG.url}/feed.xml`, title: `${SITE_CONFIG.name} — RSS Akışı (Tümü)` },
+        { url: `${SITE_CONFIG.url}/rss.xml`, title: `${SITE_CONFIG.name} — Yazılar` },
+      ],
     },
   },
   manifest: '/manifest.json',
