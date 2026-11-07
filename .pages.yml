@@ -95,6 +95,18 @@ content:
           time: true
         required: true
 
+      - name: season
+        label: Sezon No (İsteğe bağlı)
+        type: string
+
+      - name: episode
+        label: Bölüm No (İsteğe bağlı)
+        type: string
+
+      - name: rating
+        label: Puan (İsteğe bağlı)
+        type: string
+
       - name: image
         label: Görsel (İsteğe bağlı)
         type: image
@@ -106,18 +118,6 @@ content:
         type: file
         options:
           media: gorseller
-
-      - name: season
-        label: Sezon No (İsteğe bağlı - örn: 01)
-        type: string
-
-      - name: episode
-        label: Bölüm No (İsteğe bağlı - örn: 04)
-        type: string
-
-      - name: rating
-        label: Puan (İsteğe bağlı - örn: 8.5/10)
-        type: string
 
   # 3. Profil, Hakkımda ve Sosyal Medya Ayarları
   - name: profil
