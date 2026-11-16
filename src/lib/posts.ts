@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { Marked } from 'marked';
 import { resolveTurkeyTimestamp } from './date-resolver';
+import { PostFrontmatterSchema } from './schemas';
 
 const POSTS_DIRECTORY = path.join(process.cwd(), 'yazilar');
 
@@ -139,18 +140,27 @@ export function getAllPosts(): Post[] {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
 
     const { data, content } = matter(fileContents);
+    const parsed = PostFrontmatterSchema.safeParse(data);
+    const validData = parsed.success ? parsed.data : {
+      title: String(data.title || slug),
+      summary: String(data.summary || data.description || ''),
+      tags: Array.isArray(data.tags) ? data.tags : [],
+      readingTime: data.readingTime ? String(data.readingTime) : undefined,
+      audio: data.audio ? String(data.audio) : undefined,
+      image: data.image ? String(data.image) : undefined,
+    };
 
     const wordCount = getWordCount(content);
     const publishedAt = resolveTurkeyTimestamp(data.date, fullPath);
-    const readingTime = data.readingTime ? String(data.readingTime) : calculateReadingTime(wordCount);
-    const tags = Array.isArray(data.tags) ? data.tags : [];
-    const audio = data.audio ? String(data.audio) : undefined;
-    const image = data.image ? String(data.image) : undefined;
+    const readingTime = validData.readingTime || calculateReadingTime(wordCount);
+    const tags = Array.isArray(validData.tags) ? validData.tags : [];
+    const audio = validData.audio || undefined;
+    const image = validData.image || undefined;
 
     return {
       slug,
-      title: String(data.title || slug),
-      description: String(data.summary || data.description || ''),
+      title: validData.title || slug,
+      description: validData.summary || '',
       publishedAt,
       readingTime,
       wordCount,

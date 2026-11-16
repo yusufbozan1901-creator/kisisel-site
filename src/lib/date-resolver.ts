@@ -9,6 +9,7 @@ function getFileTimestamp(filePath: string): Date | null {
     const gitOutput = execSync(`git log -1 --format=%cI -- "${filePath}"`, {
       encoding: 'utf8',
       stdio: ['pipe', 'pipe', 'ignore'],
+      timeout: 1500,
     }).trim();
 
     if (gitOutput) {

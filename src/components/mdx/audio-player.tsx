@@ -1,17 +1,23 @@
 'use client';
 
 import * as React from 'react';
-import { Play, Pause, RotateCcw, RotateCw } from 'lucide-react';
+import { Play, Pause } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface AudioPlayerProps {
   readonly src: string;
+  readonly title?: string;
   readonly className?: string;
 }
 
-export function AudioPlayer({ src, className }: AudioPlayerProps) {
+const WAVEFORM_HEIGHTS = [
+  35, 55, 25, 70, 90, 45, 65, 80, 40, 60, 85, 30, 75, 95, 50, 65, 40, 80,
+  55, 70, 35, 60, 90, 45, 65, 80, 40, 55, 75, 30, 85, 60, 40, 70, 35, 50,
+];
+
+export function AudioPlayer({ src, title, className }: AudioPlayerProps) {
   const audioRef = React.useRef<HTMLAudioElement>(null);
-  const progressRef = React.useRef<HTMLDivElement>(null);
+  const waveformRef = React.useRef<HTMLDivElement>(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [currentTime, setCurrentTime] = React.useState(0);
   const [duration, setDuration] = React.useState(0);
@@ -23,7 +29,7 @@ export function AudioPlayer({ src, className }: AudioPlayerProps) {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const onLoadedMetadata = () => setDuration(audio.duration);
+    const onLoadedMetadata = () => setDuration(audio.duration || 0);
     const onTimeUpdate = () => setCurrentTime(audio.currentTime);
     const onEnded = () => setIsPlaying(false);
 
@@ -44,16 +50,18 @@ export function AudioPlayer({ src, className }: AudioPlayerProps) {
 
     if (isPlaying) {
       audio.pause();
+      setIsPlaying(false);
     } else {
-      audio.play();
+      audio.play().then(() => setIsPlaying(true)).catch(() => {});
     }
-    setIsPlaying(!isPlaying);
   };
 
   const skip = (seconds: number) => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.currentTime = Math.max(0, Math.min(audio.currentTime + seconds, duration));
+    const target = Math.max(0, Math.min(audio.currentTime + seconds, duration || audio.duration || 0));
+    audio.currentTime = target;
+    setCurrentTime(target);
   };
 
   const cycleRate = () => {
@@ -66,108 +74,122 @@ export function AudioPlayer({ src, className }: AudioPlayerProps) {
     setPlaybackRate(nextRate);
   };
 
-  const handleProgressClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleWaveformClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const audio = audioRef.current;
-    const bar = progressRef.current;
-    if (!audio || !bar || duration === 0) return;
+    const bar = waveformRef.current;
+    if (!audio || !bar) return;
+
+    const currentDuration = duration || audio.duration || 0;
+    if (currentDuration === 0) return;
 
     const rect = bar.getBoundingClientRect();
     const ratio = Math.max(0, Math.min((e.clientX - rect.left) / rect.width, 1));
-    audio.currentTime = ratio * duration;
+    const target = ratio * currentDuration;
+    audio.currentTime = target;
+    setCurrentTime(target);
   };
 
   const formatTime = (seconds: number): string => {
-    if (!isFinite(seconds) || seconds < 0) return '0:00';
+    if (!isFinite(seconds) || seconds < 0) return '00:00';
     const m = Math.floor(seconds / 60);
     const s = Math.floor(seconds % 60);
-    return `${m}:${s.toString().padStart(2, '0')}`;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  const progress = duration > 0 ? (currentTime / duration) * 100 : 0;
+  const progressRatio = duration > 0 ? currentTime / duration : 0;
 
   return (
     <div
       className={cn(
-        'flex items-center gap-3 rounded-lg border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50 dark:bg-zinc-900/50 px-4 py-3 my-6',
+        'p-3.5 sm:p-4 rounded-xl bg-zinc-100/90 dark:bg-[#141414] border border-zinc-200 dark:border-[#1F1F1F] flex flex-col space-y-3 transition-colors',
         className
       )}
     >
       <audio ref={audioRef} src={src} preload="metadata" />
 
-      {/* Skip Back */}
-      <button
-        type="button"
-        onClick={() => skip(-15)}
-        className="flex items-center justify-center h-8 w-8 rounded-md text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        aria-label="15 saniye geri"
-      >
-        <RotateCcw className="h-3.5 w-3.5" />
-      </button>
+      {/* Top Header & Controls */}
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3 min-w-0">
+          <button
+            type="button"
+            onClick={togglePlay}
+            aria-label={isPlaying ? 'Duraklat' : 'Oynat'}
+            className="w-9 h-9 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-black flex items-center justify-center hover:opacity-90 transition-opacity shrink-0 shadow-sm"
+          >
+            {isPlaying ? (
+              <Pause className="w-4 h-4 fill-current" />
+            ) : (
+              <Play className="w-4 h-4 fill-current ml-0.5" />
+            )}
+          </button>
+          <div className="flex flex-col min-w-0">
+            <span className="text-xs font-medium text-zinc-900 dark:text-white truncate">
+              {title || 'Sesli Düşünce'}
+            </span>
+            <span className="text-[11px] font-mono text-zinc-500 dark:text-[#71717A]">
+              {formatTime(currentTime)} / {formatTime(duration)}
+            </span>
+          </div>
+        </div>
 
-      {/* Play / Pause */}
-      <button
-        type="button"
-        onClick={togglePlay}
-        className="flex items-center justify-center h-9 w-9 rounded-full border border-zinc-300 dark:border-zinc-700 bg-background text-foreground hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        aria-label={isPlaying ? 'Duraklat' : 'Oynat'}
-      >
-        {isPlaying ? (
-          <Pause className="h-4 w-4" />
-        ) : (
-          <Play className="h-4 w-4 ml-0.5" />
-        )}
-      </button>
-
-      {/* Skip Forward */}
-      <button
-        type="button"
-        onClick={() => skip(15)}
-        className="flex items-center justify-center h-8 w-8 rounded-md text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        aria-label="15 saniye ileri"
-      >
-        <RotateCw className="h-3.5 w-3.5" />
-      </button>
-
-      {/* Time */}
-      <span className="text-[11px] font-mono text-muted-foreground tabular-nums min-w-[36px]">
-        {formatTime(currentTime)}
-      </span>
-
-      {/* Progress Bar */}
-      <div
-        ref={progressRef}
-        onClick={handleProgressClick}
-        className="flex-1 h-1.5 rounded-full bg-zinc-200 dark:bg-zinc-800 cursor-pointer relative group"
-        role="progressbar"
-        aria-valuenow={Math.round(progress)}
-        aria-valuemin={0}
-        aria-valuemax={100}
-      >
-        <div
-          className="h-full rounded-full bg-foreground transition-[width] duration-100"
-          style={{ width: `${progress}%` }}
-        />
-        <div
-          className="absolute top-1/2 -translate-y-1/2 h-3 w-3 rounded-full bg-foreground opacity-0 group-hover:opacity-100 transition-opacity"
-          style={{ left: `${progress}%`, transform: `translate(-50%, -50%)` }}
-        />
+        <div className="flex items-center gap-1.5 shrink-0">
+          <button
+            type="button"
+            onClick={() => skip(-15)}
+            className="px-2 py-1 bg-white dark:bg-[#0A0A0A] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#71717A] hover:text-zinc-900 dark:hover:text-white rounded text-[11px] font-mono transition-colors"
+            title="15 Saniye Geri"
+          >
+            -15s
+          </button>
+          <button
+            type="button"
+            onClick={() => skip(15)}
+            className="px-2 py-1 bg-white dark:bg-[#0A0A0A] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#71717A] hover:text-zinc-900 dark:hover:text-white rounded text-[11px] font-mono transition-colors"
+            title="15 Saniye İleri"
+          >
+            +15s
+          </button>
+          <button
+            type="button"
+            onClick={cycleRate}
+            className="px-2 py-1 bg-white dark:bg-[#0A0A0A] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#71717A] hover:text-zinc-900 dark:hover:text-white rounded text-[11px] font-mono transition-colors"
+            title="Oynatma Hızı"
+          >
+            {playbackRate.toFixed(1)}x
+          </button>
+        </div>
       </div>
 
-      {/* Duration */}
-      <span className="text-[11px] font-mono text-muted-foreground tabular-nums min-w-[36px]">
-        {formatTime(duration)}
-      </span>
-
-      {/* Playback Rate */}
-      <button
-        type="button"
-        onClick={cycleRate}
-        className="text-[11px] font-mono font-medium text-muted-foreground hover:text-foreground min-w-[32px] text-center rounded px-1.5 py-0.5 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        aria-label={`Oynatma hızı: ${playbackRate}x`}
+      {/* Interactive Waveform Visualizer */}
+      <div
+        ref={waveformRef}
+        onClick={handleWaveformClick}
+        role="slider"
+        aria-label="Ses dalgası kaydırıcı"
+        aria-valuenow={Math.round(progressRatio * 100)}
+        aria-valuemin={0}
+        aria-valuemax={100}
+        tabIndex={0}
+        className="w-full flex items-center h-8 gap-[2.5px] px-1 py-1 cursor-pointer group"
       >
-        {playbackRate}x
-      </button>
+        {WAVEFORM_HEIGHTS.map((height, i) => {
+          const barProgress = (i + 1) / WAVEFORM_HEIGHTS.length;
+          const isPassed = progressRatio >= barProgress;
+
+          return (
+            <div
+              key={i}
+              style={{ height: `${Math.max(15, height)}%` }}
+              className={cn(
+                'flex-1 min-w-[2px] max-w-[4px] rounded-full transition-colors duration-100',
+                isPassed
+                  ? 'bg-zinc-900 dark:bg-white'
+                  : 'bg-zinc-300 dark:bg-[#27272A] group-hover:bg-zinc-400 dark:group-hover:bg-[#3F3F46]'
+              )}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
-

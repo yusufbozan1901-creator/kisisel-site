@@ -4,8 +4,9 @@ import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
-import { NAV_ITEMS, SITE_CONFIG } from '@/config/site';
+import { NAV_ITEMS } from '@/config/site';
 import { ThemeToggle } from '@/components/common/theme-toggle';
+import { SearchButton } from '@/components/common/search-button';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { cn } from '@/lib/utils';
@@ -20,21 +21,31 @@ export function Navbar() {
   }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-200/70 dark:border-zinc-850 dark:border-zinc-900/80 bg-background/85 backdrop-blur-md">
-      <Container size="narrow">
-        <div className="flex h-16 items-center justify-between">
-          {/* Typographic Logo & Name */}
-          <Link
-            href="/"
-            className="text-base font-semibold tracking-tight text-foreground hover:opacity-80 transition-opacity"
-          >
-            {SITE_CONFIG.name}
-          </Link>
+    <header className="sticky top-0 z-50 w-full border-b border-zinc-200/80 dark:border-[#1F1F1F] bg-white/85 dark:bg-[#000000]/85 backdrop-blur-md">
+      <Container size="default">
+        <div className="flex h-16 items-center justify-between gap-4">
+          {/* Brand Monogram + Status Dot */}
+          <div className="flex items-center gap-3 shrink-0">
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="w-8 h-8 rounded-md bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-300 dark:border-[#27272A] flex items-center justify-center font-mono font-semibold text-xs text-zinc-900 dark:text-white tracking-wider group-hover:border-zinc-500 dark:group-hover:border-[#3F3F46] transition-colors">
+                YB
+              </div>
+              <span className="font-medium text-zinc-900 dark:text-white text-sm tracking-tight">
+                Yusuf Bozan
+              </span>
+            </Link>
+            <div className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-[#1F1F1F]">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[11px] font-mono text-zinc-600 dark:text-[#A1A1AA]">
+                Müsait
+              </span>
+            </div>
+          </div>
 
           {/* Desktop Nav Links */}
           <nav
             aria-label="Ana Menü"
-            className="hidden md:flex items-center gap-6 text-sm font-normal"
+            className="hidden md:flex items-center gap-1 whitespace-nowrap"
           >
             {NAV_ITEMS.map((item) => {
               const isActive =
@@ -47,10 +58,10 @@ export function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'transition-colors py-1',
+                    'text-xs font-medium rounded-md px-2.5 py-1 transition-colors',
                     isActive
-                      ? 'text-foreground font-medium underline underline-offset-8 decoration-1 decoration-foreground/40'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-[#141414] border border-zinc-300 dark:border-[#27272A]'
+                      : 'text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white'
                   )}
                 >
                   {item.title}
@@ -59,15 +70,22 @@ export function Navbar() {
             })}
           </nav>
 
-          {/* Action Items */}
-          <div className="flex items-center gap-1.5">
+          {/* Right Action Items */}
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            <SearchButton />
             <ThemeToggle />
+            <Link
+              href="/contact"
+              className="bg-zinc-900 dark:bg-white text-white dark:text-black font-medium text-xs px-3.5 py-1.5 rounded-full hover:bg-zinc-800 dark:hover:bg-neutral-200 transition-colors shrink-0"
+            >
+              İletişim
+            </Link>
 
             {/* Mobile Menu Button */}
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden h-9 w-9 text-muted-foreground"
+              className="md:hidden h-8 w-8 text-zinc-600 dark:text-zinc-400"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-expanded={mobileMenuOpen}
               aria-label={mobileMenuOpen ? 'Menüyü Kapat' : 'Menüyü Aç'}
@@ -83,7 +101,7 @@ export function Navbar() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-zinc-200/60 dark:border-zinc-900 py-3 space-y-1">
+          <div className="md:hidden border-t border-zinc-200 dark:border-[#1F1F1F] py-3 space-y-1">
             {NAV_ITEMS.map((item) => {
               const isActive =
                 item.href === '/'
@@ -95,10 +113,10 @@ export function Navbar() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    'block px-3 py-2 text-sm transition-colors rounded-md',
+                    'block px-3 py-2 text-xs font-medium transition-colors rounded-md',
                     isActive
-                      ? 'text-foreground font-medium bg-muted/40'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-[#141414]'
+                      : 'text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white'
                   )}
                 >
                   {item.title}

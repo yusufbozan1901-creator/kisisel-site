@@ -1,0 +1,809 @@
+<!DOCTYPE html><html class="dark" lang="tr"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Yusuf Bozan — Dijital Bahçe &amp; Arşiv</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #000000;
+        color: #e5e2e1;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-canvas": "#000000",
+            "surface-card": "#0A0A0A",
+            "surface-subtle": "#141414",
+            "border-subtle": "#1F1F1F",
+            "border-hover": "#333333",
+            "border-medium": "#27272A",
+            "text-primary": "#FFFFFF",
+            "text-muted": "#A1A1AA",
+            "text-faint": "#71717A",
+            "accent-warm": "#FAFAFA"
+          },
+          fontFamily: {
+            "display": ["Geist", "sans-serif"],
+            "headline-lg": ["Geist", "sans-serif"],
+            "headline-md": ["Geist", "sans-serif"],
+            "headline-sm": ["Geist", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "label-md": ["Geist", "sans-serif"],
+            "label-sm": ["Geist", "sans-serif"],
+            "code": ["Geist", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#000000] text-[#e5e2e1] font-body-md antialiased selection:bg-[#27272A] selection:text-white">
+<!-- 1. NAVBAR -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-[#000000]/85 backdrop-blur-md border-b border-[#1F1F1F]">
+<div class="h-16 max-w-5xl mx-auto px-4 md:px-6 flex items-center justify-between gap-4">
+<!-- Brand Monogram + Status Dot -->
+<div class="flex items-center gap-3 shrink-0">
+<a class="flex items-center gap-2.5 group" href="#">
+<div class="w-8 h-8 rounded-md bg-[#0A0A0A] border border-[#27272A] flex items-center justify-center font-display font-semibold text-xs text-white tracking-wider group-hover:border-[#3F3F46] transition-colors">
+            YB
+          </div>
+<span class="font-medium text-white text-sm tracking-tight">Yusuf Bozan</span>
+</a>
+<div class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#0A0A0A] border border-[#1F1F1F]">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="text-[11px] font-label-sm text-[#A1A1AA]">Müsait</span>
+</div>
+</div>
+<!-- Single-line Center Nav -->
+<nav class="hidden md:flex items-center gap-1 whitespace-nowrap">
+<a class="text-xs font-medium text-white bg-[#141414] border border-[#27272A] rounded-md px-2.5 py-1 transition-colors" href="#">Ana Sayfa</a>
+<a class="text-xs font-medium text-[#A1A1AA] hover:text-white px-2.5 py-1 transition-colors" href="#yazilar">Yazılar</a>
+<a class="text-xs font-medium text-[#A1A1AA] hover:text-white px-2.5 py-1 transition-colors" href="#akis">Akış</a>
+<a class="text-xs font-medium text-[#A1A1AA] hover:text-white px-2.5 py-1 transition-colors" href="#rafim">Rafım</a>
+<a class="text-xs font-medium text-[#A1A1AA] hover:text-white px-2.5 py-1 transition-colors" href="#videolar">Videolar</a>
+<a class="text-xs font-medium text-[#A1A1AA] hover:text-white px-2.5 py-1 transition-colors" href="#hakkimda">Hakkımda</a>
+</nav>
+<!-- Right Actions -->
+<div class="flex items-center gap-2.5 shrink-0">
+<button class="flex items-center gap-1.5 px-2.5 py-1 text-xs border border-[#27272A] bg-[#141414] text-[#A1A1AA] rounded-md hover:border-[#3F3F46] hover:text-white transition-colors" type="button">
+<span class="material-symbols-outlined text-[15px]">search</span>
+<kbd class="font-code text-[11px] text-[#71717A]">⌘K</kbd>
+</button>
+<button aria-label="Tema" class="w-8 h-8 rounded-full border border-[#27272A] bg-[#141414] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#3F3F46] transition-colors" type="button">
+<span class="material-symbols-outlined text-sm">dark_mode</span>
+</button>
+<a class="bg-white text-black font-medium text-xs px-3.5 py-1.5 rounded-full hover:bg-neutral-200 transition-colors shrink-0" href="#iletisim">
+          İletişim
+        </a>
+</div>
+</div>
+</header>
+<!-- MAIN WRAPPER -->
+<main class="w-full pt-20 bg-[#000000] min-h-screen">
+<div class="w-full max-w-5xl mx-auto px-4 md:px-6 space-y-16 pb-20">
+<!-- 2. HERO & "ŞU SIRALAR" NOW BENTO STRIP -->
+<section class="flex flex-col gap-8 pt-4 md:pt-6">
+<div class="flex flex-col gap-3 max-w-3xl">
+
+<h1 class="text-3xl md:text-5xl font-display font-semibold text-white tracking-tight leading-tight">
+            Dijital bahçem ve kişisel arşivim.
+          </h1>
+<p class="text-base md:text-lg text-[#A1A1AA] max-w-2xl font-light leading-relaxed">
+            Tasarım sistemleri, minimal yazılım mimarileri ve editoryal estetik üzerine çalışan bağımsız ürün tasarımcısı ve yazılımcı. İstanbul'da yaşıyor ve interneti daha sakin bir yer yapmaya gayret ediyor.
+          </p>
+</div>
+<!-- 3 Unified Now Bento Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Card 1 -->
+<div class="p-4 bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl flex flex-col justify-between hover:border-[#333333] transition-colors h-48">
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-label-sm text-[#71717A] tracking-wider uppercase font-semibold">ÜZERİNDE ÇALIŞTIĞIM</span>
+<span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+</div>
+<h3 class="text-sm font-semibold text-white">Monolith Engine</h3>
+<p class="text-xs text-[#A1A1AA] leading-relaxed line-clamp-2">
+                Açık kaynaklı minimalist tipografi ve statik derleyici altyapısı.
+              </p>
+</div>
+<div class="pt-3 border-t border-[#1F1F1F] flex items-center justify-between text-[11px] font-label-sm text-[#71717A]">
+<span>Durum: Aktif Geliştirme</span>
+<span>2 gün önce</span>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-4 bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl flex flex-col justify-between hover:border-[#333333] transition-colors h-48"><div class="space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-label-sm text-[#71717A] tracking-wider uppercase font-semibold">ŞU AN RAFTA</span>
+<span class="material-symbols-outlined text-sm text-[#71717A]">shelves</span>
+</div>
+<div class="space-y-2 text-xs">
+<div class="flex items-center justify-between gap-1">
+<div class="truncate font-medium text-white">Severance (2. Sezon)</div>
+<span class="px-1.5 py-0.5 rounded bg-[#141414] border border-[#27272A] text-[10px] font-code text-[#A1A1AA] shrink-0">Dizi • S02B04</span>
+</div>
+<div class="flex items-center justify-between gap-1 pt-1.5 border-t border-[#1F1F1F]">
+<div class="truncate text-[#A1A1AA]">Görme Biçimleri <span class="text-[#71717A]">— J. Berger</span></div>
+<span class="px-1.5 py-0.5 rounded bg-[#141414] border border-[#27272A] text-[10px] font-code text-[#A1A1AA] shrink-0">Kitap • s. 84/176</span>
+</div>
+</div>
+</div>
+<div class="pt-3 border-t border-[#1F1F1F] flex items-center justify-between text-[11px] font-label-sm text-[#71717A]">
+<span>İlerleme: %65 Senkronize</span>
+<span class="text-emerald-400 font-medium flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>Aktif</span>
+</div></div>
+<!-- Card 3 -->
+<div class="p-4 bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl flex flex-col justify-between hover:border-[#333333] transition-colors h-48">
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<span class="text-[11px] font-label-sm text-[#71717A] tracking-wider uppercase font-semibold">SON DÜŞÜNCE</span>
+<span class="material-symbols-outlined text-sm text-[#71717A]">format_quote</span>
+</div>
+<h3 class="text-xs font-medium text-white italic leading-snug">"Sadelik, azın fazlalığı değil; gereksizin yokluğudur."</h3>
+<p class="text-xs text-[#A1A1AA] leading-relaxed line-clamp-2">
+                Tipografik ritim ve arayüzde bilişsel yük üzerine notlar.
+              </p>
+</div>
+<div class="pt-3 border-t border-[#1F1F1F] flex items-center justify-between text-[11px] font-label-sm text-[#71717A]">
+<span>Mikro-Not Defteri</span>
+<span>16 Kasım</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. FEATURED ESSAYS / SON YAZILAR -->
+<section class="flex flex-col gap-4 pt-4 border-t border-[#1F1F1F]" id="yazilar">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<h2 class="text-xs font-semibold tracking-widest uppercase text-white font-label-md">SON YAZILAR / DÜŞÜNCE NOTLARI</h2>
+<span class="text-[11px] px-2 py-0.5 rounded bg-[#0A0A0A] border border-[#1F1F1F] text-[#71717A] font-code">3 Yazı</span>
+</div>
+<a class="text-xs text-[#A1A1AA] hover:text-white flex items-center gap-1 transition-colors" href="#">
+<span>Tüm Yazılar</span>
+<span class="text-sm">→</span>
+</a>
+</div>
+<div class="divide-y divide-[#1F1F1F] border-y border-[#1F1F1F]">
+<!-- Essay 1 -->
+<article class="py-4 group flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-[#0A0A0A]/50 px-2 rounded-lg transition-colors">
+<div class="space-y-1">
+<h3 class="text-sm md:text-base font-medium text-white group-hover:text-neutral-200 transition-colors">
+<a href="#">Yazılım Mimarisinde Tipografik Hiyerarşi ve Bilişsel Yük</a>
+</h3>
+<div class="flex items-center gap-2 text-xs text-[#71717A] font-code">
+<span>#mimari</span>
+<span>#tipografi</span>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0 text-xs text-[#71717A]">
+<span class="px-2 py-0.5 rounded-full bg-[#141414] border border-[#1F1F1F] text-[#A1A1AA] text-[11px]">7 dk okuma</span>
+<time datetime="2026-11-18">18 Kasım 2026</time>
+</div>
+</article>
+<!-- Essay 2 -->
+<article class="py-4 group flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-[#0A0A0A]/50 px-2 rounded-lg transition-colors">
+<div class="space-y-1">
+<h3 class="text-sm md:text-base font-medium text-white group-hover:text-neutral-200 transition-colors">
+<a href="#">Modern Webde Zero-Bundle CSS ve Vanilla Standartlarına Dönüş</a>
+</h3>
+<div class="flex items-center gap-2 text-xs text-[#71717A] font-code">
+<span>#web</span>
+<span>#css</span>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0 text-xs text-[#71717A]">
+<span class="px-2 py-0.5 rounded-full bg-[#141414] border border-[#1F1F1F] text-[#A1A1AA] text-[11px]">5 dk okuma</span>
+<time datetime="2026-11-10">10 Kasım 2026</time>
+</div>
+</article>
+<!-- Essay 3 -->
+<article class="py-4 group flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-[#0A0A0A]/50 px-2 rounded-lg transition-colors">
+<div class="space-y-1">
+<h3 class="text-sm md:text-base font-medium text-white group-hover:text-neutral-200 transition-colors">
+<a href="#">Dijital Bahçe Kavramı: Neden Statik Bloglar Yerine Yaşayan Arşivler?</a>
+</h3>
+<div class="flex items-center gap-2 text-xs text-[#71717A] font-code">
+<span>#dijital-bahce</span>
+</div>
+</div>
+<div class="flex items-center gap-3 shrink-0 text-xs text-[#71717A]">
+<span class="px-2 py-0.5 rounded-full bg-[#141414] border border-[#1F1F1F] text-[#A1A1AA] text-[11px]">4 dk okuma</span>
+<time datetime="2026-10-28">28 Ekim 2026</time>
+</div>
+</article>
+</div>
+</section>
+<!-- 4. CLEAN AKIŞ (MICRO-BLOG TIMELINE) -->
+<section class="flex flex-col gap-4 pt-4 border-t border-[#1F1F1F]" id="akis">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div class="flex items-center gap-2.5">
+<h2 class="text-xs font-semibold tracking-widest uppercase text-white font-label-md">AKIŞ / MİKRO-NOTLAR</h2>
+<span class="px-2 py-0.5 rounded-full bg-[#0A0A0A] border border-[#1F1F1F] text-[11px] font-label-sm text-[#71717A]">İndieWeb Standart</span>
+</div>
+<a class="text-xs text-[#A1A1AA] hover:text-white flex items-center gap-1 transition-colors" href="#">
+<span>Tüm Akış</span>
+<span class="text-sm">→</span>
+</a>
+</div>
+<div class="relative pl-6 md:pl-8 border-l border-[#1F1F1F] space-y-6 mt-2">
+<!-- Timeline Entry 1: Voice Note -->
+<div class="relative group">
+<span class="absolute -left-[31px] md:-left-[39px] top-2 w-3 h-3 rounded-full bg-[#000000] border-2 border-white"></span>
+<div class="bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl p-4 md:p-5 hover:border-[#333333] transition-colors space-y-3">
+<div class="flex items-center justify-between gap-2 flex-wrap text-xs">
+<div class="flex items-center gap-2">
+<span class="text-[#71717A]">16 Kasım 2026 • 22:15</span>
+<span class="w-1 h-1 rounded-full bg-[#333333]"></span>
+<span class="text-[#A1A1AA] flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">mic</span> Sesli Düşünce
+                  </span>
+</div>
+<span class="font-code text-[11px] text-[#71717A]">#tasarım-felsefesi</span>
+</div>
+<p class="text-sm text-white leading-relaxed">
+                Gece yürüyüşünde aklıma takılan bir soru: Arayüzlerin hızını pikseller değil, kullanıcının bilişsel yükü belirler. Tasarımı basitleştirmek görsel bir tercih değil, etik bir zorunluluktur.
+              </p>
+<!-- Audio Player Bar -->
+<div class="p-3 rounded-lg bg-[#141414] border border-[#1F1F1F] flex flex-col sm:flex-row sm:items-center gap-3">
+<div class="flex items-center gap-2">
+<button class="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-neutral-200 transition-colors" id="voice-play-btn" type="button">
+<span class="material-symbols-outlined text-base">play_arrow</span>
+</button>
+<button class="w-7 h-7 rounded flex items-center justify-center text-[#A1A1AA] hover:text-white transition-colors text-xs font-code" type="button">
+                    +15s
+                  </button>
+</div>
+<!-- Custom Waveform Bars -->
+<div class="flex-1 flex items-center gap-1 h-6 cursor-pointer" title="Ses dalgası">
+<div class="h-3 w-1 bg-white rounded-full"></div>
+<div class="h-5 w-1 bg-white rounded-full"></div>
+<div class="h-2 w-1 bg-white rounded-full"></div>
+<div class="h-4 w-1 bg-white rounded-full"></div>
+<div class="h-6 w-1 bg-white rounded-full"></div>
+<div class="h-5 w-1 bg-white rounded-full"></div>
+<div class="h-3 w-1 bg-white rounded-full"></div>
+<div class="h-2 w-1 bg-white rounded-full"></div>
+<div class="h-4 w-1 bg-[#27272A] rounded-full"></div>
+<div class="h-6 w-1 bg-[#27272A] rounded-full"></div>
+<div class="h-3 w-1 bg-[#27272A] rounded-full"></div>
+<div class="h-5 w-1 bg-[#27272A] rounded-full"></div>
+<div class="h-2 w-1 bg-[#27272A] rounded-full"></div>
+<div class="h-4 w-1 bg-[#27272A] rounded-full"></div>
+<div class="h-3 w-1 bg-[#27272A] rounded-full"></div>
+<div class="h-1 w-1 bg-[#27272A] rounded-full"></div>
+<div class="h-4 w-1 bg-[#27272A] rounded-full"></div>
+<div class="h-5 w-1 bg-[#27272A] rounded-full"></div>
+<div class="h-2 w-1 bg-[#27272A] rounded-full"></div>
+<div class="h-3 w-1 bg-[#27272A] rounded-full"></div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-3 text-[#71717A] font-code text-xs">
+<span>02:14 / 04:30</span>
+<span class="px-1.5 py-0.5 rounded bg-[#0A0A0A] border border-[#1F1F1F] text-[#A1A1AA] text-[10px]">1.0x</span>
+</div>
+</div>
+<!-- Footer with Clean Actions (NO fake counters) -->
+<div class="pt-2 flex items-center justify-between border-t border-[#1F1F1F] text-[#71717A] text-xs">
+
+<div class="flex items-center gap-2">
+<button class="hover:text-white transition-colors flex items-center gap-1 p-1 rounded" title="Kalıcı Bağlantı" type="button">
+
+</button>
+<button class="hover:text-white transition-colors flex items-center gap-1 p-1 rounded" title="Paylaş" type="button">
+<span class="material-symbols-outlined text-sm">ios_share</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Timeline Entry 2: Code Snippet -->
+<div class="relative group">
+<span class="absolute -left-[31px] md:-left-[39px] top-2 w-3 h-3 rounded-full bg-[#000000] border-2 border-[#27272A]"></span>
+<div class="bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl p-4 md:p-5 hover:border-[#333333] transition-colors space-y-3">
+<div class="flex items-center justify-between gap-2 flex-wrap text-xs">
+<div class="flex items-center gap-2">
+<span class="text-[#71717A]">14 Kasım 2026 • 14:02</span>
+<span class="w-1 h-1 rounded-full bg-[#333333]"></span>
+<span class="text-[#A1A1AA] flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">terminal</span> Not defteri
+                  </span>
+</div>
+<span class="font-code text-[11px] text-[#71717A]">#performans #web</span>
+</div>
+<p class="text-sm text-white leading-relaxed">
+                Web fontlarını yerel olarak barındırmanın ve font-display: swap kullanmanın CLS üzerindeki etkisi muazzam. Gereksiz hiçbir harici script sayfaya yük bindirmemeli.
+              </p>
+<!-- Terminal Preview -->
+<div class="rounded-lg bg-[#141414] border border-[#1F1F1F] p-3 font-code text-xs text-[#A1A1AA] space-y-1">
+<div class="flex items-center gap-1.5 pb-2 border-b border-[#1F1F1F] text-[#71717A]">
+<span class="w-2 h-2 rounded-full bg-[#27272A]"></span>
+<span class="w-2 h-2 rounded-full bg-[#27272A]"></span>
+<span class="w-2 h-2 rounded-full bg-[#27272A]"></span>
+<span class="text-[11px] font-label-sm ml-2">typography.css</span>
+</div>
+<div class="pt-1 text-[11px] leading-relaxed">
+<span class="text-[#71717A]">@font-face</span> {<br>
+                  &nbsp;&nbsp;font-family: <span class="text-white">'Geist'</span>;<br>
+                  &nbsp;&nbsp;src: <span class="text-[#A1A1AA]">local('Geist')</span>, url('/fonts/geist.woff2') format('woff2');<br>
+                  &nbsp;&nbsp;font-display: <span class="text-white">swap</span>;<br>
+                  }
+                </div>
+</div>
+<!-- Footer with Clean Actions -->
+<div class="pt-2 flex items-center justify-between border-t border-[#1F1F1F] text-[#71717A] text-xs">
+
+<div class="flex items-center gap-2">
+<button class="hover:text-white transition-colors flex items-center gap-1 p-1 rounded" title="Kalıcı Bağlantı" type="button">
+
+</button>
+<button class="hover:text-white transition-colors flex items-center gap-1 p-1 rounded" title="Paylaş" type="button">
+<span class="material-symbols-outlined text-sm">ios_share</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. UNIFORM İZLEDİKLERİM (CINEMA & SERIES LOG) -->
+<section class="flex flex-col gap-4 pt-4 border-t border-[#1F1F1F]" id="rafim"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+<div class="flex items-center gap-2.5">
+<h2 class="text-xs font-semibold tracking-widest uppercase text-white font-label-md">RAFIM / FİLM, DİZİ &amp; KİTAPLAR</h2>
+<span class="font-code text-xs text-[#71717A]">538 Kayıt</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="inline-flex p-0.5 bg-[#0A0A0A] border border-[#1F1F1F] rounded-md">
+<button class="px-2.5 py-1 rounded bg-white text-black text-xs font-medium" type="button">Tümü</button>
+<button class="px-2.5 py-1 rounded text-[#A1A1AA] hover:text-white text-xs transition-colors" type="button">Filmler</button>
+<button class="px-2.5 py-1 rounded text-[#A1A1AA] hover:text-white text-xs transition-colors" type="button">Diziler</button>
+<button class="px-2.5 py-1 rounded text-[#A1A1AA] hover:text-white text-xs transition-colors" type="button">Kitaplar</button>
+<button class="px-2.5 py-1 rounded text-[#A1A1AA] hover:text-white text-xs transition-colors" type="button">Favoriler</button>
+</div>
+<a class="text-xs text-[#A1A1AA] hover:text-white flex items-center gap-1 transition-colors shrink-0" href="#rafim">
+<span>Tüm Rafım</span>
+<span class="text-sm">→</span>
+</a>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- Card 1: Severance (Series) -->
+<div class="group bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl overflow-hidden flex flex-col hover:border-[#333333] transition-colors">
+<div class="relative w-full aspect-[2/3] bg-[#141414] overflow-hidden">
+<img alt="Severance" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxbHBC-JKBQpY6oN4Lh0X41t3NcWVD0Na1UjQ90Jd_TBE3Xt2qIWTe1TrbH9mdmd-expHO2KdjYcIJvgxFHwfcvChF7VwHjQw6HK0NrqMMUMyelnlT3Nbs5HQWOIzuhCuYrCD7YG5T_1h7OcSD5CIhDkg4akbgdGnNoE_cEMihyUWvOjd760FQvTjc16NGbypXPAFwkaKUJNQInkiAwcRi1XIlfm1OjI0C4qncuqXc">
+<div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent"></div>
+<div class="absolute top-2.5 left-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[11px] font-medium text-white">S02 • B04</span>
+</div>
+<div class="absolute top-2.5 right-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[10px] font-medium text-white">İzleniyor</span>
+</div>
+<div class="absolute bottom-2.5 right-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] font-code text-xs text-white">★ 9.4</span>
+</div>
+</div>
+<div class="p-3.5 flex-1 flex flex-col justify-between gap-2">
+<div>
+<span class="text-[11px] font-label-sm text-[#71717A] tracking-wider uppercase font-semibold">Dizi • 2024</span>
+<h3 class="text-sm font-semibold text-white mt-0.5">Severance</h3>
+<p class="text-xs text-[#A1A1AA] line-clamp-2 mt-1 leading-relaxed">
+Kurgusal gerilim ve steril kurumsal tasarım dilinin zirvesi.
+</p>
+</div>
+<div class="pt-2 border-t border-[#1F1F1F] flex items-center justify-between text-[11px] font-label-sm text-[#71717A]">
+<span>Güncellendi</span>
+<span>Dün</span>
+</div>
+</div>
+</div>
+<!-- Card 2: The Elements of Typographic Style (Book) -->
+<div class="group bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl overflow-hidden flex flex-col hover:border-[#333333] transition-colors">
+<div class="relative w-full aspect-[2/3] bg-[#141414] overflow-hidden">
+<img alt="The Elements of Typographic Style" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4QC6KP1HdVdGEU0tPExYMiMJBS7krAduUmpfb2B7ok98TB3UHLD0UaQvaxdFvU2IJbb523ZBRB6caYnYF7bGqtItCFeDKSXEVl-MHeQc8UoMPeigwZ8XBBckM1FyfDcEU9-O9v1onmEI-O1F9b0hRUda76DA5f2GUQ0fLRpLOKmjRyFdF1-rRDfDuyyuiwwRAxBtswTrDNPnHWkdp0bou_2NEjzMVg3aafzPCyDH4">
+<div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent"></div>
+<div class="absolute top-2.5 left-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[11px] font-medium text-white">Robert Bringhurst • 384 s.</span>
+</div>
+<div class="absolute top-2.5 right-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[10px] font-medium text-white">Okunuyor</span>
+</div>
+<div class="absolute bottom-2.5 right-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] font-code text-xs text-white">★ 9.6</span>
+</div>
+</div>
+<div class="p-3.5 flex-1 flex flex-col justify-between gap-2">
+<div>
+<span class="text-[11px] font-label-sm text-[#71717A] tracking-wider uppercase font-semibold">Kitap • Tipografi</span>
+<h3 class="text-sm font-semibold text-white mt-0.5">The Elements of Typographic Style</h3>
+<p class="text-xs text-[#A1A1AA] line-clamp-2 mt-1 leading-relaxed">
+Yazı karakterlerinin anatomisi ve sayfa ritmi üzerine başucu eseri.
+</p>
+</div>
+<div class="pt-2 border-t border-[#1F1F1F] flex items-center justify-between text-[11px] font-label-sm text-[#71717A]">
+<span>İlerleme</span>
+<span>s. 210 / 384</span>
+</div>
+</div>
+</div>
+<!-- Card 3: Past Lives (Movie) -->
+<div class="group bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl overflow-hidden flex flex-col hover:border-[#333333] transition-colors">
+<div class="relative w-full aspect-[2/3] bg-[#141414] overflow-hidden">
+<img alt="Past Lives" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOX8gVhiisz-mHYtoMEDjeDcp9MKhP49DQjvELvR3YHm8tAqPs0TRmKpgBEuOwY-tqiBFNdg3ofsdkPQ0grr4_kLekna_9Hi1iEXPa2v4Dc2odP7Mzr8NUKEfogw9Z_karnsxuBn7Bc-839ka4zLNpFzIfEx1OgmsKwMKChM7GWyXwMEd1hLPl256aGuez_r7HcWnCxaATJk0w6jDtUaUhaNGUm2Xa4pPrqi5H9on5">
+<div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent"></div>
+<div class="absolute top-2.5 left-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[11px] font-medium text-white">105 dk</span>
+</div>
+<div class="absolute top-2.5 right-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[10px] font-medium text-white">Tamamlandı</span>
+</div>
+<div class="absolute bottom-2.5 right-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] font-code text-xs text-white">★ 9.0</span>
+</div>
+</div>
+<div class="p-3.5 flex-1 flex flex-col justify-between gap-2">
+<div>
+<span class="text-[11px] font-label-sm text-[#71717A] tracking-wider uppercase font-semibold">Film • Dram</span>
+<h3 class="text-sm font-semibold text-white mt-0.5">Past Lives</h3>
+<p class="text-xs text-[#A1A1AA] line-clamp-2 mt-1 leading-relaxed">
+Kelimelerin bittiği yerde sessizliklerin konuştuğu dokunaklı anlatı.
+</p>
+</div>
+<div class="pt-2 border-t border-[#1F1F1F] flex items-center justify-between text-[11px] font-label-sm text-[#71717A]">
+<span>İzlendi</span>
+<span>12 Kasım</span>
+</div>
+</div>
+</div>
+<!-- Card 4: Less and More: Dieter Rams (Book) -->
+<div class="group bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl overflow-hidden flex flex-col hover:border-[#333333] transition-colors">
+<div class="relative w-full aspect-[2/3] bg-[#141414] overflow-hidden">
+<img alt="Less and More: Dieter Rams" class="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL52aI8Qno0EUSRhWhbAl2ZV2ACTvfGzfGxbwUxRAsKJmBL0hmaMKkCzC5hVrbdQ1hI0GaWb42N-6Ldr_ZQEn7_bLKcQ47PeSGpfZuNGGwIClHIR78UYu_KRbm4HTpJgGs-SEUYDe0i6_rvDd2GPG4CeO6dNJdWmjOe313chg6bxhYqCJVdpylWdMSKX-0brRfkoqBbSUN_zhUNE526rVLtUKWn27hJKSmRJhNUH3s">
+<div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent"></div>
+<div class="absolute top-2.5 left-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[11px] font-medium text-white">Sophie Lovell • 400 s.</span>
+</div>
+<div class="absolute top-2.5 right-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[10px] font-medium text-white">Başyapıt</span>
+</div>
+<div class="absolute bottom-2.5 right-2.5">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] font-code text-xs text-white">★ 9.8</span>
+</div>
+</div>
+<div class="p-3.5 flex-1 flex flex-col justify-between gap-2">
+<div>
+<span class="text-[11px] font-label-sm text-[#71717A] tracking-wider uppercase font-semibold">Kitap • Tasarım</span>
+<h3 class="text-sm font-semibold text-white mt-0.5">Less and More: Dieter Rams</h3>
+<p class="text-xs text-[#A1A1AA] line-clamp-2 mt-1 leading-relaxed">
+"Az ama daha iyi" ilkesinin ve fonksiyonel sadeliğin manifestosu.
+</p>
+</div>
+<div class="pt-2 border-t border-[#1F1F1F] flex items-center justify-between text-[11px] font-label-sm text-[#71717A]">
+<span>Koleksiyon</span>
+<span>Kalıcı Raf</span>
+</div>
+</div>
+</div>
+</div></section>
+<!-- 6. VİDEOLAR / ÖZEL & LİSTE DIŞI KAYITLAR -->
+<section class="flex flex-col gap-4 pt-4 border-t border-[#1F1F1F]" id="videolar">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<h2 class="text-xs font-semibold tracking-widest uppercase text-white font-label-md">VİDEOLAR / ÖZEL &amp; LİSTE DIŞI KAYITLAR</h2>
+<span class="px-2 py-0.5 rounded bg-[#0A0A0A] border border-[#1F1F1F] font-code text-xs text-[#71717A]">Gizli Koleksiyon</span>
+</div>
+<a class="text-xs text-[#A1A1AA] hover:text-white flex items-center gap-1 transition-colors" href="#">
+<span>Tüm Videolar</span>
+<span class="text-sm">→</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Video 1 -->
+<div class="group bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl overflow-hidden hover:border-[#333333] transition-colors flex flex-col">
+<div class="relative w-full aspect-video bg-[#141414] overflow-hidden cursor-pointer">
+<img alt="Minimalist CSS Architecture" class="w-full h-full object-cover grayscale opacity-75 group-hover:opacity-100 group-hover:scale-102 transition-all duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC8bkVA9mzhJ4b0SGKXPhAnUVVlAZLWFP9rV1q-3DJ-LDwdp21RRf1ocTAeCL4BneCjs_UFwu_IlC7fS10QujNRPeHxLxu1DcaLnra_XjTKgDZwSoaGxl0yR9d4YQusZm9FsfifJAwXRfrdU-Gg4ckmq_bDZcyBx5WdGFYWxAZnucZTzDUA4MAS41hT76CDoX7SYQCV8SgyFee_OJokkPKEMiCuMLwiw097xnV8gz2O">
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-[#0A0A0A]/90 border border-[#27272A] flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-white group-hover:text-black transition-all">
+<span class="material-symbols-outlined text-2xl">play_arrow</span>
+</div>
+</div>
+<div class="absolute top-3 left-3">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[11px] font-label-sm text-[#A1A1AA] flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">lock</span> Liste Dışı
+                </span>
+</div>
+<div class="absolute bottom-3 right-3">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] font-code text-xs text-white">18:42</span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between gap-3">
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[#71717A] text-xs">
+<span>Canlı Kodlama &amp; Mimari</span>
+<span>8 Kasım 2026</span>
+</div>
+<h3 class="text-sm font-semibold text-white group-hover:text-neutral-200 transition-colors">
+                  Minimalist CSS Mimarisi ve Token Altyapısı
+                </h3>
+<p class="text-xs text-[#A1A1AA] leading-relaxed line-clamp-2">
+                  Gereksiz bağımlılıklardan arındırılmış, salt CSS custom properties ve modern grid sistemleriyle kurulan tasarım altyapısı.
+                </p>
+</div>
+<div class="pt-2 border-t border-[#1F1F1F] flex items-center justify-between text-xs">
+<a class="text-[#A1A1AA] hover:text-white flex items-center gap-1 transition-colors" href="#">
+<span class="material-symbols-outlined text-xs">open_in_new</span> YouTube'da İzle
+                </a>
+<span class="font-code text-[11px] text-[#71717A]">1080p 60fps</span>
+</div>
+</div>
+</div>
+<!-- Video 2 -->
+<div class="group bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl overflow-hidden hover:border-[#333333] transition-colors flex flex-col">
+<div class="relative w-full aspect-video bg-[#141414] overflow-hidden cursor-pointer">
+<img alt="Monolith Editor Typographic Rhythm" class="w-full h-full object-cover grayscale opacity-75 group-hover:opacity-100 group-hover:scale-102 transition-all duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxAVW8DadIi3kBwCj3mHZNgNLXRLF608N8pe5NVrSZ-7aKBoUe-VyYtm7pOy-cr4UkXQBQaTW3DpgQWLSDtXvkNI53e9QjQU6xBzh1Pu0O7QWArP9dq1ugAjWnYQ-P8y9lLFES-4CpsqYeCjkMoxmUk9ZWNYzfo_lppf3Gj88BSKuC14C8Ow7MYY9syvfQLyHt9VD92tnwua_yTJXC2PAwb0aiQoLA2jMbHIy5pcXJ">
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+<div class="w-12 h-12 rounded-full bg-[#0A0A0A]/90 border border-[#27272A] flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-white group-hover:text-black transition-all">
+<span class="material-symbols-outlined text-2xl">play_arrow</span>
+</div>
+</div>
+<div class="absolute top-3 left-3">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[11px] font-label-sm text-[#A1A1AA] flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">lock</span> Liste Dışı
+                </span>
+</div>
+<div class="absolute bottom-3 right-3">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] font-code text-xs text-white">12:15</span>
+</div>
+</div>
+<div class="p-4 flex-1 flex flex-col justify-between gap-3">
+<div class="space-y-1">
+<div class="flex items-center justify-between text-[#71717A] text-xs">
+<span>Ürün Prototipi</span>
+<span>28 Ekim 2026</span>
+</div>
+<h3 class="text-sm font-semibold text-white group-hover:text-neutral-200 transition-colors">
+                  Monolith Editöründe Tipografik Ritim ve Gezinme
+                </h3>
+<p class="text-xs text-[#A1A1AA] leading-relaxed line-clamp-2">
+                  Fareye dokunmadan tamamen Vim benzeri komut paletiyle editoryal içerik üretimi üzerine pratik bir deneme.
+                </p>
+</div>
+<div class="pt-2 border-t border-[#1F1F1F] flex items-center justify-between text-xs">
+<a class="text-[#A1A1AA] hover:text-white flex items-center gap-1 transition-colors" href="#">
+<span class="material-symbols-outlined text-xs">open_in_new</span> YouTube'da İzle
+                </a>
+<span class="font-code text-[11px] text-[#71717A]">4K HDR</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 7. HAKKIMDA / READ.CV FORMATINDA ÖZGEÇMİŞ -->
+<section class="flex flex-col gap-4 pt-4 border-t border-[#1F1F1F]" id="hakkimda">
+<div class="flex items-center justify-between">
+<h2 class="text-xs font-semibold tracking-widest uppercase text-white font-label-md">HAKKIMDA / ÖZGEÇMİŞ</h2>
+<span class="text-[11px] font-label-sm text-[#71717A]">Read.cv Formatı</span>
+</div>
+<div class="flex flex-col lg:flex-row gap-8 items-start pt-2">
+<!-- Left Sticky Profile Column -->
+<div class="w-full lg:w-1/3 flex flex-col gap-4 lg:sticky lg:top-24">
+<div class="p-5 bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl flex flex-col gap-4">
+<div class="w-24 h-24 rounded-xl overflow-hidden border border-[#27272A] bg-[#141414]">
+<img alt="Yusuf Bozan" class="w-full h-full object-cover grayscale contrast-125" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQfNaxBu3zHv7eovP3ea5JUvjZb-GWcN3V5QqkKHjuIBzYaEhs_yiw1msGpxgFSOMg2rJov5QyNm-PUi706lxC7A9YZkNNBp6ijI7c3EoD8ETBqUN5kLl8n5LBwwzTb652QaCdOIfbLR_nTWo8dRUalgYQtnhthGTcpr1FwDyxrwSBS6mDL2zeAbktrOBbdOLXJX9s7K0WNYoxpOHec7aV9H9gs_QLaTElOJXj0C9S">
+</div>
+<div class="space-y-1">
+<h3 class="text-base font-semibold text-white">Yusuf Bozan</h3>
+<p class="text-xs text-[#A1A1AA] leading-relaxed">
+                  Kıdemli Yazılım Geliştirici &amp; Ürün Tasarımcısı
+                </p>
+</div>
+<div class="flex flex-col gap-1.5 pt-3 text-xs text-[#71717A] border-t border-[#1F1F1F]">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-xs">location_on</span>
+<span>İstanbul, Türkiye (UTC+3)</span>
+</div>
+<div class="flex items-center gap-1.5 text-neutral-300">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>Yeni projelere &amp; danışmanlığa açık</span>
+</div>
+</div>
+<p class="text-xs text-[#A1A1AA] leading-relaxed">
+                10 yılı aşkın süredir dijital ürünler, tasarım sistemleri ve web standartları geliştiriyorum. Sadeliğin karmaşıklıktan daha çok emek gerektirdiğine inanıyorum.
+              </p>
+<!-- Social Pills -->
+<div class="flex items-center gap-2 pt-3 border-t border-[#1F1F1F]">
+<a aria-label="GitHub" class="w-8 h-8 rounded-lg bg-[#141414] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#3F3F46] transition-colors" href="#">
+<svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"></path></svg>
+</a>
+<a aria-label="X" class="w-8 h-8 rounded-lg bg-[#141414] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#3F3F46] transition-colors" href="#">
+<svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+</a>
+<a aria-label="LinkedIn" class="w-8 h-8 rounded-lg bg-[#141414] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#3F3F46] transition-colors" href="#">
+<svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"></path></svg>
+</a>
+<a aria-label="Read.cv" class="w-8 h-8 rounded-lg bg-[#141414] border border-[#27272A] flex items-center justify-center text-[#A1A1AA] hover:text-white hover:border-[#3F3F46] transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">badge</span>
+</a>
+</div>
+<!-- Outline CV Download Button -->
+<button class="w-full mt-1 py-2 px-3 rounded-lg border border-[#27272A] bg-[#141414] text-white text-xs font-medium flex items-center justify-center gap-2 hover:border-[#3F3F46] hover:bg-[#1A1A1A] transition-all" type="button">
+<span class="material-symbols-outlined text-sm">download</span>
+<span>PDF Özgeçmiş İndir (v2026)</span>
+</button>
+</div>
+</div>
+<!-- Right Structured Timeline Column -->
+<div class="w-full lg:w-2/3 flex flex-col gap-8">
+<!-- 1. Experience -->
+<div class="space-y-3">
+<h4 class="text-xs font-semibold text-[#71717A] tracking-wider uppercase font-label-md">DENEYİM</h4>
+<div class="space-y-3">
+<div class="p-4 bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl flex flex-col gap-1 hover:border-[#333333] transition-colors">
+<div class="flex items-center justify-between flex-wrap gap-1">
+<span class="text-sm font-semibold text-white">Lead Product Designer &amp; Design Technologist</span>
+<span class="font-code text-xs text-[#71717A]">2023 — Günümüz</span>
+</div>
+<div class="text-xs text-[#A1A1AA] font-medium">Atölye Labs</div>
+<p class="text-xs text-[#A1A1AA] mt-1 leading-relaxed">
+                    Küresel ölçekli çok dilli tasarım sistemleri mimarisi, tasarım token altyapısı ve mikro-servis ön yüz dönüşüm süreçlerinin yönetimi.
+                  </p>
+</div>
+<div class="p-4 bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl flex flex-col gap-1 hover:border-[#333333] transition-colors">
+<div class="flex items-center justify-between flex-wrap gap-1">
+<span class="text-sm font-semibold text-white">Senior UI/UX Engineer</span>
+<span class="font-code text-xs text-[#71717A]">2020 — 2023</span>
+</div>
+<div class="text-xs text-[#A1A1AA] font-medium">Vektör Studio</div>
+<p class="text-xs text-[#A1A1AA] mt-1 leading-relaxed">
+                    B2B SaaS veri analitiği platformlarının kullanıcı deneyimi testleri, tasarım kılavuzlarının standardizasyonu ve component library inşası.
+                  </p>
+</div>
+<div class="p-4 bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl flex flex-col gap-1 hover:border-[#333333] transition-colors">
+<div class="flex items-center justify-between flex-wrap gap-1">
+<span class="text-sm font-semibold text-white">Independent Frontend Consultant</span>
+<span class="font-code text-xs text-[#71717A]">2018 — 2020</span>
+</div>
+<div class="text-xs text-[#A1A1AA] font-medium">Bağımsız / Serbest Zamanlı</div>
+<p class="text-xs text-[#A1A1AA] mt-1 leading-relaxed">
+                    Erken aşama teknoloji girişimleri için yüksek performanslı web arayüzleri, etkileşimli mikro siteler ve hızlı MVP prototipleme çalışmaları.
+                  </p>
+</div>
+</div>
+</div>
+<!-- 2. Education -->
+<div class="space-y-3">
+<h4 class="text-xs font-semibold text-[#71717A] tracking-wider uppercase font-label-md">EĞİTİM</h4>
+<div class="p-4 bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl flex flex-col gap-1 hover:border-[#333333] transition-colors">
+<div class="flex items-center justify-between flex-wrap gap-1">
+<span class="text-sm font-semibold text-white">İstanbul Teknik Üniversitesi (İTÜ)</span>
+<span class="font-code text-xs text-[#71717A]">2014 — 2019</span>
+</div>
+<div class="text-xs text-[#A1A1AA]">
+                  Bilgisayar Mühendisliği (Lisans)
+                </div>
+<p class="text-xs text-[#71717A] mt-1 leading-relaxed">
+                  Bitirme Tezi: Tipografik Hiyerarşinin Sayısal Okuma Alışkanlıkları ve Bilişsel Hafıza Üzerine Etkileri.
+                </p>
+</div>
+</div>
+<!-- 3. Featured Projects -->
+<div class="space-y-3">
+<h4 class="text-xs font-semibold text-[#71717A] tracking-wider uppercase font-label-md">ÖNE ÇIKAN PROJELER</h4>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div class="p-4 bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl flex flex-col justify-between hover:border-[#333333] transition-colors">
+<div class="space-y-1">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-white">Monolith Engine</span>
+<span class="material-symbols-outlined text-xs text-[#71717A]">arrow_outward</span>
+</div>
+<p class="text-xs text-[#A1A1AA] leading-relaxed">
+                      Minimalist markdown tabanlı editoryal içerik derleyicisi ve zero-bundle CSS çekirdeği.
+                    </p>
+</div>
+<div class="pt-3 mt-2 border-t border-[#1F1F1F] flex items-center justify-between font-label-sm text-xs text-[#71717A]">
+<span>TypeScript • Rust</span>
+<span class="text-white font-code">1.2k ★</span>
+</div>
+</div>
+<div class="p-4 bg-[#0A0A0A] border border-[#1F1F1F] rounded-xl flex flex-col justify-between hover:border-[#333333] transition-colors">
+<div class="space-y-1">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-white">TypeGrid</span>
+<span class="material-symbols-outlined text-xs text-[#71717A]">arrow_outward</span>
+</div>
+<p class="text-xs text-[#A1A1AA] leading-relaxed">
+                      Web tasarımcıları ve tipograflar için altın oran bazlı modüler ölçek ve ritim hesaplayıcı.
+                    </p>
+</div>
+<div class="pt-3 mt-2 border-t border-[#1F1F1F] flex items-center justify-between font-label-sm text-xs text-[#71717A]">
+<span>Web App • Canvas</span>
+<span class="text-white font-code">850 ★</span>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. Tools & Skills -->
+<div class="space-y-3">
+<h4 class="text-xs font-semibold text-[#71717A] tracking-wider uppercase font-label-md">KULLANDIKLARIM / ARAÇ ÇANTAM</h4>
+<div class="flex flex-wrap gap-2">
+<span class="px-2.5 py-1 rounded bg-[#0A0A0A] border border-[#1F1F1F] text-xs text-[#A1A1AA] hover:text-white hover:border-[#27272A] transition-colors">TypeScript</span>
+<span class="px-2.5 py-1 rounded bg-[#0A0A0A] border border-[#1F1F1F] text-xs text-[#A1A1AA] hover:text-white hover:border-[#27272A] transition-colors">Rust</span>
+<span class="px-2.5 py-1 rounded bg-[#0A0A0A] border border-[#1F1F1F] text-xs text-[#A1A1AA] hover:text-white hover:border-[#27272A] transition-colors">Tailwind CSS</span>
+<span class="px-2.5 py-1 rounded bg-[#0A0A0A] border border-[#1F1F1F] text-xs text-[#A1A1AA] hover:text-white hover:border-[#27272A] transition-colors">Next.js</span>
+<span class="px-2.5 py-1 rounded bg-[#0A0A0A] border border-[#1F1F1F] text-xs text-[#A1A1AA] hover:text-white hover:border-[#27272A] transition-colors">WebGL / Canvas</span>
+<span class="px-2.5 py-1 rounded bg-[#0A0A0A] border border-[#1F1F1F] text-xs text-[#A1A1AA] hover:text-white hover:border-[#27272A] transition-colors">Neovim</span>
+<span class="px-2.5 py-1 rounded bg-[#0A0A0A] border border-[#1F1F1F] text-xs text-[#A1A1AA] hover:text-white hover:border-[#27272A] transition-colors">Figma</span>
+<span class="px-2.5 py-1 rounded bg-[#0A0A0A] border border-[#1F1F1F] text-xs text-[#A1A1AA] hover:text-white hover:border-[#27272A] transition-colors">Tasarım Sistemleri</span>
+<span class="px-2.5 py-1 rounded bg-[#0A0A0A] border border-[#1F1F1F] text-xs text-[#A1A1AA] hover:text-white hover:border-[#27272A] transition-colors">Erişilebilirlik (a11y)</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full bg-[#000000] border-t border-[#1F1F1F]" id="iletisim">
+<div class="max-w-5xl mx-auto px-4 md:px-6 py-12">
+<div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-8">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold text-white">Yusuf Bozan</span>
+<span class="w-1 h-1 rounded-full bg-[#333333]"></span>
+<span class="text-xs text-[#71717A]">Dijital Bahçe &amp; Arşiv</span>
+</div>
+<p class="text-xs text-[#71717A] max-w-sm">Yazılım mimarisi, minimalist arayüzler ve dijital bahçe arşivleri.</p>
+</div>
+<div class="flex flex-wrap items-center gap-3 text-xs text-[#A1A1AA]">
+<a class="flex items-center gap-1 hover:text-white transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">rss_feed</span>
+<span>RSS</span>
+</a>
+<span class="px-2 py-0.5 rounded border border-[#1F1F1F] text-[11px] text-[#71717A] bg-[#0A0A0A]">IndieWeb</span>
+<a class="flex items-center gap-1 hover:text-white transition-colors" href="mailto:hello@yusufbozan.com">
+<span class="material-symbols-outlined text-sm">mail</span>
+<span>hello@yusufbozan.com</span>
+</a>
+</div>
+</div>
+<div class="pt-6 border-t border-[#1F1F1F] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#71717A]">
+<p>© 2026 Yusuf Bozan. Tüm hakları saklıdır.</p>
+<p class="font-code text-[11px]">İstanbul / Kadıköy</p>
+</div>
+</div>
+</footer>
+<script>
+    (function() {
+      const playBtn = document.getElementById('voice-play-btn');
+      if (playBtn) {
+        let isPlaying = false;
+        playBtn.addEventListener('click', function() {
+          isPlaying = !isPlaying;
+          const icon = playBtn.querySelector('.material-symbols-outlined');
+          if (icon) {
+            icon.textContent = isPlaying ? 'pause' : 'play_arrow';
+          }
+        });
+      }
+    })();
+  </script>
+
+
+</body></html>

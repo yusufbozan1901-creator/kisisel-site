@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 import { resolveTurkeyTimestamp } from './date-resolver';
+import { ThoughtFrontmatterSchema, type ThoughtFrontmatter } from './schemas';
 
 const AKIS_DIRECTORY = path.join(process.cwd(), 'akis');
 
@@ -18,6 +19,8 @@ export interface Thought {
   readonly season?: string;
   readonly episode?: string;
   readonly rating?: string;
+  readonly tags?: readonly string[];
+  readonly type?: 'all' | 'audio' | 'code' | 'quote' | 'note';
 }
 
 /**
@@ -91,10 +94,29 @@ export async function getAllThoughts(): Promise<Thought[]> {
         const fileContents = fs.readFileSync(fullPath, 'utf8');
 
         const { data, content } = matter(fileContents);
+        const parsed = ThoughtFrontmatterSchema.safeParse(data);
+        const valid: Partial<ThoughtFrontmatter> = parsed.success ? parsed.data : {};
 
         const date = resolveTurkeyTimestamp(data.date, fullPath);
         const formattedDate = formatThoughtDate(date);
         const htmlContent = await marked.parse(content);
+
+        // Infer type if not specified in frontmatter
+        let inferredType: 'all' | 'audio' | 'code' | 'quote' | 'note' = valid.type || 'note';
+        if (!valid.type || valid.type === 'note') {
+          if (valid.audio) {
+            inferredType = 'audio';
+          } else if (content.includes('```') || content.includes('<code>')) {
+            inferredType = 'code';
+          } else if (content.trim().startsWith('>') || content.includes('“') || content.includes('”')) {
+            inferredType = 'quote';
+          }
+        }
+
+        // Extract inline #tags if no explicit tags exist
+        const explicitTags = Array.isArray(valid.tags) ? valid.tags : [];
+        const inlineTags = (content.match(/#([\w\u00C0-\u017F-]+)/g) || []).map((t) => t.replace('#', ''));
+        const mergedTags = Array.from(new Set([...explicitTags, ...inlineTags]));
 
         return {
           slug,
@@ -102,18 +124,14 @@ export async function getAllThoughts(): Promise<Thought[]> {
           formattedDate,
           content,
           htmlContent,
-          title: data.title ? String(data.title) : undefined,
-          image: data.image ? String(data.image) : undefined,
-          audio: data.audio ? String(data.audio) : undefined,
-          season: data.season !== undefined && data.season !== null && String(data.season).trim().length > 0
-            ? String(data.season).trim()
-            : undefined,
-          episode: data.episode !== undefined && data.episode !== null && String(data.episode).trim().length > 0
-            ? String(data.episode).trim()
-            : undefined,
-          rating: data.rating !== undefined && data.rating !== null && String(data.rating).trim().length > 0
-            ? String(data.rating).trim()
-            : undefined,
+          title: valid.title || undefined,
+          image: valid.image || undefined,
+          audio: valid.audio || undefined,
+          season: valid.season?.trim() || undefined,
+          episode: valid.episode?.trim() || undefined,
+          rating: valid.rating?.trim() || undefined,
+          tags: mergedTags,
+          type: inferredType,
         };
       })
     );

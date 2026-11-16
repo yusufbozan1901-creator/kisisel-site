@@ -31,8 +31,10 @@ content:
         required: true
 
       - name: date
-        label: Tarih
+        label: Tarih ve Saat
         type: date
+        options:
+          time: true
         required: true
 
       - name: summary
@@ -119,7 +121,170 @@ content:
         options:
           media: gorseller
 
-  # 3. Profil, Hakkımda ve Sosyal Medya Ayarları
+  # 3. Şu Sıralar (Now Bento Şeridi)
+  - name: now
+    label: Şu Sıralar (Now Bento)
+    type: file
+    path: src/content/now.json
+    fields:
+      - name: focus
+        label: 1. Üzerinde Çalıştığım (Odak)
+        type: object
+        fields:
+          - name: title
+            label: Proje / Odak Başlığı
+            type: string
+          - name: description
+            label: Açıklama
+            type: text
+          - name: status
+            label: Durum (örn. Aktif Geliştirme)
+            type: string
+          - name: updatedAt
+            label: Güncelleme (örn. Bugün)
+            type: string
+      - name: shelf
+        label: 2. Şu An Rafta (Dizi / Film / Kitap)
+        type: object
+        fields:
+          - name: itemTitle
+            label: Birincil Eser (Dizi / Film / Kitap)
+            type: string
+          - name: itemType
+            label: Tür (örn. Dizi, Kitap, Film)
+            type: string
+          - name: itemMeta
+            label: Bölüm / Sayfa / Süre (örn. S02 • B04)
+            type: string
+          - name: subItemTitle
+            label: İkincil Eser (İsteğe bağlı)
+            type: string
+          - name: subItemType
+            label: İkincil Tür
+            type: string
+          - name: subItemMeta
+            label: İkincil Bölüm / Sayfa
+            type: string
+          - name: status
+            label: Durum (örn. Takip Ediliyor)
+            type: string
+      - name: thought
+        label: 3. Son Düşünce (Aforizma / Alıntı)
+        type: object
+        fields:
+          - name: quote
+            label: Düşünce / Alıntı Metni
+            type: text
+          - name: context
+            label: Konu / Bağlam
+            type: string
+          - name: label
+            label: Etiket (örn. Mikro-Not Defteri)
+            type: string
+          - name: date
+            label: Tarih / Zaman (örn. 16 Kasım)
+            type: string
+
+  # 4. Rafım (Film, Dizi & Kitap Arşivi)
+  - name: raf
+    label: Rafım (Kültür Arşivi)
+    type: collection
+    path: raf
+    format: yaml-frontmatter
+    filename: "{slug}.md"
+    view:
+      fields:
+        - title
+        - type
+        - rating
+        - status
+      primary: title
+    fields:
+      - name: title
+        label: Eser Başlığı
+        type: string
+        required: true
+      - name: type
+        label: Tür (movie, series, book)
+        type: string
+      - name: category
+        label: Kategori (örn. Bilim Kurgu, Tipografi)
+        type: string
+      - name: rating
+        label: Puan (örn. ★ 9.4)
+        type: string
+      - name: status
+        label: Durum (watching, reading, completed, masterpiece)
+        type: string
+      - name: badge
+        label: Rozet / Sezon-Bölüm (örn. S02 • B04)
+        type: string
+      - name: poster
+        label: Afiş Görseli
+        type: image
+        options:
+          media: gorseller
+      - name: year
+        label: Çıkış Yılı
+        type: string
+      - name: progress
+        label: İlerleme (örn. s. 84 / 176)
+        type: string
+      - name: updatedAt
+        label: Son Durum Zamanı (örn. Dün)
+        type: string
+      - name: body
+        label: Kişisel Not & İnceleme
+        type: rich-text
+        options:
+          media: gorseller
+
+  # 5. Videolar (Özel & Liste Dışı Kayıtlar)
+  - name: videolar
+    label: Videolar (Özel & Liste Dışı)
+    type: collection
+    path: videolar
+    format: yaml-frontmatter
+    filename: "{slug}.md"
+    view:
+      fields:
+        - title
+        - duration
+        - category
+      primary: title
+    fields:
+      - name: title
+        label: Video Başlığı
+        type: string
+        required: true
+      - name: youtubeId
+        label: YouTube Video ID (örn. dQw4w9WgXcQ)
+        type: string
+        required: true
+      - name: duration
+        label: Süre (örn. 18:42)
+        type: string
+      - name: category
+        label: Kategori (örn. Canlı Kodlama)
+        type: string
+      - name: date
+        label: Tarih ve Saat
+        type: date
+        options:
+          time: true
+      - name: isUnlisted
+        label: Liste Dışı Kayıt
+        type: boolean
+      - name: quality
+        label: Çözünürlük (örn. 1080p 60fps)
+        type: string
+      - name: body
+        label: Açıklama / Notlar
+        type: rich-text
+        options:
+          media: gorseller
+
+  # 6. Profil, Hakkımda ve Sosyal Medya Ayarları
   - name: profil
     label: Hakkımda & Sosyal Medya
     type: file

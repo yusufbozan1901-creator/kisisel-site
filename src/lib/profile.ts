@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { marked } from 'marked';
+import { ProfileSchema } from './schemas';
 
 export interface SocialPlatformConfig {
   readonly active?: boolean;
@@ -70,11 +71,13 @@ export async function getProfileData(): Promise<ProfileData> {
       return DEFAULT_PROFILE;
     }
 
-    const parsed = JSON.parse(raw) as Partial<ProfileData>;
+    const parsed = JSON.parse(raw);
+    const validated = ProfileSchema.safeParse(parsed);
+    const data = validated.success ? validated.data : (parsed as Partial<ProfileData>);
 
-    const title = parsed.title?.trim() || DEFAULT_PROFILE.title;
-    const avatar = parsed.avatar?.trim() || undefined;
-    const bio = parsed.bio?.trim() || DEFAULT_PROFILE.bio;
+    const title = data.title?.trim() || DEFAULT_PROFILE.title;
+    const avatar = data.avatar?.trim() || undefined;
+    const bio = data.bio?.trim() || DEFAULT_PROFILE.bio;
 
     // Configure marked for safe HTML conversion of bio
     marked.use({ gfm: true, breaks: true });
@@ -85,8 +88,8 @@ export async function getProfileData(): Promise<ProfileData> {
       avatar,
       bio,
       bioHtml,
-      social: parsed.social || DEFAULT_PROFILE.social,
-      customLinks: parsed.customLinks || [],
+      social: (data.social as SocialLinksObject) || DEFAULT_PROFILE.social,
+      customLinks: (data.customLinks as CustomSocialLink[]) || [],
     };
   } catch (error) {
     console.error('Failed to read profil.json:', error);
