@@ -51,18 +51,11 @@ export default async function VideolarPage() {
                 <LiteYouTubeEmbed
                   youtubeId={video.youtubeId}
                   title={video.title}
-                  duration={video.duration}
-                  isUnlisted={video.isUnlisted}
-                  quality={video.quality}
                 />
 
                 {/* Video Info Body */}
                 <div className="p-4 flex-1 flex flex-col justify-between gap-3">
                   <div className="space-y-1">
-                    <div className="flex items-center justify-between text-xs text-zinc-500 dark:text-[#71717A] font-mono">
-                      <span>{video.category}</span>
-                      <span>{video.formattedDate}</span>
-                    </div>
                     <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-foreground transition-colors">
                       {video.title}
                     </h3>
@@ -87,9 +80,11 @@ export default async function VideolarPage() {
                     ) : (
                       <span className="text-zinc-400">Özel Kayıt</span>
                     )}
-                    <span className="font-mono text-[11px] text-zinc-500 dark:text-[#71717A]">
-                      {video.quality}
-                    </span>
+                    {video.formattedDate && (
+                      <span className="font-mono text-[11px] text-zinc-500 dark:text-[#71717A]">
+                        {video.formattedDate}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>

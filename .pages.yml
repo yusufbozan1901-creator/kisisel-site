@@ -205,8 +205,14 @@ content:
         type: string
         required: true
       - name: type
-        label: Tür (movie, series, book)
-        type: string
+        label: Tür
+        type: select
+        options:
+          values:
+            - Film
+            - Dizi
+            - Kitap
+        required: true
       - name: category
         label: Kategori (örn. Bilim Kurgu, Tipografi)
         type: string
@@ -214,8 +220,15 @@ content:
         label: Puan (örn. ★ 9.4)
         type: string
       - name: status
-        label: Durum (watching, reading, completed, masterpiece)
-        type: string
+        label: Durum
+        type: select
+        options:
+          values:
+            - İzleniyor
+            - Okunuyor
+            - Tamamlandı
+            - Başyapıt
+        required: true
       - name: badge
         label: Rozet / Sezon-Bölüm (örn. S02 • B04)
         type: string
@@ -239,9 +252,9 @@ content:
         options:
           media: gorseller
 
-  # 5. Videolar (Özel & Liste Dışı Kayıtlar)
+  # 5. Videolar
   - name: videolar
-    label: Videolar (Özel & Liste Dışı)
+    label: Videolar
     type: collection
     path: videolar
     format: yaml-frontmatter
@@ -249,8 +262,7 @@ content:
     view:
       fields:
         - title
-        - duration
-        - category
+        - date
       primary: title
     fields:
       - name: title
@@ -258,28 +270,16 @@ content:
         type: string
         required: true
       - name: youtubeId
-        label: YouTube Video ID (örn. dQw4w9WgXcQ)
+        label: YouTube Linki veya ID'si
         type: string
         required: true
-      - name: duration
-        label: Süre (örn. 18:42)
-        type: string
-      - name: category
-        label: Kategori (örn. Canlı Kodlama)
-        type: string
       - name: date
         label: Tarih ve Saat
         type: date
         options:
           time: true
-      - name: isUnlisted
-        label: Liste Dışı Kayıt
-        type: boolean
-      - name: quality
-        label: Çözünürlük (örn. 1080p 60fps)
-        type: string
       - name: body
-        label: Açıklama / Notlar
+        label: Açıklama (İsteğe bağlı)
         type: rich-text
         options:
           media: gorseller
@@ -292,6 +292,10 @@ content:
     fields:
       - name: title
         label: Hakkımda Başlığı
+        type: string
+
+      - name: location
+        label: Şehir / Konum (İsteğe bağlı)
         type: string
 
       - name: avatar

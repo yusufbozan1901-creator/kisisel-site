@@ -10,14 +10,8 @@ interface AkisStreamClientProps {
 }
 
 export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
-  const [activeTab, setActiveTab] = React.useState<'all' | 'audio' | 'code' | 'quote'>('all');
   const [selectedTag, setSelectedTag] = React.useState<string | null>(null);
   const [selectedMonth, setSelectedMonth] = React.useState<string | null>(null);
-
-  // Compute dynamic stats
-  const audioCount = React.useMemo(() => thoughts.filter((t) => t.audio || t.type === 'audio').length, [thoughts]);
-  const codeCount = React.useMemo(() => thoughts.filter((t) => t.type === 'code').length, [thoughts]);
-  const quoteCount = React.useMemo(() => thoughts.filter((t) => t.type === 'quote').length, [thoughts]);
 
   // Compute tag frequencies
   const tagCounts = React.useMemo(() => {
@@ -54,12 +48,7 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
   // Filter thoughts based on active filters
   const filteredThoughts = React.useMemo(() => {
     return thoughts.filter((t) => {
-      // 1. Tab filter
-      if (activeTab === 'audio' && !t.audio && t.type !== 'audio') return false;
-      if (activeTab === 'code' && t.type !== 'code') return false;
-      if (activeTab === 'quote' && t.type !== 'quote') return false;
-
-      // 2. Tag filter
+      // 1. Tag filter
       if (selectedTag) {
         if (!t.tags || !t.tags.includes(selectedTag)) return false;
       }
@@ -81,80 +70,19 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
 
       return true;
     });
-  }, [thoughts, activeTab, selectedTag, selectedMonth]);
+  }, [thoughts, selectedTag, selectedMonth]);
 
   const clearAllFilters = () => {
-    setActiveTab('all');
     setSelectedTag(null);
     setSelectedMonth(null);
   };
 
-  const hasActiveFilter = activeTab !== 'all' || selectedTag !== null || selectedMonth !== null;
+  const hasActiveFilter = selectedTag !== null || selectedMonth !== null;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
       {/* LEFT COLUMN: Main Stream (Approx 70% width on Desktop) */}
       <div className="lg:col-span-8 flex flex-col space-y-8">
-        {/* Filter Controls Bar */}
-        <section className="flex flex-wrap items-center justify-between gap-3 p-2 sm:p-2.5 bg-zinc-100/80 dark:bg-[#141414] border border-zinc-200 dark:border-[#1F1F1F] rounded-xl">
-          {/* Filter Pills */}
-          <div className="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap scrollbar-none py-0.5">
-            <button
-              type="button"
-              onClick={() => setActiveTab('all')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-                activeTab === 'all'
-                  ? 'bg-zinc-900 text-white dark:bg-white dark:text-black shadow-sm'
-                  : 'bg-white dark:bg-[#0A0A0A] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white'
-              }`}
-            >
-              Tüm Notlar ({thoughts.length})
-            </button>
-
-            {audioCount > 0 && (
-              <button
-                type="button"
-                onClick={() => setActiveTab('audio')}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-                  activeTab === 'audio'
-                    ? 'bg-zinc-900 text-white dark:bg-white dark:text-black shadow-sm'
-                    : 'bg-white dark:bg-[#0A0A0A] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white'
-                }`}
-              >
-                Sesli Düşünceler ({audioCount})
-              </button>
-            )}
-
-            {quoteCount > 0 && (
-              <button
-                type="button"
-                onClick={() => setActiveTab('quote')}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-                  activeTab === 'quote'
-                    ? 'bg-zinc-900 text-white dark:bg-white dark:text-black shadow-sm'
-                    : 'bg-white dark:bg-[#0A0A0A] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white'
-                }`}
-              >
-                Alıntılar ({quoteCount})
-              </button>
-            )}
-
-            {codeCount > 0 && (
-              <button
-                type="button"
-                onClick={() => setActiveTab('code')}
-                className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-                  activeTab === 'code'
-                    ? 'bg-zinc-900 text-white dark:bg-white dark:text-black shadow-sm'
-                    : 'bg-white dark:bg-[#0A0A0A] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white'
-                }`}
-              >
-                Kod & Notlar ({codeCount})
-              </button>
-            )}
-          </div>
-        </section>
-
         {/* Active Filter Pill Bar */}
         {hasActiveFilter && (
           <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-zinc-100 dark:bg-[#141414] border border-zinc-200 dark:border-[#1F1F1F] text-xs text-zinc-600 dark:text-[#A1A1AA]">
@@ -168,11 +96,6 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
               {selectedMonth && (
                 <span className="font-medium text-zinc-900 dark:text-white">
                   {selectedMonth}
-                </span>
-              )}
-              {activeTab !== 'all' && (
-                <span className="font-medium text-zinc-900 dark:text-white">
-                  {activeTab === 'audio' ? 'Sesli Düşünceler' : activeTab === 'quote' ? 'Alıntılar' : 'Kod & Notlar'}
                 </span>
               )}
             </div>

@@ -7,18 +7,12 @@ import { cn } from '@/lib/utils';
 interface LiteYouTubeEmbedProps {
   readonly youtubeId: string;
   readonly title: string;
-  readonly duration?: string;
-  readonly quality?: string;
-  readonly isUnlisted?: boolean;
   readonly className?: string;
 }
 
 export function LiteYouTubeEmbed({
   youtubeId,
   title,
-  duration,
-  quality,
-  isUnlisted,
   className,
 }: LiteYouTubeEmbedProps) {
   const [isLoaded, setIsLoaded] = React.useState(false);
@@ -85,25 +79,6 @@ export function LiteYouTubeEmbed({
 
       {/* Ambient Gradient */}
       <div className="absolute inset-0 bg-black/40 group-hover:bg-black/25 transition-colors" />
-
-      {/* Top Left Badge: Liste Dışı */}
-      {isUnlisted && (
-        <div className="absolute top-3 left-3">
-          <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[11px] font-mono text-[#A1A1AA] flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-            Liste Dışı
-          </span>
-        </div>
-      )}
-
-      {/* Bottom Right Duration Badge */}
-      {duration && (
-        <div className="absolute bottom-3 right-3">
-          <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] font-mono text-xs text-white">
-            {duration}
-          </span>
-        </div>
-      )}
 
       {/* Center Play Button Overlay */}
       <div className="absolute inset-0 flex items-center justify-center">

@@ -60,75 +60,15 @@ export default async function HomePage() {
         <NowBento now={now} />
       </Container>
 
-      {/* 3. Son Yazılar / Düşünce Notları */}
-      {recentPosts.length > 0 && (
-        <section className="pt-6 border-t border-zinc-200/80 dark:border-[#1F1F1F]" id="yazilar">
-          <Container size="default">
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2.5">
-                <h2 className="text-xs font-semibold tracking-widest uppercase text-zinc-900 dark:text-white font-mono">
-                  SON YAZILAR / DÜŞÜNCE NOTLARI
-                </h2>
-                <span className="text-[11px] px-2 py-0.5 rounded bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-[#1F1F1F] text-zinc-600 dark:text-[#71717A] font-mono">
-                  {posts.length} Yazı
-                </span>
-              </div>
-              <Link
-                href="/blog"
-                className="text-xs text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white flex items-center gap-1 transition-colors"
-              >
-                <span>Tüm Yazılar</span>
-                <span className="text-sm">→</span>
-              </Link>
-            </div>
-
-            <div className="divide-y divide-zinc-200/80 dark:divide-[#1F1F1F] border-y border-zinc-200/80 dark:border-[#1F1F1F]">
-              {recentPosts.map((post) => (
-                <article
-                  key={post.slug}
-                  className="py-4 group flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-zinc-50 dark:hover:bg-[#0A0A0A]/60 px-3 rounded-lg transition-colors"
-                >
-                  <div className="space-y-1">
-                    <h3 className="text-sm md:text-base font-medium text-zinc-900 dark:text-white group-hover:text-foreground transition-colors">
-                      <Link href={`/blog/${post.slug}`}>
-                        {post.title}
-                      </Link>
-                    </h3>
-                    {post.tags.length > 0 && (
-                      <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-[#71717A] font-mono">
-                        {post.tags.map((tag) => (
-                          <span key={tag}>#{tag}</span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-center gap-3 shrink-0 text-xs text-zinc-500 dark:text-[#71717A]">
-                    <span className="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-[#141414] border border-zinc-200 dark:border-[#1F1F1F] text-zinc-700 dark:text-[#A1A1AA] text-[11px]">
-                      {post.readingTime}
-                    </span>
-                    <time dateTime={post.publishedAt}>
-                      {formatDate(post.publishedAt)}
-                    </time>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </Container>
-        </section>
-      )}
-
-      {/* 4. Akış / Mikro-Notlar */}
+      {/* 3. Akış */}
       {recentThoughts.length > 0 && (
         <section className="pt-6 border-t border-zinc-200/80 dark:border-[#1F1F1F]" id="akis">
           <Container size="default">
             <div className="flex items-center justify-between flex-wrap gap-2 mb-6">
               <div className="flex items-center gap-2.5">
                 <h2 className="text-xs font-semibold tracking-widest uppercase text-zinc-900 dark:text-white font-mono">
-                  AKIŞ / MİKRO-NOTLAR
+                  AKIŞ
                 </h2>
-                <span className="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-[#1F1F1F] text-[11px] font-mono text-zinc-600 dark:text-[#71717A]">
-                  İndieWeb Standart
-                </span>
               </div>
               <Link
                 href="/akis"
@@ -202,6 +142,63 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* 4. Son Yazılar */}
+      {recentPosts.length > 0 && (
+        <section className="pt-6 border-t border-zinc-200/80 dark:border-[#1F1F1F]" id="yazilar">
+          <Container size="default">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2.5">
+                <h2 className="text-xs font-semibold tracking-widest uppercase text-zinc-900 dark:text-white font-mono">
+                  SON YAZILAR
+                </h2>
+                <span className="text-[11px] px-2 py-0.5 rounded bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-[#1F1F1F] text-zinc-600 dark:text-[#71717A] font-mono">
+                  {posts.length} Yazı
+                </span>
+              </div>
+              <Link
+                href="/blog"
+                className="text-xs text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white flex items-center gap-1 transition-colors"
+              >
+                <span>Tüm Yazılar</span>
+                <span className="text-sm">→</span>
+              </Link>
+            </div>
+
+            <div className="divide-y divide-zinc-200/80 dark:divide-[#1F1F1F] border-y border-zinc-200/80 dark:border-[#1F1F1F]">
+              {recentPosts.map((post) => (
+                <article
+                  key={post.slug}
+                  className="py-4 group flex flex-col md:flex-row md:items-center justify-between gap-3 hover:bg-zinc-50 dark:hover:bg-[#0A0A0A]/60 px-3 rounded-lg transition-colors"
+                >
+                  <div className="space-y-1">
+                    <h3 className="text-sm md:text-base font-medium text-zinc-900 dark:text-white group-hover:text-foreground transition-colors">
+                      <Link href={`/blog/${post.slug}`}>
+                        {post.title}
+                      </Link>
+                    </h3>
+                    {post.tags.length > 0 && (
+                      <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-[#71717A] font-mono">
+                        {post.tags.map((tag) => (
+                          <span key={tag}>#{tag}</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0 text-xs text-zinc-500 dark:text-[#71717A]">
+                    <span className="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-[#141414] border border-zinc-200 dark:border-[#1F1F1F] text-zinc-700 dark:text-[#A1A1AA] text-[11px]">
+                      {post.readingTime}
+                    </span>
+                    <time dateTime={post.publishedAt}>
+                      {formatDate(post.publishedAt)}
+                    </time>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </Container>
+        </section>
+      )}
+
       {/* 5. Rafım / Film, Dizi & Kitaplar Showcase */}
       {recentShelfItems.length > 0 && (
         <section className="pt-6 border-t border-zinc-200/80 dark:border-[#1F1F1F]" id="rafim">
@@ -209,7 +206,7 @@ export default async function HomePage() {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2.5">
                 <h2 className="text-xs font-semibold tracking-widest uppercase text-zinc-900 dark:text-white font-mono">
-                  RAFIM / FİLM, DİZİ & KİTAPLAR
+                  RAFIM
                 </h2>
                 <span className="text-[11px] px-2 py-0.5 rounded bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-[#1F1F1F] text-zinc-600 dark:text-[#71717A] font-mono">
                   {shelfItems.length} Kayıt
@@ -289,7 +286,7 @@ export default async function HomePage() {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2.5">
                 <h2 className="text-xs font-semibold tracking-widest uppercase text-zinc-900 dark:text-white font-mono">
-                  VİDEOLAR / ÖZEL & LİSTE DIŞI KAYITLAR
+                  VİDEOLAR
                 </h2>
                 <span className="text-[11px] px-2 py-0.5 rounded bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-[#1F1F1F] text-zinc-600 dark:text-[#71717A] font-mono">
                   {videos.length} Video
@@ -313,15 +310,9 @@ export default async function HomePage() {
                   <LiteYouTubeEmbed
                     youtubeId={video.youtubeId}
                     title={video.title}
-                    duration={video.duration}
-                    isUnlisted={video.isUnlisted}
                   />
                   <div className="p-4 flex-1 flex flex-col justify-between gap-2">
                     <div>
-                      <div className="flex items-center justify-between text-xs text-zinc-500 dark:text-[#71717A] font-mono mb-1">
-                        <span>{video.category}</span>
-                        <span>{video.formattedDate}</span>
-                      </div>
                       <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">
                         {video.title}
                       </h3>

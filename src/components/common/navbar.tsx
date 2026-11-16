@@ -24,7 +24,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-zinc-200/80 dark:border-[#1F1F1F] bg-white/85 dark:bg-[#000000]/85 backdrop-blur-md">
       <Container size="default">
         <div className="flex h-16 items-center justify-between gap-4">
-          {/* Brand Monogram + Status Dot */}
+          {/* Brand Monogram */}
           <div className="flex items-center gap-3 shrink-0">
             <Link href="/" className="flex items-center gap-2.5 group">
               <div className="w-8 h-8 rounded-md bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-300 dark:border-[#27272A] flex items-center justify-center font-mono font-semibold text-xs text-zinc-900 dark:text-white tracking-wider group-hover:border-zinc-500 dark:group-hover:border-[#3F3F46] transition-colors">
@@ -34,12 +34,6 @@ export function Navbar() {
                 Yusuf Bozan
               </span>
             </Link>
-            <div className="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-[#1F1F1F]">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[11px] font-mono text-zinc-600 dark:text-[#A1A1AA]">
-                Müsait
-              </span>
-            </div>
           </div>
 
           {/* Desktop Nav Links */}

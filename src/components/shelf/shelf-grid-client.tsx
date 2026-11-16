@@ -161,11 +161,17 @@ export function ShelfGridClient({ items }: ShelfGridClientProps) {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
-              className="bg-transparent text-xs text-zinc-700 dark:text-[#A1A1AA] focus:outline-none cursor-pointer"
+              className="bg-white dark:bg-[#0A0A0A] text-xs text-zinc-700 dark:text-[#A1A1AA] focus:outline-none cursor-pointer border-0"
             >
-              <option value="latest">En Yeni</option>
-              <option value="rating">En Yüksek Puan</option>
-              <option value="year">Yıla Göre</option>
+              <option value="latest" className="bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-white">
+                En Yeni
+              </option>
+              <option value="rating" className="bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-white">
+                En Yüksek Puan
+              </option>
+              <option value="year" className="bg-white dark:bg-[#0A0A0A] text-zinc-900 dark:text-white">
+                Yıla Göre
+              </option>
             </select>
           </div>
         </div>

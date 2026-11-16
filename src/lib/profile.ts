@@ -33,6 +33,7 @@ export interface ActiveSocialLink {
 
 export interface ProfileData {
   readonly title: string;
+  readonly location?: string;
   readonly avatar?: string;
   readonly bio: string;
   readonly bioHtml?: string;
@@ -42,6 +43,7 @@ export interface ProfileData {
 
 const DEFAULT_PROFILE: ProfileData = {
   title: 'Hakkımda',
+  location: '',
   avatar: '',
   bio: 'Merhaba, ben Yusuf. Kişisel sayfama hoş geldiniz.\n\nBurası internetin bitmek bilmeyen telaşından ve gürültüsünden biraz olsun uzaklaşmak, zihnimi toparlamak ve zaman içinde biriktirdiğim notları sade bir düzende saklamak için açtığım kişisel bir alan.\n\nEski internetin o iddiasız ama samimi kişisel sayfalarını her zaman çok kıymetli buldum. Gösterişli unvanlar, algoritmaların peşinden koşan başlıklar ya da dikkat çekme yarışının olmadığı; insanların yalnızca merak ettikleri şeyleri kendi ritimlerinde yazdığı o dingin atmosferi burada da yaşatmaya çalışıyorum.\n\n### Bu Köşede Neler Var?\nHayatı biraz daha yalınlaştırma arayışı, teknolojinin düşüncelerimiz ve alışkanlıklarımız üzerindeki sessiz etkileri, okuduğum kitaplardan altını çizdiğim satırlar ve zaman zaman kaydettiğim ses notları... Kısacası kalıcı olmasını dilediğim düşünce kırıntıları.\n\n### Bir Not Bırakmak İsterseniz\nBuradaki yazılarla ilgili aklınıza takılan bir düşünceyi paylaşmak, bir kitap tavsiyesi vermek veya yalnızca selam iletmek isterseniz her zaman memnuniyetle okurum.',
   social: {
@@ -76,6 +78,7 @@ export async function getProfileData(): Promise<ProfileData> {
     const data = validated.success ? validated.data : (parsed as Partial<ProfileData>);
 
     const title = data.title?.trim() || DEFAULT_PROFILE.title;
+    const location = (data as { location?: string }).location?.trim() || undefined;
     const avatar = data.avatar?.trim() || undefined;
     const bio = data.bio?.trim() || DEFAULT_PROFILE.bio;
 
@@ -85,6 +88,7 @@ export async function getProfileData(): Promise<ProfileData> {
 
     return {
       title,
+      location,
       avatar,
       bio,
       bioHtml,
