@@ -1,10 +1,6 @@
 ---
 title: kısa yazı
-date: 2026-11-05
+date: 2026-11-17T00:27
 summary: merhaba bu ilk yazım
-tags:
-  - yks
-  - ders
-  - aytmat
 ---
 burası da içeriğim
