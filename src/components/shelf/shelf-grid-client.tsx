@@ -173,15 +173,12 @@ export function ShelfGridClient({ items }: ShelfGridClientProps) {
 
       {/* Grid View */}
       {filteredItems.length === 0 ? (
-        <div className="p-12 rounded-xl border border-dashed border-zinc-300 dark:border-[#27272A] bg-zinc-50/50 dark:bg-[#0A0A0A] text-center space-y-3">
+        <div className="p-12 rounded-xl border border-dashed border-zinc-300 dark:border-[#27272A] bg-zinc-50/50 dark:bg-[#0A0A0A] text-center space-y-2">
           <div className="inline-flex p-3 rounded-full bg-zinc-100 dark:bg-[#141414] text-zinc-500">
             <Bookmark className="w-5 h-5" />
           </div>
-          <h2 className="text-base font-medium text-zinc-900 dark:text-white">
-            Henüz Kayıt Eklenmedi
-          </h2>
-          <p className="text-xs text-zinc-500 dark:text-[#71717A] max-w-sm mx-auto">
-            Pages CMS üzerinden &quot;Rafım&quot; sekmesine girerek dilediğin film, dizi ve kitapları afişleriyle birlikte ekleyebilirsin.
+          <p className="text-sm text-zinc-500 dark:text-[#71717A]">
+            Henüz kayıt yok.
           </p>
         </div>
       ) : (

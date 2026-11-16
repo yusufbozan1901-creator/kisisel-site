@@ -1,10 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import Link from 'next/link';
 import type { Thought } from '@/lib/thoughts';
 import { ThoughtCard } from '@/components/sections/thought-card';
-import { Rss, Code2, Sparkles, X, Calendar, Tag, ArrowUpRight } from 'lucide-react';
+import { X, Calendar, Tag } from 'lucide-react';
 
 interface AkisStreamClientProps {
   readonly thoughts: readonly Thought[];
@@ -154,18 +153,6 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
               </button>
             )}
           </div>
-
-          {/* Quick Feeds Trigger */}
-          <div className="flex items-center gap-1.5 ml-auto">
-            <Link
-              href="/feed.xml"
-              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-mono rounded-lg border border-zinc-200 dark:border-[#27272A] bg-white dark:bg-[#0A0A0A] text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white transition-colors"
-              title="RSS Akışı (XML)"
-            >
-              <Rss className="w-3.5 h-3.5" />
-              <span>RSS</span>
-            </Link>
-          </div>
         </section>
 
         {/* Active Filter Pill Bar */}
@@ -294,54 +281,6 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
             </ul>
           </div>
         )}
-
-        {/* Box 3: IndieWeb & Sync Protocols */}
-        <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200/80 dark:border-[#1F1F1F] p-5 sm:p-6 rounded-xl flex flex-col space-y-3.5 shadow-sm">
-          <div className="space-y-1">
-            <h2 className="text-xs font-mono font-medium text-zinc-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-              <Sparkles className="w-3 h-3 text-zinc-400" />
-              <span>İNDİEWEB & BESLEME</span>
-            </h2>
-            <p className="text-xs text-zinc-500 dark:text-[#71717A] leading-relaxed">
-              Bu akış açık web standartlarını ve otomatik RSS/JSON feed protokollerini destekler.
-            </p>
-          </div>
-
-          <div className="flex flex-col space-y-1.5 pt-1 text-xs">
-            <Link
-              href="/feed.xml"
-              className="flex items-center justify-between px-3 py-2 rounded-lg bg-zinc-100/70 dark:bg-[#141414] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white transition-colors"
-            >
-              <span className="flex items-center gap-2 font-mono">
-                <Rss className="w-3.5 h-3.5 text-zinc-400" />
-                <span>RSS Beslemesi (Tümü)</span>
-              </span>
-              <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
-            </Link>
-
-            <Link
-              href="/rss.xml"
-              className="flex items-center justify-between px-3 py-2 rounded-lg bg-zinc-100/70 dark:bg-[#141414] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white transition-colors"
-            >
-              <span className="flex items-center gap-2 font-mono">
-                <Rss className="w-3.5 h-3.5 text-zinc-400" />
-                <span>Yazılar RSS</span>
-              </span>
-              <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
-            </Link>
-
-            <Link
-              href="/manifest.json"
-              className="flex items-center justify-between px-3 py-2 rounded-lg bg-zinc-100/70 dark:bg-[#141414] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white transition-colors"
-            >
-              <span className="flex items-center gap-2 font-mono">
-                <Code2 className="w-3.5 h-3.5 text-zinc-400" />
-                <span>PWA Manifest</span>
-              </span>
-              <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
-            </Link>
-          </div>
-        </div>
       </aside>
     </div>
   );

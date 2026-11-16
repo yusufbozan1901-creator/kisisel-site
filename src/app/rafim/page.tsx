@@ -23,12 +23,6 @@ export default async function RafimPage() {
       <Container size="default">
         {/* Header */}
         <section className="max-w-2xl mb-10 space-y-3">
-          <div className="flex items-center space-x-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
-            <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-500 dark:text-[#71717A]">
-              KÜLTÜR & TÜKETİM ARŞİVİ
-            </span>
-          </div>
           <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white">
             Rafım / Film, Dizi & Kitaplar
           </h1>

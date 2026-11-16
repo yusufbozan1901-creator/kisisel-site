@@ -24,32 +24,20 @@ export default async function VideolarPage() {
     <div className="w-full py-10 sm:py-16 pb-24">
       <Container size="default">
         {/* Header */}
-        <section className="max-w-2xl mb-10 space-y-3">
-          <div className="flex items-center space-x-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
-            <span className="text-[11px] font-mono uppercase tracking-widest text-zinc-500 dark:text-[#71717A]">
-              ÖZEL & LİSTE DIŞI VİDEO ARŞİVİ
-            </span>
-          </div>
+        <section className="max-w-2xl mb-10">
           <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white">
-            Videolar / Ekran Kayıtları
+            Videolarım
           </h1>
-          <p className="text-sm sm:text-base text-zinc-600 dark:text-[#A1A1AA] leading-relaxed">
-            Ürün prototipleri, canlı kodlama seansları, arayüz denemeleri ve liste dışı özel video kayıtları.
-          </p>
         </section>
 
         {/* Video Grid */}
         {videos.length === 0 ? (
-          <div className="p-12 rounded-xl border border-dashed border-zinc-300 dark:border-[#27272A] bg-zinc-50/50 dark:bg-[#0A0A0A] text-center space-y-3">
+          <div className="p-12 rounded-xl border border-dashed border-zinc-300 dark:border-[#27272A] bg-zinc-50/50 dark:bg-[#0A0A0A] text-center space-y-2">
             <div className="inline-flex p-3 rounded-full bg-zinc-100 dark:bg-[#141414] text-zinc-500">
               <Video className="w-5 h-5" />
             </div>
-            <h2 className="text-base font-medium text-zinc-900 dark:text-white">
-              Henüz Video Eklenmedi
-            </h2>
-            <p className="text-xs text-zinc-500 dark:text-[#71717A] max-w-sm mx-auto">
-              Pages CMS üzerinden &quot;Videolar&quot; sekmesine girerek YouTube video bağlantılarını veya ID&apos;lerini eklediğinde burada sıfır gecikmeli Lite Embed olarak yayınlanacaktır.
+            <p className="text-sm text-zinc-500 dark:text-[#71717A]">
+              Henüz kayıt yok.
             </p>
           </div>
         ) : (
