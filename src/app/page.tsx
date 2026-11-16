@@ -15,6 +15,7 @@ import { ThoughtPermalink } from '@/components/thoughts/thought-permalink';
 import { ImageLightbox } from '@/components/mdx/image-lightbox';
 import { AudioPlayer } from '@/components/mdx/audio-player';
 import { LiteYouTubeEmbed } from '@/components/videos/lite-youtube-embed';
+import { ShelfShowcase } from '@/components/shelf/shelf-showcase';
 
 function formatEpisodeBadge(season?: string, episode?: string): string | null {
   const s = season?.trim();
@@ -221,60 +222,7 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              {recentShelfItems.map((item) => (
-                <Link
-                  key={item.slug}
-                  href="/rafim"
-                  className="group bg-white dark:bg-[#0A0A0A] border border-zinc-200/80 dark:border-[#1F1F1F] rounded-xl overflow-hidden flex flex-col hover:border-zinc-400 dark:hover:border-[#333333] transition-colors shadow-sm text-left"
-                >
-                  <div className="relative w-full aspect-[2/3] bg-zinc-100 dark:bg-[#141414] overflow-hidden">
-                    {item.poster ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        src={item.poster}
-                        alt={item.title}
-                        className="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-300"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center text-zinc-400">
-                        <span className="text-xs font-mono font-medium">{item.title}</span>
-                      </div>
-                    )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
-                    {item.badge && (
-                      <div className="absolute top-2.5 left-2.5">
-                        <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[10px] font-mono font-medium text-white">
-                          {item.badge}
-                        </span>
-                      </div>
-                    )}
-                    {item.rating && (
-                      <div className="absolute bottom-2.5 right-2.5">
-                        <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] font-mono text-xs text-white">
-                          {item.rating}
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-3.5 flex-1 flex flex-col justify-between gap-1.5">
-                    <div>
-                      <span className="text-[10px] font-mono text-zinc-500 dark:text-[#71717A] tracking-wider uppercase font-semibold">
-                        {item.type} • {item.year || item.category}
-                      </span>
-                      <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-0.5 truncate">
-                        {item.title}
-                      </h3>
-                      {item.description && (
-                        <p className="text-xs text-zinc-600 dark:text-[#A1A1AA] line-clamp-2 mt-1 leading-relaxed">
-                          {item.description}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <ShelfShowcase items={recentShelfItems} />
           </Container>
         </section>
       )}
@@ -311,17 +259,24 @@ export default async function HomePage() {
                     youtubeId={video.youtubeId}
                     title={video.title}
                   />
-                  <div className="p-4 flex-1 flex flex-col justify-between gap-2">
-                    <div>
+                  <div className="p-4 flex-1 flex flex-col justify-between gap-3">
+                    <div className="space-y-1.5">
                       <h3 className="text-sm font-semibold text-zinc-900 dark:text-white">
                         {video.title}
                       </h3>
                       {video.description && (
-                        <p className="text-xs text-zinc-600 dark:text-[#A1A1AA] line-clamp-2 mt-1 leading-relaxed">
+                        <p className="text-xs text-zinc-600 dark:text-[#A1A1AA] leading-relaxed line-clamp-3">
                           {video.description}
                         </p>
                       )}
                     </div>
+                    {video.formattedDate && (
+                      <div className="pt-2 border-t border-zinc-100 dark:border-[#1F1F1F] flex items-center justify-end text-xs">
+                        <span className="font-mono text-[11px] text-zinc-500 dark:text-[#71717A]">
+                          {video.formattedDate}
+                        </span>
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

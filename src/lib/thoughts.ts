@@ -118,6 +118,19 @@ export async function getAllThoughts(): Promise<Thought[]> {
         const inlineTags = (content.match(/#([\w\u00C0-\u017F-]+)/g) || []).map((t) => t.replace('#', ''));
         const mergedTags = Array.from(new Set([...explicitTags, ...inlineTags]));
 
+        const season =
+          valid.mediaDetails?.season?.trim() ||
+          valid.season?.trim() ||
+          undefined;
+        const episode =
+          valid.mediaDetails?.episode?.trim() ||
+          valid.episode?.trim() ||
+          undefined;
+        const rating =
+          valid.mediaDetails?.rating?.trim() ||
+          valid.rating?.trim() ||
+          undefined;
+
         return {
           slug,
           date,
@@ -127,9 +140,9 @@ export async function getAllThoughts(): Promise<Thought[]> {
           title: valid.title || undefined,
           image: valid.image || undefined,
           audio: valid.audio || undefined,
-          season: valid.season?.trim() || undefined,
-          episode: valid.episode?.trim() || undefined,
-          rating: valid.rating?.trim() || undefined,
+          season,
+          episode,
+          rating,
           tags: mergedTags,
           type: inferredType,
         };

@@ -41,11 +41,6 @@ content:
         label: Kısa Özet
         type: text
 
-      - name: tags
-        label: Etiketler
-        type: string
-        list: true
-
       - name: image
         label: Kapak Görseli (İsteğe bağlı)
         type: image
@@ -97,17 +92,19 @@ content:
           time: true
         required: true
 
-      - name: season
-        label: Sezon No (İsteğe bağlı)
-        type: string
-
-      - name: episode
-        label: Bölüm No (İsteğe bağlı)
-        type: string
-
-      - name: rating
-        label: Puan (İsteğe bağlı)
-        type: string
+      - name: mediaDetails
+        label: Dizi / Film Notu (İsteğe Bağlı)
+        type: object
+        fields:
+          - name: season
+            label: Sezon No (İsteğe bağlı)
+            type: string
+          - name: episode
+            label: Bölüm No (İsteğe bağlı)
+            type: string
+          - name: rating
+            label: Puan (İsteğe bağlı)
+            type: string
 
       - name: image
         label: Görsel (İsteğe bağlı)
@@ -156,17 +153,20 @@ content:
           - name: itemMeta
             label: Bölüm / Sayfa / Süre (örn. S02 • B04)
             type: string
-          - name: subItemTitle
-            label: İkincil Eser (İsteğe bağlı)
-            type: string
-          - name: subItemType
-            label: İkincil Tür
-            type: string
-          - name: subItemMeta
-            label: İkincil Bölüm / Sayfa
-            type: string
           - name: status
             label: Durum (örn. Takip Ediliyor)
+            type: string
+          - name: secondaryTitle
+            label: İkincil Eser (İsteğe bağlı)
+            type: string
+          - name: secondaryType
+            label: İkincil Tür (örn. Kitap, Dizi, Film)
+            type: string
+          - name: secondaryMeta
+            label: İkincil Bölüm / Sayfa
+            type: string
+          - name: secondaryStatus
+            label: İkincil Durum (örn. Okunuyor, İzleniyor)
             type: string
       - name: thought
         label: 3. Son Düşünce (Aforizma / Alıntı)
@@ -181,7 +181,7 @@ content:
           - name: label
             label: Etiket (örn. Mikro-Not Defteri)
             type: string
-          - name: date
+          - name: thoughtDate
             label: Tarih / Zaman (örn. 16 Kasım)
             type: string
 
@@ -214,8 +214,24 @@ content:
             - Kitap
         required: true
       - name: category
-        label: Kategori (örn. Bilim Kurgu, Tipografi)
-        type: string
+        label: Kategori / Türler
+        type: select
+        list: true
+        options:
+          multiple: true
+          values:
+            - Bilim Kurgu
+            - Dram
+            - Gerilim
+            - Korku
+            - Romantik
+            - Suç
+            - Felsefe
+            - Tarih
+            - Klasik
+            - Biyografi
+            - Belgesel
+            - Animasyon
       - name: rating
         label: Puan (örn. ★ 9.4)
         type: string
@@ -229,9 +245,16 @@ content:
             - Tamamlandı
             - Başyapıt
         required: true
-      - name: badge
-        label: Rozet / Sezon-Bölüm (örn. S02 • B04)
-        type: string
+      - name: details
+        label: Bölüm / Sayfa Detayı (İsteğe Bağlı)
+        type: object
+        fields:
+          - name: badge
+            label: Rozet / Sezon-Bölüm (örn. S02 • B04)
+            type: string
+          - name: progress
+            label: İlerleme (örn. s. 84 / 176)
+            type: string
       - name: poster
         label: Afiş Görseli
         type: image
@@ -239,9 +262,6 @@ content:
           media: gorseller
       - name: year
         label: Çıkış Yılı
-        type: string
-      - name: progress
-        label: İlerleme (örn. s. 84 / 176)
         type: string
       - name: updatedAt
         label: Son Durum Zamanı (örn. Dün)
@@ -311,7 +331,7 @@ content:
           media: gorseller
 
       - name: social
-        label: Sosyal Medya Platformları
+        label: Sosyal Medya Bağlantıları (Tıkla Aç)
         type: object
         fields:
           - name: twitter

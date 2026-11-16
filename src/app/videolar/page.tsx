@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { Container } from '@/components/ui/container';
 import { getAllVideos } from '@/lib/videos';
 import { LiteYouTubeEmbed } from '@/components/videos/lite-youtube-embed';
-import { Video, ExternalLink } from 'lucide-react';
+import { Video } from 'lucide-react';
 import { SITE_CONFIG } from '@/config/site';
 
 export const metadata: Metadata = {
@@ -55,37 +55,24 @@ export default async function VideolarPage() {
 
                 {/* Video Info Body */}
                 <div className="p-4 flex-1 flex flex-col justify-between gap-3">
-                  <div className="space-y-1">
+                  <div className="space-y-1.5">
                     <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-foreground transition-colors">
                       {video.title}
                     </h3>
                     {video.description && (
-                      <p className="text-xs text-zinc-600 dark:text-[#A1A1AA] leading-relaxed line-clamp-2">
+                      <p className="text-xs text-zinc-600 dark:text-[#A1A1AA] leading-relaxed">
                         {video.description}
                       </p>
                     )}
                   </div>
 
-                  <div className="pt-2 border-t border-zinc-100 dark:border-[#1F1F1F] flex items-center justify-between text-xs">
-                    {video.youtubeId ? (
-                      <a
-                        href={`https://www.youtube.com/watch?v=${video.youtubeId}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white flex items-center gap-1 transition-colors"
-                      >
-                        <ExternalLink className="w-3.5 h-3.5" />
-                        <span>YouTube&apos;da Aç</span>
-                      </a>
-                    ) : (
-                      <span className="text-zinc-400">Özel Kayıt</span>
-                    )}
-                    {video.formattedDate && (
+                  {video.formattedDate && (
+                    <div className="pt-2 border-t border-zinc-100 dark:border-[#1F1F1F] flex items-center justify-end text-xs">
                       <span className="font-mono text-[11px] text-zinc-500 dark:text-[#71717A]">
                         {video.formattedDate}
                       </span>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

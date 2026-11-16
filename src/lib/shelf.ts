@@ -37,16 +37,24 @@ export async function getAllShelfItems(): Promise<ShelfItem[]> {
 
         const { data, content } = matter(fileContents);
         const htmlContent = content ? await marked.parse(content) : '';
+        const badge = String(data.details?.badge || data.badge || '').trim();
+        const progress = String(data.details?.progress || data.progress || '').trim();
 
         const parsed = ShelfItemSchema.safeParse({
           ...data,
+          badge,
+          progress,
           slug,
           content,
           htmlContent,
         });
 
         if (parsed.success) {
-          return parsed.data;
+          return {
+            ...parsed.data,
+            badge: parsed.data.details?.badge || parsed.data.badge || badge,
+            progress: parsed.data.details?.progress || parsed.data.progress || progress,
+          };
         }
 
         console.warn(`Shelf item ${slug} validation warning:`, parsed.error);
@@ -57,11 +65,11 @@ export async function getAllShelfItems(): Promise<ShelfItem[]> {
           category: 'Genel',
           rating: '★ 9.0',
           status: 'watching' as const,
-          badge: '',
+          badge,
           poster: '',
           description: String(data.description || ''),
           year: '2026',
-          progress: '',
+          progress,
           updatedAt: 'Bugün',
           content,
           htmlContent,

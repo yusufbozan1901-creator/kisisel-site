@@ -34,6 +34,13 @@ export const ThoughtFrontmatterSchema = z.object({
   season: z.union([z.string(), z.number()]).transform(String).optional(),
   episode: z.union([z.string(), z.number()]).transform(String).optional(),
   rating: z.union([z.string(), z.number()]).transform(String).optional(),
+  mediaDetails: z
+    .object({
+      season: z.union([z.string(), z.number()]).transform(String).optional(),
+      episode: z.union([z.string(), z.number()]).transform(String).optional(),
+      rating: z.union([z.string(), z.number()]).transform(String).optional(),
+    })
+    .optional(),
   tags: z
     .union([
       z.array(z.string()),
@@ -65,28 +72,40 @@ export const NowStateSchema = z.object({
     itemTitle: z.string().trim().default(''),
     itemType: z.string().trim().default(''),
     itemMeta: z.string().trim().default(''),
+    status: z.string().trim().default(''),
+    secondaryTitle: z.string().trim().optional().default(''),
+    secondaryType: z.string().trim().optional().default(''),
+    secondaryMeta: z.string().trim().optional().default(''),
+    secondaryStatus: z.string().trim().optional().default(''),
     subItemTitle: z.string().trim().optional().default(''),
     subItemType: z.string().trim().optional().default(''),
     subItemMeta: z.string().trim().optional().default(''),
-    status: z.string().trim().default(''),
+    subItemStatus: z.string().trim().optional().default(''),
   }).default({
     itemTitle: '',
     itemType: '',
     itemMeta: '',
+    status: '',
+    secondaryTitle: '',
+    secondaryType: '',
+    secondaryMeta: '',
+    secondaryStatus: '',
     subItemTitle: '',
     subItemType: '',
     subItemMeta: '',
-    status: '',
+    subItemStatus: '',
   }),
   thought: z.object({
     quote: z.string().trim().default(''),
     context: z.string().trim().default(''),
     label: z.string().trim().default(''),
-    date: z.string().trim().default(''),
+    thoughtDate: z.string().trim().optional().default(''),
+    date: z.string().trim().optional().default(''),
   }).default({
     quote: '',
     context: '',
     label: '',
+    thoughtDate: '',
     date: '',
   }),
 });
@@ -108,7 +127,13 @@ export const ShelfItemSchema = z.object({
       return 'series';
     })
     .default('series'),
-  category: z.string().trim().default('Genel'),
+  category: z
+    .union([z.array(z.string()), z.string()])
+    .transform((val) => {
+      if (Array.isArray(val)) return val.filter(Boolean).join(', ');
+      return val.trim() || 'Genel';
+    })
+    .default('Genel'),
   rating: z.string().trim().default('★ 9.0'),
   status: z
     .string()
@@ -121,10 +146,16 @@ export const ShelfItemSchema = z.object({
     })
     .default('watching'),
   badge: z.string().trim().optional().default(''),
+  progress: z.string().trim().optional().default(''),
+  details: z
+    .object({
+      badge: z.string().trim().optional().default(''),
+      progress: z.string().trim().optional().default(''),
+    })
+    .optional(),
   poster: z.string().trim().optional().default(''),
   description: z.string().trim().default(''),
   year: z.union([z.string(), z.number()]).transform(String).optional().default('2026'),
-  progress: z.string().trim().optional().default(''),
   updatedAt: z.string().trim().default('Bugün'),
   content: z.string().default(''),
   htmlContent: z.string().default(''),

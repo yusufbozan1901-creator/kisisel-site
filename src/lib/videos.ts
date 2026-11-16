@@ -4,6 +4,7 @@ import matter from 'gray-matter';
 import { marked } from 'marked';
 import { VideoItemSchema, type VideoItem } from './schemas';
 import { formatThoughtDate } from './thoughts';
+import { resolveTurkishDate } from './date-resolver';
 
 const VIDEOS_DIRECTORY = path.join(process.cwd(), 'videolar');
 
@@ -60,19 +61,26 @@ export async function getAllVideos(): Promise<VideoItem[]> {
         const { data, content } = matter(fileContents);
         const htmlContent = content ? await marked.parse(content) : '';
         const youtubeId = extractYouTubeId(String(data.youtubeId || ''));
-        const formattedDate = data.date ? formatThoughtDate(String(data.date)) : 'Bugün';
+        const date = resolveTurkishDate(data.date, fullPath);
+        const formattedDate = formatThoughtDate(date);
+        const description = String(data.description || data.body || content || '').trim();
 
         const parsed = VideoItemSchema.safeParse({
           ...data,
           slug,
           youtubeId,
+          date,
           formattedDate,
+          description,
           content,
           htmlContent,
         });
 
         if (parsed.success) {
-          return parsed.data;
+          return {
+            ...parsed.data,
+            description: parsed.data.description || description,
+          };
         }
 
         console.warn(`Video item ${slug} validation warning:`, parsed.error);
@@ -82,8 +90,9 @@ export async function getAllVideos(): Promise<VideoItem[]> {
           youtubeId,
           duration: String(data.duration || ''),
           category: String(data.category || ''),
+          date,
           formattedDate,
-          description: String(data.description || ''),
+          description,
           isUnlisted: Boolean(data.isUnlisted),
           quality: String(data.quality || ''),
           content,
