@@ -1,23 +1,18 @@
 {
   "focus": {
-    "title": "",
-    "description": "",
-    "status": "",
-    "updatedAt": ""
+    "title": "YKS",
+    "description": "2027 YKS sınavında ilk 20.000 yapıp tıp okumak için çalışıyorum.",
+    "status": "Çalışıyorum"
   },
   "shelf": {
-    "itemTitle": "",
-    "itemType": "",
-    "itemMeta": "",
-    "subItemTitle": "",
-    "subItemType": "",
-    "subItemMeta": "",
-    "status": ""
+    "itemTitle": "THE MENTALIST",
+    "itemType": "Dizi",
+    "itemMeta": "S02",
+    "subItemTitle": "SUÇ VE CEZA",
+    "subItemType": "Kitap",
+    "status": "Devam Ediyorum"
   },
   "thought": {
-    "quote": "",
-    "context": "",
-    "label": "",
-    "date": ""
+    "quote": "Bilmediğimi bildiğimi biliyorum."
   }
 }
