@@ -103,9 +103,13 @@ export async function POST(request: Request) {
       }),
     });
 
-    const web3Result = await web3Response.json();
+    const contentType = web3Response.headers.get('content-type') || '';
+    let web3Result: { success?: boolean; message?: string } | null = null;
+    if (contentType.includes('application/json')) {
+      web3Result = await web3Response.json();
+    }
 
-    if (web3Response.ok && web3Result.success) {
+    if (web3Response.ok && web3Result?.success) {
       return NextResponse.json(
         {
           success: true,
@@ -123,7 +127,8 @@ export async function POST(request: Request) {
       },
       { status: 400 }
     );
-  } catch {
+  } catch (err) {
+    console.error('Contact API Error:', err);
     return NextResponse.json(
       {
         success: false,
