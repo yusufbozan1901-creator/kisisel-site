@@ -8,6 +8,11 @@ category:
   - Korku
 poster: /gorseller/3ec854e6af4ade99ff0d51c8234f9d60.webp
 year: "2026"
+episodes:
+  - season: "2"
+    episode: "6"
+    rating: "6.5"
+    note: iyiydi ya idare eder
 ---
 *Obsession* filmini dışarıdan bakınca "takıntılı ve korkunç bir kadının hikayesi" gibi okuyoruz ama bana kalırsa film aslında **"efendi" maskesinin arkasına saklanan korkak bir erkeğin** anatomisini çıkarıyor.
 
