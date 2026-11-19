@@ -29,53 +29,43 @@ export async function getAllShelfItems(): Promise<ShelfItem[]> {
 
     marked.use({ gfm: true, breaks: true });
 
-    const items: ShelfItem[] = await Promise.all(
-      markdownFiles.map(async (fileName) => {
-        const slug = fileName.replace(/\.md$/, '');
-        const fullPath = path.join(SHELF_DIRECTORY, fileName);
-        const fileContents = fs.readFileSync(fullPath, 'utf8');
+    const items: ShelfItem[] = (
+      await Promise.all(
+        markdownFiles.map(async (fileName) => {
+          const slug = fileName.replace(/\.md$/, '');
+          const fullPath = path.join(SHELF_DIRECTORY, fileName);
+          const fileContents = fs.readFileSync(fullPath, 'utf8');
 
-        const { data, content } = matter(fileContents);
-        const htmlContent = content ? await marked.parse(content) : '';
-        const badge = String(data.details?.badge || data.badge || '').trim();
-        const progress = String(data.details?.progress || data.progress || '').trim();
+          const { data, content } = matter(fileContents);
+          const htmlContent = content ? await marked.parse(content) : '';
+          const badge = String(data.details?.badge || data.badge || '').trim();
+          const progress = String(data.details?.progress || data.progress || '').trim();
 
-        const parsed = ShelfItemSchema.safeParse({
-          ...data,
-          badge,
-          progress,
-          slug,
-          content,
-          htmlContent,
-        });
+          const parsed = ShelfItemSchema.safeParse({
+            ...data,
+            badge,
+            progress,
+            slug,
+            content,
+            htmlContent,
+          });
 
-        if (parsed.success) {
+          if (!parsed.success) {
+            console.error(
+              `[Shelf Validation Error] '${fileName}' dosyası doğrulanamadı ve listeden çıkarıldı:`,
+              parsed.error.format()
+            );
+            return null;
+          }
+
           return {
             ...parsed.data,
             badge: parsed.data.details?.badge || parsed.data.badge || badge,
             progress: parsed.data.details?.progress || parsed.data.progress || progress,
           };
-        }
-
-        console.warn(`Shelf item ${slug} validation warning:`, parsed.error);
-        return {
-          slug,
-          title: String(data.title || slug),
-          type: 'series' as const,
-          category: 'Genel',
-          rating: '★ 9.0',
-          status: 'watching' as const,
-          badge,
-          poster: '',
-          description: String(data.description || ''),
-          year: '2026',
-          progress,
-          updatedAt: 'Bugün',
-          content,
-          htmlContent,
-        };
-      })
-    );
+        })
+      )
+    ).filter((item): item is ShelfItem => item !== null);
 
     return items;
   } catch (error) {

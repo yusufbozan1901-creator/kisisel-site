@@ -116,35 +116,42 @@ export type NowState = z.infer<typeof NowStateSchema>;
  * Zod schema for Rafım (Culture Shelf: Movies, Series, Books)
  */
 export const ShelfItemSchema = z.object({
-  slug: z.string().default(''),
-  title: z.string().trim().min(1).default('İsimsiz Eser'),
+  slug: z.string().min(1, 'Slug zorunludur'),
+  title: z.string().trim().min(1, 'Eser başlığı zorunludur'),
   type: z
     .string()
+    .trim()
+    .min(1, 'Eser türü zorunludur')
     .transform((val) => {
       const lower = val.toLowerCase().trim();
       if (lower.includes('film') || lower === 'movie') return 'movie';
       if (lower.includes('kitap') || lower === 'book') return 'book';
-      return 'series';
+      if (lower.includes('dizi') || lower === 'series') return 'series';
+      return 'invalid_type';
     })
-    .default('series'),
+    .pipe(z.enum(['movie', 'series', 'book'])),
   category: z
     .union([z.array(z.string()), z.string()])
     .transform((val) => {
       if (Array.isArray(val)) return val.filter(Boolean).join(', ');
       return val.trim() || 'Genel';
     })
+    .optional()
     .default('Genel'),
-  rating: z.string().trim().default('★ 9.0'),
+  rating: z.string().trim().optional().default(''),
   status: z
     .string()
+    .trim()
+    .min(1, 'Eser durumu zorunludur')
     .transform((val) => {
       const lower = val.toLowerCase().trim();
       if (lower.includes('tamam') || lower === 'completed') return 'completed';
       if (lower.includes('okun') || lower === 'reading') return 'reading';
       if (lower.includes('bas') || lower.includes('başyapıt') || lower === 'masterpiece') return 'masterpiece';
-      return 'watching';
+      if (lower.includes('izle') || lower === 'watching') return 'watching';
+      return 'invalid_status';
     })
-    .default('watching'),
+    .pipe(z.enum(['completed', 'reading', 'masterpiece', 'watching'])),
   badge: z.string().trim().optional().default(''),
   progress: z.string().trim().optional().default(''),
   details: z
