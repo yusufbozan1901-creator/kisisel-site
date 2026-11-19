@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { ArrowRight, Clock, Calendar, Search } from 'lucide-react';
+import { ArrowRight, Clock, Calendar, Search, BookOpen } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { formatDate } from '@/lib/utils';
 
@@ -43,6 +43,22 @@ export function BlogListClient({ posts }: BlogListClientProps) {
       return matchesQuery && matchesTag;
     });
   }, [posts, query, activeTag]);
+
+  if (posts.length === 0) {
+    return (
+      <div className="p-12 rounded-xl border border-dashed border-border bg-card text-center space-y-3 shadow-sm">
+        <div className="inline-flex p-3 rounded-full bg-muted text-muted-foreground mx-auto">
+          <BookOpen className="w-5 h-5" />
+        </div>
+        <p className="text-sm font-medium text-foreground">
+          Henüz yayınlanmış bir yazı bulunmuyor.
+        </p>
+        <p className="text-xs text-muted-foreground max-w-sm mx-auto leading-relaxed">
+          Kişisel notlar, denemeler ve gözlemler eklendiğinde burada kronolojik olarak listelenecektir.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <>

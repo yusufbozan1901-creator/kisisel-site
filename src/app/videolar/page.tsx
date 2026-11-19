@@ -32,12 +32,15 @@ export default async function VideolarPage() {
 
         {/* Video Grid */}
         {videos.length === 0 ? (
-          <div className="p-12 rounded-xl border border-dashed border-border bg-card text-center space-y-2">
-            <div className="inline-flex p-3 rounded-full bg-muted text-muted-foreground">
+          <div className="p-12 rounded-xl border border-dashed border-border bg-card text-center space-y-3 shadow-sm">
+            <div className="inline-flex p-3 rounded-full bg-muted text-muted-foreground mx-auto">
               <Video className="w-5 h-5" />
             </div>
-            <p className="text-sm text-muted-foreground">
-              Henüz kayıt yok.
+            <p className="text-sm font-medium text-foreground">
+              Henüz bir video kaydı bulunmuyor.
+            </p>
+            <p className="text-xs text-muted-foreground max-w-sm mx-auto leading-relaxed">
+              Canlı kodlama, arayüz prototipleri ve ekran kayıtları eklendiğinde burada yer alacaktır.
             </p>
           </div>
         ) : (

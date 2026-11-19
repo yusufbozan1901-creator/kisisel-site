@@ -17,22 +17,40 @@ export function ShelfGridClient({ items }: ShelfGridClientProps) {
   const [sortBy, setSortBy] = React.useState<'latest' | 'rating' | 'year'>('latest');
   const [selectedItem, setSelectedItem] = React.useState<ShelfItem | null>(null);
 
-  // Counts
-  const movieCount = React.useMemo(() => items.filter((i) => i.type === 'movie').length, [items]);
-  const seriesCount = React.useMemo(() => items.filter((i) => i.type === 'series').length, [items]);
-  const bookCount = React.useMemo(() => items.filter((i) => i.type === 'book').length, [items]);
+  // Counts normalizing type safely
+  const movieCount = React.useMemo(
+    () => items.filter((i) => i.type?.toLowerCase().includes('film') || i.type === 'movie').length,
+    [items]
+  );
+  const seriesCount = React.useMemo(
+    () => items.filter((i) => i.type?.toLowerCase().includes('dizi') || i.type === 'series').length,
+    [items]
+  );
+  const bookCount = React.useMemo(
+    () => items.filter((i) => i.type?.toLowerCase().includes('kitap') || i.type === 'book').length,
+    [items]
+  );
 
   // Adjust activeType if current selected type has 0 items
   let effectiveActiveType = activeType;
-  if (activeType === 'series' && seriesCount === 0) effectiveActiveType = 'all';
   if (activeType === 'movie' && movieCount === 0) effectiveActiveType = 'all';
+  if (activeType === 'series' && seriesCount === 0) effectiveActiveType = 'all';
   if (activeType === 'book' && bookCount === 0) effectiveActiveType = 'all';
 
   // Filtered & Sorted items
   const filteredItems = React.useMemo(() => {
     let result = items.filter((item) => {
       // Type filter
-      if (effectiveActiveType !== 'all' && item.type !== effectiveActiveType) return false;
+      if (effectiveActiveType === 'movie') {
+        const isMovie = item.type?.toLowerCase().includes('film') || item.type === 'movie';
+        if (!isMovie) return false;
+      } else if (effectiveActiveType === 'series') {
+        const isSeries = item.type?.toLowerCase().includes('dizi') || item.type === 'series';
+        if (!isSeries) return false;
+      } else if (effectiveActiveType === 'book') {
+        const isBook = item.type?.toLowerCase().includes('kitap') || item.type === 'book';
+        if (!isBook) return false;
+      }
 
       // Status filter
       if (activeStatus === 'active') {
@@ -113,19 +131,6 @@ export function ShelfGridClient({ items }: ShelfGridClientProps) {
           >
             Tümü ({items.length})
           </button>
-          {seriesCount > 0 && (
-            <button
-              type="button"
-              onClick={() => setActiveType('series')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-                effectiveActiveType === 'series'
-                  ? 'bg-foreground text-background shadow-sm'
-                  : 'bg-card hover:bg-accent text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              Diziler ({seriesCount})
-            </button>
-          )}
           {movieCount > 0 && (
             <button
               type="button"
@@ -137,6 +142,19 @@ export function ShelfGridClient({ items }: ShelfGridClientProps) {
               }`}
             >
               Filmler ({movieCount})
+            </button>
+          )}
+          {seriesCount > 0 && (
+            <button
+              type="button"
+              onClick={() => setActiveType('series')}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+                effectiveActiveType === 'series'
+                  ? 'bg-foreground text-background shadow-sm'
+                  : 'bg-card hover:bg-accent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Diziler ({seriesCount})
             </button>
           )}
           {bookCount > 0 && (
