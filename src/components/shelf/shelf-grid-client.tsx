@@ -22,11 +22,17 @@ export function ShelfGridClient({ items }: ShelfGridClientProps) {
   const seriesCount = React.useMemo(() => items.filter((i) => i.type === 'series').length, [items]);
   const bookCount = React.useMemo(() => items.filter((i) => i.type === 'book').length, [items]);
 
+  // Adjust activeType if current selected type has 0 items
+  let effectiveActiveType = activeType;
+  if (activeType === 'series' && seriesCount === 0) effectiveActiveType = 'all';
+  if (activeType === 'movie' && movieCount === 0) effectiveActiveType = 'all';
+  if (activeType === 'book' && bookCount === 0) effectiveActiveType = 'all';
+
   // Filtered & Sorted items
   const filteredItems = React.useMemo(() => {
     let result = items.filter((item) => {
       // Type filter
-      if (activeType !== 'all' && item.type !== activeType) return false;
+      if (effectiveActiveType !== 'all' && item.type !== effectiveActiveType) return false;
 
       // Status filter
       if (activeStatus === 'active') {
@@ -61,7 +67,7 @@ export function ShelfGridClient({ items }: ShelfGridClientProps) {
     });
 
     return result;
-  }, [items, activeType, activeStatus, searchQuery, sortBy]);
+  }, [items, effectiveActiveType, activeStatus, searchQuery, sortBy]);
 
   const getStatusLabel = (status: ShelfItem['status']) => {
     switch (status) {
@@ -100,46 +106,52 @@ export function ShelfGridClient({ items }: ShelfGridClientProps) {
             type="button"
             onClick={() => setActiveType('all')}
             className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-              activeType === 'all'
+              effectiveActiveType === 'all'
                 ? 'bg-foreground text-background shadow-sm'
                 : 'bg-card hover:bg-accent text-muted-foreground hover:text-foreground'
             }`}
           >
             Tümü ({items.length})
           </button>
-          <button
-            type="button"
-            onClick={() => setActiveType('series')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-              activeType === 'series'
-                ? 'bg-foreground text-background shadow-sm'
-                : 'bg-card hover:bg-accent text-muted-foreground hover:text-foreground'
-            }`}
-          >
-            Diziler ({seriesCount})
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveType('movie')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-              activeType === 'movie'
-                ? 'bg-foreground text-background shadow-sm'
-                : 'bg-card hover:bg-accent text-muted-foreground hover:text-foreground'
-            }`}
-          >
-            Filmler ({movieCount})
-          </button>
-          <button
-            type="button"
-            onClick={() => setActiveType('book')}
-            className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
-              activeType === 'book'
-                ? 'bg-foreground text-background shadow-sm'
-                : 'bg-card hover:bg-accent text-muted-foreground hover:text-foreground'
-            }`}
-          >
-            Kitaplar ({bookCount})
-          </button>
+          {seriesCount > 0 && (
+            <button
+              type="button"
+              onClick={() => setActiveType('series')}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+                effectiveActiveType === 'series'
+                  ? 'bg-foreground text-background shadow-sm'
+                  : 'bg-card hover:bg-accent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Diziler ({seriesCount})
+            </button>
+          )}
+          {movieCount > 0 && (
+            <button
+              type="button"
+              onClick={() => setActiveType('movie')}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+                effectiveActiveType === 'movie'
+                  ? 'bg-foreground text-background shadow-sm'
+                  : 'bg-card hover:bg-accent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Filmler ({movieCount})
+            </button>
+          )}
+          {bookCount > 0 && (
+            <button
+              type="button"
+              onClick={() => setActiveType('book')}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
+                effectiveActiveType === 'book'
+                  ? 'bg-foreground text-background shadow-sm'
+                  : 'bg-card hover:bg-accent text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              Kitaplar ({bookCount})
+            </button>
+          )}
         </div>
 
         {/* Right Search & Sort */}
