@@ -27,7 +27,7 @@ Bu platform, geleneksel kurumsal portföylerden veya algoritmaların dikte etti�
 | **CMS (Yönetim Paneli)** | **Pages CMS (`.pages.yml`)** | Git tabanlı, sunucusuz (serverless), commit bazlı headless içerik yönetim arayüzü |
 | **Arama (Command Palette)**| **⌘K Komut Paleti & /api/search** | Makaleler, anlık düşünceler, raf arşivi ve videolar üzerinde anlık tam metin arama |
 | **PWA (Web Uygulaması)** | **Web App Manifest + Custom Prompt** | Masaüstü ve mobilde uygulama olarak yüklenebilirlik (`standalone`), YB maskable ikonlar |
-| **Form & Güvenlik** | **Web3Forms API + Zod İstemci Mimarisi** | Zod doğrulamalı ve honeypot (`website`/`botcheck`) bot korumalı doğrudan istemci form mimarisi; şu anda form arayüzde geçici olarak gizlenmiş olup kod saklanmaktadır. Anahtar `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` üzerinden yönetilir |
+| **Form & Güvenlik** | **Web3Forms API + Zod İstemci Mimarisi** | Zod doğrulamalı ve honeypot (`website`/`botcheck`) bot korumalı doğrudan istemci form mimarisi. Anahtar `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` üzerinden yönetilir |
 | **Birim Testleri** | **Vitest (`src/lib/__tests__/`)** | Kritik yardımcı fonksiyonlar (`turkishSlugify`, duplicate TOC başlıkları, `extractYouTubeId`, `resolveTurkeyTimestamp`) için %100 tip güvenli ve hızlı birim testleri |
 | **SEO & Meta** | **Next.js Metadata API + @vercel/og** | Otomatik dinamik Open Graph kartları, JSON-LD, dinamik XML sitemap ve robots.txt |
 | **RSS & Sindikasyon** | **Route Handlers (`/rss.xml` & `/feed.xml`)** | Standart RSS 2.0 XML akışı; hem yazıları hem anlık düşünceleri kronolojik birleştiren akış |
@@ -358,7 +358,7 @@ c:\Users\Yusuf\Desktop\SİTE\
 - **Görsel Lightbox (`ImageLightbox`):** Yazı ve akış görsellerine tıklandığında tam ekran görüntüleme, `ESC` veya dışarı tıklama ile kapatma.
 - **Paylaşım Modalı (`ShareModal`):** Tek tıkla bağlantı kopyalama ve WhatsApp, X, Telegram, LinkedIn, Facebook, Reddit üzerinde orijinal marka renklerinde dairesel butonlarla doğrudan paylaşım.
 - **PWA (`InstallPrompt`):** Masaüstü ve mobil cihazlarda tek tıkla ana ekrana eklenebilen hafif web uygulaması; tercih `localStorage` üzerinde saklanır.
-- **Gizli İletişim Formu (`ContactForm`):** E-posta adresi açıkta görünmez; honeypot bot tuzağı (`botcheck`) ve Zod şeması ile donatılmış doğrudan istemci gönderim mimarisi hazırlanmıştır. Güncel durumda form sitede geçici olarak devre dışı bırakılmış olup, kod tabanında tam olarak korunmaktadır.
+- **Gizli İletişim Formu (`ContactForm`):** E-posta adresi açıkta görünmez; honeypot bot tuzağı (`botcheck`) ve Zod şeması ile donatılmış doğrudan istemci gönderim mimarisi ile `/contact` sayfasında ziyaretçilerin doğrudan mesaj iletmesini sağlar.
 
 ---
 

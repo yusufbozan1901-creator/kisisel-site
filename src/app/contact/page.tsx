@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { Container } from '@/components/ui/container';
-// NOTE: İletişim formu geçici olarak devre dışı bırakılmıştır.
-// Form bileşeni ve Web3Forms gönderim mantığı silinmemiştir; reactivate edilmek üzere saklanmaktadır.
-// import { ContactForm } from '@/components/forms/contact-form';
+import { ContactForm } from '@/components/forms/contact-form';
 import { SITE_CONFIG } from '@/config/site';
 
 export const metadata: Metadata = {
@@ -40,26 +38,13 @@ export default function ContactPage() {
             İletişim
           </h1>
           <p className="text-muted-foreground text-base leading-relaxed">
-            Düşüncelerinizi paylaşmak, soru iletmek veya bağlantı kurmak için bana ulaşabilirsiniz.
+            Yazılarım hakkında bir fikir paylaşmak, soru sormak veya iletişim kurmak için aşağıdaki formu kullanabilirsiniz.
           </p>
         </div>
 
-        {/* Temporary Deactivation Notice (Form is kept in code, hidden on UI) */}
+        {/* Secure Form */}
         <div className="max-w-xl">
-          <div className="rounded-xl border border-border bg-card p-6 sm:p-8 text-center space-y-3 shadow-sm">
-            <h2 className="font-semibold text-foreground text-base sm:text-lg">
-              İletişim Formu Geçici Olarak Kapalıdır
-            </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              İletişim formu altyapı güncellemeleri nedeniyle şu anda doğrudan ileti gönderimine kapatılmıştır.
-              Bana profil sayfamdaki sosyal medya bağlantıları üzerinden ulaşabilirsiniz.
-            </p>
-          </div>
-          {/* 
-            Geliştirici Notu: 
-            Formu tekrar aktif etmek için yukarıdaki bildirim kutusu yerine 
-            `<ContactForm />` bileşenini geri açınız.
-          */}
+          <ContactForm />
         </div>
       </Container>
     </div>
