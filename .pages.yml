@@ -352,9 +352,9 @@ content:
         label: Bölüm Notları (Dizi)
         type: object
         list:
-          collapsible: true
-          collapsed: true
-          summary: "S{season}B{episode} (Puan: {rating})"
+          collapsible:
+            collapsed: true
+            summary: "S{season}B{episode} (Puan: {rating})"
         description: "Diziler için izlenen bölümler, puanlar ve bölüm yorumları (isteğe bağlı)."
         fields:
           - name: season
