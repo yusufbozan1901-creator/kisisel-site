@@ -315,7 +315,6 @@ content:
       - name: category
         label: Kategori / Janrlar
         type: select
-        list: true
         description: "Eserin tür ve janr etiketleri (birden fazla seçilebilir)."
         options:
           multiple: true
