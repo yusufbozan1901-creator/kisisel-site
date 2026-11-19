@@ -126,7 +126,7 @@ export function ShareModal({ isOpen, onClose, title, url }: ShareModalProps) {
     >
       <div
         ref={modalRef}
-        className="w-full max-w-md bg-[#18181b] border border-zinc-800 rounded-2xl p-5 sm:p-6 shadow-2xl text-zinc-100 relative"
+        className="w-full max-w-md bg-card border border-border rounded-2xl p-5 sm:p-6 shadow-2xl text-foreground relative"
       >
         {/* Üst Kısım: Başlık & Kapatma Butonu */}
         <div className="flex items-center justify-between gap-3 pb-2">

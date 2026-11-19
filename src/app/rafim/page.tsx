@@ -23,10 +23,10 @@ export default async function RafimPage() {
       <Container size="default">
         {/* Header */}
         <section className="max-w-2xl mb-10 space-y-3">
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
             Rafım / Film, Dizi & Kitaplar
           </h1>
-          <p className="text-sm sm:text-base text-zinc-600 dark:text-[#A1A1AA] leading-relaxed">
+          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
             İzlediğim filmler, takip ettiğim diziler ve okuduğum kitaplar üzerine tuttuğum kişisel kayıtlar, notlar ve puanlar.
           </p>
         </section>

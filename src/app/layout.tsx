@@ -89,11 +89,17 @@ export default function RootLayout({
       <body className="font-sans">
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
           <div className="relative flex min-h-screen flex-col bg-background selection:bg-foreground selection:text-background">
+            <a
+              href="#main-content"
+              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-card focus:text-foreground focus:border focus:border-border focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-foreground text-sm font-medium"
+            >
+              İçeriğe Atla
+            </a>
             <Navbar />
             <main id="main-content" className="flex-1">
               {children}

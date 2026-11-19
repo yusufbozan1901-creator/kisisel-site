@@ -85,16 +85,16 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
       <div className="lg:col-span-8 flex flex-col space-y-8">
         {/* Active Filter Pill Bar */}
         {hasActiveFilter && (
-          <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-zinc-100 dark:bg-[#141414] border border-zinc-200 dark:border-[#1F1F1F] text-xs text-zinc-600 dark:text-[#A1A1AA]">
+          <div className="flex items-center justify-between px-3 py-2 rounded-lg bg-muted border border-border text-xs text-muted-foreground">
             <div className="flex items-center gap-2">
               <span>Aktif Filtre:</span>
               {selectedTag && (
-                <span className="font-mono font-medium text-zinc-900 dark:text-white">
+                <span className="font-mono font-medium text-foreground">
                   #{selectedTag}
                 </span>
               )}
               {selectedMonth && (
-                <span className="font-medium text-zinc-900 dark:text-white">
+                <span className="font-medium text-foreground">
                   {selectedMonth}
                 </span>
               )}
@@ -102,7 +102,7 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
             <button
               type="button"
               onClick={clearAllFilters}
-              className="flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+              className="flex items-center gap-1 text-[11px] text-muted-foreground hover:text-foreground"
             >
               <X className="w-3 h-3" />
               <span>Filtreleri Temizle</span>
@@ -112,14 +112,14 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
 
         {/* Timeline Feed Container */}
         {filteredThoughts.length === 0 ? (
-          <div className="text-center py-16 p-8 rounded-xl border border-dashed border-zinc-300 dark:border-[#27272A] bg-zinc-50/50 dark:bg-[#0A0A0A] text-zinc-500 text-xs">
+          <div className="text-center py-16 p-8 rounded-xl border border-dashed border-border bg-card text-muted-foreground text-xs">
             Seçilen kriterlere uygun akış notu bulunamadı.
           </div>
         ) : (
           <div className="relative flex flex-col space-y-8 pl-4 sm:pl-6 my-2">
             {/* Connecting Vertical Timeline Spine */}
             <div
-              className="absolute left-[9px] sm:left-[13px] top-6 bottom-6 w-px bg-zinc-200 dark:bg-[#1F1F1F]"
+              className="absolute left-[9px] sm:left-[13px] top-6 bottom-6 w-px bg-border"
               aria-hidden="true"
             />
 
@@ -134,13 +134,13 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
       <aside className="lg:col-span-4 flex flex-col space-y-6 lg:sticky lg:top-24">
         {/* Box 1: Topic Taxonomy */}
         {tagCounts.length > 0 && (
-          <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200/80 dark:border-[#1F1F1F] p-5 sm:p-6 rounded-xl flex flex-col space-y-3.5 shadow-sm">
+          <div className="bg-card border border-border p-5 sm:p-6 rounded-xl flex flex-col space-y-3.5 shadow-sm">
             <div className="flex items-center justify-between">
-              <h2 className="text-xs font-mono font-medium text-zinc-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-                <Tag className="w-3 h-3 text-zinc-400" />
+              <h2 className="text-xs font-mono font-medium text-foreground uppercase tracking-wider flex items-center gap-1.5">
+                <Tag className="w-3 h-3 text-muted-foreground" />
                 <span>KONU ETİKETLERİ</span>
               </h2>
-              <span className="text-[11px] font-mono text-zinc-500 dark:text-[#71717A]">
+              <span className="text-[11px] font-mono text-muted-foreground">
                 {tagCounts.length} Etiket
               </span>
             </div>
@@ -154,8 +154,8 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
                     onClick={() => setSelectedTag(isSelected ? null : tag)}
                     className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-mono transition-colors ${
                       isSelected
-                        ? 'bg-zinc-900 text-white dark:bg-white dark:text-black font-semibold'
-                        : 'bg-zinc-100 dark:bg-[#141414] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white border border-zinc-200 dark:border-[#1F1F1F]'
+                        ? 'bg-foreground text-background font-semibold'
+                        : 'bg-muted hover:bg-accent text-muted-foreground hover:text-foreground border border-border'
                     }`}
                   >
                     <span>#{tag}</span>
@@ -169,13 +169,13 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
 
         {/* Box 2: Time Archive */}
         {monthCounts.length > 0 && (
-          <div className="bg-white dark:bg-[#0A0A0A] border border-zinc-200/80 dark:border-[#1F1F1F] p-5 sm:p-6 rounded-xl flex flex-col space-y-3.5 shadow-sm">
+          <div className="bg-card border border-border p-5 sm:p-6 rounded-xl flex flex-col space-y-3.5 shadow-sm">
             <div className="flex items-center justify-between">
-              <h2 className="text-xs font-mono font-medium text-zinc-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
-                <Calendar className="w-3 h-3 text-zinc-400" />
+              <h2 className="text-xs font-mono font-medium text-foreground uppercase tracking-wider flex items-center gap-1.5">
+                <Calendar className="w-3 h-3 text-muted-foreground" />
                 <span>ZAMAN ARŞİVİ</span>
               </h2>
-              <span className="text-[11px] font-mono text-zinc-500 dark:text-[#71717A]">
+              <span className="text-[11px] font-mono text-muted-foreground">
                 {thoughts.length} Not
               </span>
             </div>
@@ -189,12 +189,12 @@ export function AkisStreamClient({ thoughts }: AkisStreamClientProps) {
                       onClick={() => setSelectedMonth(isSelected ? null : month)}
                       className={`w-full flex items-center justify-between p-2 rounded-lg text-xs transition-colors text-left ${
                         isSelected
-                          ? 'bg-zinc-900 text-white dark:bg-white dark:text-black font-medium'
-                          : 'hover:bg-zinc-100 dark:hover:bg-[#141414] text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white'
+                          ? 'bg-foreground text-background font-medium'
+                          : 'hover:bg-muted text-muted-foreground hover:text-foreground'
                       }`}
                     >
                       <span>{month}</span>
-                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-[#141414] text-zinc-500 dark:text-[#71717A]">
+                      <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-muted text-muted-foreground">
                         {count} not
                       </span>
                     </button>

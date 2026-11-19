@@ -39,10 +39,10 @@ export default async function AkisPage() {
       <Container size="default">
         {/* Page Header */}
         <section className="max-w-2xl mb-10 space-y-3">
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
             Düşünce Akışı & Mikro-Notlar
           </h1>
-          <p className="text-sm sm:text-base text-zinc-600 dark:text-[#A1A1AA] leading-relaxed">
+          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
             Uzun yazılara dönüşmeyen anlık düşünceler, ses kayıtları, altını çizdiğim alıntılar ve zihnimden geçen günlük notlar.
           </p>
         </section>

@@ -21,16 +21,16 @@ export function Navbar() {
   }, [pathname]);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-zinc-200/80 dark:border-[#1F1F1F] bg-white/85 dark:bg-[#000000]/85 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md">
       <Container size="default">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Brand Monogram */}
           <div className="flex items-center gap-3 shrink-0">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-md bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-300 dark:border-[#27272A] flex items-center justify-center font-mono font-semibold text-xs text-zinc-900 dark:text-white tracking-wider group-hover:border-zinc-500 dark:group-hover:border-[#3F3F46] transition-colors">
+              <div className="w-8 h-8 rounded-md bg-card border border-border flex items-center justify-center font-mono font-semibold text-xs text-foreground tracking-wider group-hover:border-foreground/40 transition-colors">
                 YB
               </div>
-              <span className="font-medium text-zinc-900 dark:text-white text-sm tracking-tight">
+              <span className="font-medium text-foreground text-sm tracking-tight">
                 Yusuf Bozan
               </span>
             </Link>
@@ -54,8 +54,8 @@ export function Navbar() {
                   className={cn(
                     'text-xs font-medium rounded-md px-2.5 py-1 transition-colors',
                     isActive
-                      ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-[#141414] border border-zinc-300 dark:border-[#27272A]'
-                      : 'text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white'
+                      ? 'text-foreground bg-muted border border-border'
+                      : 'text-muted-foreground hover:text-foreground'
                   )}
                 >
                   {item.title}
@@ -70,7 +70,7 @@ export function Navbar() {
             <ThemeToggle />
             <Link
               href="/contact"
-              className="bg-zinc-900 dark:bg-white text-white dark:text-black font-medium text-xs px-3.5 py-1.5 rounded-full hover:bg-zinc-800 dark:hover:bg-neutral-200 transition-colors shrink-0"
+              className="bg-primary text-primary-foreground font-medium text-xs px-3.5 py-1.5 rounded-full hover:bg-primary/90 transition-colors shrink-0"
             >
               İletişim
             </Link>
@@ -79,7 +79,7 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden h-8 w-8 text-zinc-600 dark:text-zinc-400"
+              className="md:hidden h-8 w-8 text-muted-foreground hover:text-foreground"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-expanded={mobileMenuOpen}
               aria-label={mobileMenuOpen ? 'Menüyü Kapat' : 'Menüyü Aç'}
@@ -95,7 +95,7 @@ export function Navbar() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-zinc-200 dark:border-[#1F1F1F] py-3 space-y-1">
+          <div className="md:hidden border-t border-border py-3 space-y-1">
             {NAV_ITEMS.map((item) => {
               const isActive =
                 item.href === '/'
@@ -109,8 +109,8 @@ export function Navbar() {
                   className={cn(
                     'block px-3 py-2 text-xs font-medium transition-colors rounded-md',
                     isActive
-                      ? 'text-zinc-900 dark:text-white bg-zinc-100 dark:bg-[#141414]'
-                      : 'text-zinc-600 dark:text-[#A1A1AA] hover:text-zinc-900 dark:hover:text-white'
+                      ? 'text-foreground bg-muted'
+                      : 'text-muted-foreground hover:text-foreground'
                   )}
                 >
                   {item.title}

@@ -23,7 +23,7 @@ export function LiteYouTubeEmbed({
     return (
       <div
         className={cn(
-          'relative w-full aspect-video rounded-xl bg-zinc-100 dark:bg-[#0A0A0A] border border-zinc-200 dark:border-[#1F1F1F] flex items-center justify-center text-xs text-zinc-400 font-mono',
+          'relative w-full aspect-video rounded-xl bg-card border border-border flex items-center justify-center text-xs text-muted-foreground font-mono',
           className
         )}
       >
@@ -38,7 +38,7 @@ export function LiteYouTubeEmbed({
     return (
       <div
         className={cn(
-          'relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-zinc-200 dark:border-[#1F1F1F] shadow-md',
+          'relative w-full aspect-video rounded-xl overflow-hidden bg-black border border-border shadow-md',
           className
         )}
       >
@@ -66,7 +66,7 @@ export function LiteYouTubeEmbed({
         }
       }}
       className={cn(
-        'group relative w-full aspect-video rounded-xl overflow-hidden bg-[#0A0A0A] border border-zinc-200 dark:border-[#1F1F1F] hover:border-zinc-400 dark:hover:border-[#333333] transition-colors cursor-pointer shadow-sm select-none',
+        'group relative w-full aspect-video rounded-xl overflow-hidden bg-card border border-border hover:border-foreground/30 transition-colors cursor-pointer shadow-sm select-none',
         className
       )}
     >
@@ -84,7 +84,7 @@ export function LiteYouTubeEmbed({
 
       {/* Center Play Button Overlay */}
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#0A0A0A]/90 border border-[#27272A] flex items-center justify-center text-white group-hover:scale-110 group-hover:bg-white group-hover:text-black transition-all shadow-xl">
+        <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-background/90 border border-border flex items-center justify-center text-foreground group-hover:scale-110 group-hover:bg-foreground group-hover:text-background transition-all shadow-xl">
           <Play className="w-5 h-5 sm:w-6 sm:h-6 fill-current ml-0.5" />
         </div>
       </div>

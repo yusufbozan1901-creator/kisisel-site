@@ -25,18 +25,18 @@ export default async function VideolarPage() {
       <Container size="default">
         {/* Header */}
         <section className="max-w-2xl mb-10">
-          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-zinc-900 dark:text-white">
+          <h1 className="text-3xl sm:text-4xl font-semibold tracking-tight text-foreground">
             Videolarım
           </h1>
         </section>
 
         {/* Video Grid */}
         {videos.length === 0 ? (
-          <div className="p-12 rounded-xl border border-dashed border-zinc-300 dark:border-[#27272A] bg-zinc-50/50 dark:bg-[#0A0A0A] text-center space-y-2">
-            <div className="inline-flex p-3 rounded-full bg-zinc-100 dark:bg-[#141414] text-zinc-500">
+          <div className="p-12 rounded-xl border border-dashed border-border bg-card text-center space-y-2">
+            <div className="inline-flex p-3 rounded-full bg-muted text-muted-foreground">
               <Video className="w-5 h-5" />
             </div>
-            <p className="text-sm text-zinc-500 dark:text-[#71717A]">
+            <p className="text-sm text-muted-foreground">
               Henüz kayıt yok.
             </p>
           </div>
@@ -45,7 +45,7 @@ export default async function VideolarPage() {
             {videos.map((video) => (
               <div
                 key={video.slug}
-                className="group bg-white dark:bg-[#0A0A0A] border border-zinc-200/80 dark:border-[#1F1F1F] rounded-xl overflow-hidden hover:border-zinc-400 dark:hover:border-[#333333] transition-colors flex flex-col shadow-sm"
+                className="group bg-card border border-border rounded-xl overflow-hidden hover:border-foreground/30 transition-colors flex flex-col shadow-sm"
               >
                 {/* 16:9 Lite Embed Container */}
                 <LiteYouTubeEmbed
@@ -56,19 +56,19 @@ export default async function VideolarPage() {
                 {/* Video Info Body */}
                 <div className="p-4 flex-1 flex flex-col justify-between gap-3">
                   <div className="space-y-1.5">
-                    <h3 className="text-sm font-semibold text-zinc-900 dark:text-white group-hover:text-foreground transition-colors">
+                    <h3 className="text-sm font-semibold text-foreground group-hover:text-foreground/90 transition-colors">
                       {video.title}
                     </h3>
                     {video.description && (
-                      <p className="text-xs text-zinc-600 dark:text-[#A1A1AA] leading-relaxed">
+                      <p className="text-xs text-muted-foreground leading-relaxed">
                         {video.description}
                       </p>
                     )}
                   </div>
 
                   {video.formattedDate && (
-                    <div className="pt-2 border-t border-zinc-100 dark:border-[#1F1F1F] flex items-center justify-end text-xs">
-                      <span className="font-mono text-[11px] text-zinc-500 dark:text-[#71717A]">
+                    <div className="pt-2 border-t border-border flex items-center justify-end text-xs">
+                      <span className="font-mono text-[11px] text-muted-foreground">
                         {video.formattedDate}
                       </span>
                     </div>

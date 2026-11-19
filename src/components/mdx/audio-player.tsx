@@ -101,7 +101,7 @@ export function AudioPlayer({ src, title, className }: AudioPlayerProps) {
   return (
     <div
       className={cn(
-        'p-3.5 sm:p-4 rounded-xl bg-zinc-100/90 dark:bg-[#141414] border border-zinc-200 dark:border-[#1F1F1F] flex flex-col space-y-3 transition-colors',
+        'p-3.5 sm:p-4 rounded-xl bg-card border border-border flex flex-col space-y-3 transition-colors',
         className
       )}
     >
@@ -114,7 +114,7 @@ export function AudioPlayer({ src, title, className }: AudioPlayerProps) {
             type="button"
             onClick={togglePlay}
             aria-label={isPlaying ? 'Duraklat' : 'Oynat'}
-            className="w-9 h-9 rounded-full bg-zinc-900 text-white dark:bg-white dark:text-black flex items-center justify-center hover:opacity-90 transition-opacity shrink-0 shadow-sm"
+            className="w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:opacity-90 transition-opacity shrink-0 shadow-sm"
           >
             {isPlaying ? (
               <Pause className="w-4 h-4 fill-current" />
@@ -123,10 +123,10 @@ export function AudioPlayer({ src, title, className }: AudioPlayerProps) {
             )}
           </button>
           <div className="flex flex-col min-w-0">
-            <span className="text-xs font-medium text-zinc-900 dark:text-white truncate">
+            <span className="text-xs font-medium text-foreground truncate">
               {title || 'Sesli Düşünce'}
             </span>
-            <span className="text-[11px] font-mono text-zinc-500 dark:text-[#71717A]">
+            <span className="text-[11px] font-mono text-muted-foreground">
               {formatTime(currentTime)} / {formatTime(duration)}
             </span>
           </div>
@@ -136,24 +136,27 @@ export function AudioPlayer({ src, title, className }: AudioPlayerProps) {
           <button
             type="button"
             onClick={() => skip(-15)}
-            className="px-2 py-1 bg-white dark:bg-[#0A0A0A] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#71717A] hover:text-zinc-900 dark:hover:text-white rounded text-[11px] font-mono transition-colors"
+            className="px-2 py-1 bg-muted hover:bg-accent text-muted-foreground hover:text-foreground border border-border rounded text-[11px] font-mono transition-colors"
             title="15 Saniye Geri"
+            aria-label="15 saniye geri sar"
           >
             -15s
           </button>
           <button
             type="button"
             onClick={() => skip(15)}
-            className="px-2 py-1 bg-white dark:bg-[#0A0A0A] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#71717A] hover:text-zinc-900 dark:hover:text-white rounded text-[11px] font-mono transition-colors"
+            className="px-2 py-1 bg-muted hover:bg-accent text-muted-foreground hover:text-foreground border border-border rounded text-[11px] font-mono transition-colors"
             title="15 Saniye İleri"
+            aria-label="15 saniye ileri sar"
           >
             +15s
           </button>
           <button
             type="button"
             onClick={cycleRate}
-            className="px-2 py-1 bg-white dark:bg-[#0A0A0A] hover:bg-zinc-200 dark:hover:bg-[#1F1F1F] text-zinc-600 dark:text-[#71717A] hover:text-zinc-900 dark:hover:text-white rounded text-[11px] font-mono transition-colors"
+            className="px-2 py-1 bg-muted hover:bg-accent text-muted-foreground hover:text-foreground border border-border rounded text-[11px] font-mono transition-colors"
             title="Oynatma Hızı"
+            aria-label={`Oynatma hızı: ${playbackRate.toFixed(1)}x`}
           >
             {playbackRate.toFixed(1)}x
           </button>
@@ -183,8 +186,8 @@ export function AudioPlayer({ src, title, className }: AudioPlayerProps) {
               className={cn(
                 'flex-1 min-w-[2px] max-w-[4px] rounded-full transition-colors duration-100',
                 isPassed
-                  ? 'bg-zinc-900 dark:bg-white'
-                  : 'bg-zinc-300 dark:bg-[#27272A] group-hover:bg-zinc-400 dark:group-hover:bg-[#3F3F46]'
+                  ? 'bg-foreground'
+                  : 'bg-border group-hover:bg-muted-foreground/40'
               )}
             />
           );

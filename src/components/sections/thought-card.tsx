@@ -46,15 +46,15 @@ export function ThoughtCard({ thought }: ThoughtCardProps) {
 
   const getThoughtIcon = () => {
     if (thought.audio || thought.type === 'audio') {
-      return <Mic className="w-3.5 h-3.5 text-zinc-500 dark:text-[#71717A]" />;
+      return <Mic className="w-3.5 h-3.5 text-muted-foreground" />;
     }
     if (thought.type === 'code') {
-      return <Terminal className="w-3.5 h-3.5 text-zinc-500 dark:text-[#71717A]" />;
+      return <Terminal className="w-3.5 h-3.5 text-muted-foreground" />;
     }
     if (thought.type === 'quote') {
-      return <Quote className="w-3.5 h-3.5 text-zinc-500 dark:text-[#71717A]" />;
+      return <Quote className="w-3.5 h-3.5 text-muted-foreground" />;
     }
-    return <Sparkles className="w-3.5 h-3.5 text-zinc-500 dark:text-[#71717A]" />;
+    return <Sparkles className="w-3.5 h-3.5 text-muted-foreground" />;
   };
 
   return (
@@ -65,18 +65,18 @@ export function ThoughtCard({ thought }: ThoughtCardProps) {
       {/* Timeline Indicator Node */}
       <span
         aria-hidden="true"
-        className="absolute -left-[17px] sm:-left-[21px] top-6 w-3 h-3 rounded-full bg-white dark:bg-[#000000] border-2 border-zinc-900 dark:border-white ring-2 ring-zinc-200 dark:ring-[#1F1F1F] transition-transform group-hover:scale-110"
+        className="absolute -left-[17px] sm:-left-[21px] top-6 w-3 h-3 rounded-full bg-background border-2 border-foreground ring-2 ring-border transition-transform group-hover:scale-110"
       />
 
       {/* Main Card Container */}
-      <div className="relative flex flex-col bg-white dark:bg-[#0A0A0A] border border-zinc-200/80 dark:border-[#1F1F1F] p-5 sm:p-6 rounded-xl hover:border-zinc-400 dark:hover:border-[#333333] transition-colors shadow-sm space-y-4">
+      <div className="relative flex flex-col bg-card border border-border p-5 sm:p-6 rounded-xl hover:border-foreground/30 transition-colors shadow-sm space-y-4">
         {/* Header Metadata */}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             {getThoughtIcon()}
             <time
               dateTime={thought.date}
-              className="text-xs font-mono text-zinc-500 dark:text-[#71717A]"
+              className="text-xs font-mono text-muted-foreground"
             >
               {thought.formattedDate}
             </time>
@@ -88,7 +88,7 @@ export function ThoughtCard({ thought }: ThoughtCardProps) {
                 {thought.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-0.5 rounded bg-zinc-100 dark:bg-[#141414] border border-zinc-200 dark:border-[#1F1F1F] text-[10px] font-mono text-zinc-600 dark:text-[#71717A]"
+                    className="px-2 py-0.5 rounded bg-muted border border-border text-[10px] font-mono text-muted-foreground"
                   >
                     #{tag}
                   </span>
@@ -97,7 +97,7 @@ export function ThoughtCard({ thought }: ThoughtCardProps) {
             )}
 
             {episodeBadge && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono font-medium border border-zinc-200 dark:border-[#27272A] bg-zinc-100/90 dark:bg-[#141414] text-zinc-800 dark:text-zinc-200">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-mono font-medium border border-border bg-muted text-foreground">
                 {episodeBadge}
               </span>
             )}
@@ -112,14 +112,14 @@ export function ThoughtCard({ thought }: ThoughtCardProps) {
 
         {/* Optional Title */}
         {thought.title && (
-          <h2 className="text-base font-semibold text-zinc-900 dark:text-white tracking-tight">
+          <h2 className="text-base font-semibold text-foreground tracking-tight">
             {thought.title}
           </h2>
         )}
 
         {/* Thought Body Content */}
         <div
-          className="prose prose-zinc dark:prose-invert max-w-none text-zinc-900 dark:text-[#E5E2E1] text-sm leading-relaxed prose-p:my-1.5 prose-a:underline prose-a:underline-offset-4"
+          className="prose prose-zinc dark:prose-invert max-w-none text-foreground text-sm leading-relaxed prose-p:my-1.5 prose-a:underline prose-a:underline-offset-4"
           dangerouslySetInnerHTML={{ __html: thought.htmlContent }}
         />
 
@@ -132,7 +132,7 @@ export function ThoughtCard({ thought }: ThoughtCardProps) {
 
         {/* Optional Image */}
         {thought.image && (
-          <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-[#1F1F1F] bg-zinc-100 dark:bg-[#141414]">
+          <div className="relative overflow-hidden rounded-xl border border-border bg-muted">
             <Image
               src={thought.image}
               alt="Akış görseli"
@@ -145,14 +145,14 @@ export function ThoughtCard({ thought }: ThoughtCardProps) {
         )}
 
         {/* Footer Actions */}
-        <div className="pt-3 border-t border-zinc-100 dark:border-[#1F1F1F] flex items-center justify-between text-xs text-zinc-500 dark:text-[#71717A]">
+        <div className="pt-3 border-t border-border flex items-center justify-between text-xs text-muted-foreground">
           <ThoughtPermalink slug={thought.slug} />
 
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={copyMarkdown}
-              className="hover:text-zinc-900 dark:hover:text-white transition-colors flex items-center gap-1 px-2 py-1 rounded bg-zinc-50 dark:bg-[#141414] border border-zinc-200 dark:border-[#1F1F1F] text-[11px] font-mono"
+              className="hover:text-foreground transition-colors flex items-center gap-1 px-2 py-1 rounded bg-muted border border-border text-[11px] font-mono"
               title="Markdown Kopyala"
             >
               {copiedMarkdown ? (

@@ -55,9 +55,9 @@ export function ShelfShowcase({ items }: ShelfShowcaseProps) {
                 setSelectedItem(item);
               }
             }}
-            className="group bg-white dark:bg-[#0A0A0A] border border-zinc-200/80 dark:border-[#1F1F1F] rounded-xl overflow-hidden flex flex-col hover:border-zinc-400 dark:hover:border-[#333333] transition-colors shadow-sm text-left cursor-pointer select-none"
+            className="group bg-card border border-border rounded-xl overflow-hidden flex flex-col hover:border-foreground/30 transition-colors shadow-sm text-left cursor-pointer select-none"
           >
-            <div className="relative w-full aspect-[2/3] bg-zinc-100 dark:bg-[#141414] overflow-hidden">
+            <div className="relative w-full aspect-[2/3] bg-muted overflow-hidden">
               {item.poster ? (
                 <Image
                   src={item.poster}
@@ -68,7 +68,7 @@ export function ShelfShowcase({ items }: ShelfShowcaseProps) {
                   className="object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-300"
                 />
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center text-zinc-400">
+                <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center text-muted-foreground">
                   <Bookmark className="w-8 h-8 mb-2 opacity-50" />
                   <span className="text-xs font-mono font-medium">{item.title}</span>
                 </div>
@@ -76,14 +76,14 @@ export function ShelfShowcase({ items }: ShelfShowcaseProps) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-80" />
               {item.badge && (
                 <div className="absolute top-2.5 left-2.5">
-                  <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] text-[10px] font-mono font-medium text-white">
+                  <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-white/20 text-[10px] font-mono font-medium text-white">
                     {item.badge}
                   </span>
                 </div>
               )}
               {item.rating && (
                 <div className="absolute bottom-2.5 right-2.5">
-                  <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-[#27272A] font-mono text-xs text-white flex items-center gap-1">
+                  <span className="px-2 py-0.5 rounded bg-black/80 backdrop-blur-md border border-white/20 font-mono text-xs text-white flex items-center gap-1">
                     <Star className="w-3 h-3 fill-current text-amber-400" />
                     <span>{item.rating.replace('★', '').trim()}</span>
                   </span>
@@ -92,14 +92,14 @@ export function ShelfShowcase({ items }: ShelfShowcaseProps) {
             </div>
             <div className="p-3.5 flex-1 flex flex-col justify-between gap-1.5">
               <div>
-                <span className="text-[10px] font-mono text-zinc-500 dark:text-[#71717A] tracking-wider uppercase font-semibold">
+                <span className="text-[10px] font-mono text-muted-foreground tracking-wider uppercase font-semibold">
                   {getTypeLabel(item.type)} • {item.year || item.category}
                 </span>
-                <h3 className="text-sm font-semibold text-zinc-900 dark:text-white mt-0.5 truncate">
+                <h3 className="text-sm font-semibold text-foreground mt-0.5 truncate">
                   {item.title}
                 </h3>
                 {item.description && (
-                  <p className="text-xs text-zinc-600 dark:text-[#A1A1AA] line-clamp-2 mt-1 leading-relaxed">
+                  <p className="text-xs text-muted-foreground line-clamp-2 mt-1 leading-relaxed">
                     {item.description}
                   </p>
                 )}
@@ -113,15 +113,15 @@ export function ShelfShowcase({ items }: ShelfShowcaseProps) {
       <Dialog.Root open={selectedItem !== null} onOpenChange={(open) => !open && setSelectedItem(null)}>
         <Dialog.Portal>
           <Dialog.Overlay className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-          <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-zinc-200 dark:border-[#1F1F1F] bg-white dark:bg-[#0A0A0A] p-6 shadow-2xl duration-200 max-h-[90vh] overflow-y-auto">
+          <Dialog.Content className="fixed left-1/2 top-1/2 z-50 w-full max-w-xl -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-border bg-card p-6 shadow-2xl duration-200 max-h-[90vh] overflow-y-auto">
             {selectedItem && (
               <div className="space-y-6">
                 <div className="flex items-start justify-between gap-4">
                   <div className="space-y-1">
-                    <span className="text-xs font-mono text-zinc-500 dark:text-[#71717A] uppercase tracking-wider">
+                    <span className="text-xs font-mono text-muted-foreground uppercase tracking-wider">
                       {getTypeLabel(selectedItem.type)} • {selectedItem.year} • {selectedItem.category}
                     </span>
-                    <Dialog.Title className="text-xl sm:text-2xl font-bold text-zinc-900 dark:text-white">
+                    <Dialog.Title className="text-xl sm:text-2xl font-bold text-foreground">
                       {selectedItem.title}
                     </Dialog.Title>
                   </div>
@@ -129,7 +129,7 @@ export function ShelfShowcase({ items }: ShelfShowcaseProps) {
                     type="button"
                     onClick={() => setSelectedItem(null)}
                     aria-label="Kapat"
-                    className="p-1 rounded-md text-zinc-400 hover:text-white"
+                    className="p-1 rounded-md text-muted-foreground hover:text-foreground"
                   >
                     <X className="w-5 h-5" />
                   </button>
@@ -137,20 +137,20 @@ export function ShelfShowcase({ items }: ShelfShowcaseProps) {
 
                 {/* Meta Pills */}
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="px-2.5 py-1 rounded bg-zinc-100 dark:bg-[#141414] border border-zinc-200 dark:border-[#27272A] text-xs font-mono font-medium text-zinc-800 dark:text-white flex items-center gap-1">
+                  <span className="px-2.5 py-1 rounded bg-muted border border-border text-xs font-mono font-medium text-foreground flex items-center gap-1">
                     <Star className="w-3.5 h-3.5 fill-current text-amber-400" />
                     <span>{selectedItem.rating}</span>
                   </span>
-                  <span className="px-2.5 py-1 rounded bg-zinc-100 dark:bg-[#141414] border border-zinc-200 dark:border-[#27272A] text-xs font-mono text-zinc-700 dark:text-zinc-300">
+                  <span className="px-2.5 py-1 rounded bg-muted border border-border text-xs font-mono text-muted-foreground">
                     Durum: {getStatusLabel(selectedItem.status)}
                   </span>
                   {selectedItem.badge && (
-                    <span className="px-2.5 py-1 rounded bg-zinc-100 dark:bg-[#141414] border border-zinc-200 dark:border-[#27272A] text-xs font-mono text-zinc-700 dark:text-zinc-300">
+                    <span className="px-2.5 py-1 rounded bg-muted border border-border text-xs font-mono text-muted-foreground">
                       {selectedItem.badge}
                     </span>
                   )}
                   {selectedItem.progress && (
-                    <span className="px-2.5 py-1 rounded bg-zinc-100 dark:bg-[#141414] border border-zinc-200 dark:border-[#27272A] text-xs font-mono text-zinc-700 dark:text-zinc-300">
+                    <span className="px-2.5 py-1 rounded bg-muted border border-border text-xs font-mono text-muted-foreground">
                       {selectedItem.progress}
                     </span>
                   )}
@@ -159,16 +159,16 @@ export function ShelfShowcase({ items }: ShelfShowcaseProps) {
                 {/* Review / Notes Body */}
                 {selectedItem.htmlContent ? (
                   <div
-                    className="prose prose-zinc dark:prose-invert max-w-none text-sm sm:text-base leading-relaxed pt-2 border-t border-zinc-100 dark:border-[#1F1F1F]"
+                    className="prose prose-zinc dark:prose-invert max-w-none text-sm sm:text-base leading-relaxed pt-2 border-t border-border"
                     dangerouslySetInnerHTML={{ __html: selectedItem.htmlContent }}
                   />
                 ) : selectedItem.description ? (
-                  <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed pt-2 border-t border-zinc-100 dark:border-[#1F1F1F]">
+                  <p className="text-sm text-muted-foreground leading-relaxed pt-2 border-t border-border">
                     {selectedItem.description}
                   </p>
                 ) : null}
 
-                <div className="pt-4 border-t border-zinc-100 dark:border-[#1F1F1F] flex items-center justify-between text-xs font-mono text-zinc-500 dark:text-[#71717A]">
+                <div className="pt-4 border-t border-border flex items-center justify-between text-xs font-mono text-muted-foreground">
                   <span>Güncelleme: {selectedItem.updatedAt}</span>
                   <span>Kişisel Arşiv</span>
                 </div>
