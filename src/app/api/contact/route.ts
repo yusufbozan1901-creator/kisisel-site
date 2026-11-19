@@ -11,7 +11,9 @@ const contactSchema = z.object({
   website: z.string().optional(),
 });
 
-// In-memory rate limiting map: IP -> timestamp array
+// NOT: Bu in-memory rate limiting mekanizması sunucusuz (serverless) ortamlarda
+// container/instance başına geçicidir ve tam dağıtık bir koruma sağlamaz.
+// Asıl spam ve istek sınırlama koruması Web3Forms sunucuları ve honeypot (website) alanı ile sağlanır.
 const ipRequests = new Map<string, number[]>();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000 * 10; // 10 minutes
 const MAX_REQUESTS_PER_WINDOW = 5;
@@ -34,6 +36,18 @@ function isRateLimited(ip: string): boolean {
 
 export async function POST(request: Request) {
   try {
+    const accessKey = process.env.WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      console.error('WEB3FORMS_ACCESS_KEY environment variable is not configured.');
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'İletişim servisi şu anda yapılandırılmamış. Lütfen daha sonra tekrar deneyiniz.',
+        },
+        { status: 500 }
+      );
+    }
+
     const clientIp =
       request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
       request.headers.get('x-real-ip') ||
@@ -80,7 +94,7 @@ export async function POST(request: Request) {
         Accept: 'application/json',
       },
       body: JSON.stringify({
-        access_key: '3dc6f0d6-c238-46e4-9b00-697b65953a7f',
+        access_key: accessKey,
         name,
         email,
         subject,
@@ -101,10 +115,11 @@ export async function POST(request: Request) {
       );
     }
 
+    // Do not leak internal API error details to client
     return NextResponse.json(
       {
         success: false,
-        error: web3Result.message || 'Mesaj iletilemedi. Lütfen tekrar deneyin.',
+        error: 'Mesaj gönderilemedi. Lütfen bilgilerinizi kontrol edip tekrar deneyiniz.',
       },
       { status: 400 }
     );

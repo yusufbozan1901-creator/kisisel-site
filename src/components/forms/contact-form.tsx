@@ -43,19 +43,18 @@ export function ContactForm() {
     setServerMessage('');
 
     try {
-      const response = await fetch('https://api.web3forms.com/submit', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          access_key: '3dc6f0d6-c238-46e4-9b00-697b65953a7f',
           name: data.name,
           email: data.email,
           subject: data.subject,
           message: data.message,
-          botcheck: data.website || '',
+          website: data.website || '',
         }),
       });
 
@@ -67,7 +66,7 @@ export function ContactForm() {
         reset();
       } else {
         setStatus('error');
-        setServerMessage(result.message || result.error || 'Mesaj iletilemedi. Lütfen tekrar deneyin.');
+        setServerMessage(result.error || 'Mesaj iletilemedi. Lütfen tekrar deneyin.');
       }
     } catch {
       setStatus('error');
