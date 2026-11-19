@@ -329,23 +329,37 @@ content:
         - title
         - date
       primary: title
+      sort:
+        - date
+        - title
+      default:
+        sort: date
+        order: desc
     fields:
       - name: title
         label: Video Başlığı
         type: string
+        description: "Videonun başlığı veya konusu."
         required: true
+
       - name: youtubeId
         label: YouTube Linki veya ID'si
         type: string
+        description: "YouTube video bağlantısı veya 11 karakterlik video kimliği (örn. dQw4w9WgXcQ)."
         required: true
+
       - name: date
         label: Tarih ve Saat
         type: date
+        description: "Videonun eklendiği veya yayınlandığı tarih ve saat."
         options:
           time: true
+        required: true
+
       - name: body
-        label: Açıklama (İsteğe bağlı)
+        label: Açıklama
         type: rich-text
+        description: "Video hakkında kişisel notlar veya açıklama metni (isteğe bağlı)."
         options:
           media: gorseller
 
