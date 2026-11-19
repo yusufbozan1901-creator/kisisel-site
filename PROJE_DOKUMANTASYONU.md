@@ -25,7 +25,6 @@ Bu platform, geleneksel kurumsal portföylerden veya algoritmaların dikte etti�
 | **Veri Şeması & Güvenlik**| **Zod (`src/lib/schemas.ts`)** | Derleme zamanında (build-time) katı frontmatter ve JSON şema doğrulaması; eksik veri durumunda build kırılmaz, güvenli varsayılana düşer |
 | **UI Primitifleri** | **Radix UI (`@radix-ui/react-dialog`)** | WAI-ARIA standartlarında tam erişilebilir, klavye uyumlu headless modal/çekmece primitifleri |
 | **CMS (Yönetim Paneli)** | **Pages CMS (`.pages.yml`)** | Git tabanlı, sunucusuz (serverless), commit bazlı headless içerik yönetim arayüzü |
-| **Arama (Command Palette)**| **⌘K Komut Paleti & /api/search** | Makaleler, anlık düşünceler, raf arşivi ve videolar üzerinde anlık tam metin arama |
 | **PWA (Web Uygulaması)** | **Web App Manifest + Custom Prompt** | Masaüstü ve mobilde uygulama olarak yüklenebilirlik (`standalone`), YB maskable ikonlar |
 | **Form & Güvenlik** | **Web3Forms API + Zod İstemci Mimarisi** | Zod doğrulamalı ve honeypot (`website`/`botcheck`) bot korumalı doğrudan istemci form mimarisi. Anahtar `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` üzerinden yönetilir |
 | **Birim Testleri** | **Vitest (`src/lib/__tests__/`)** | Kritik yardımcı fonksiyonlar (`turkishSlugify`, duplicate TOC başlıkları, `extractYouTubeId`, `resolveTurkeyTimestamp`) için %100 tip güvenli ve hızlı birim testleri |
@@ -72,7 +71,6 @@ Bu platform, geleneksel kurumsal portföylerden veya algoritmaların dikte etti�
 │   └── about/page.tsx (Biyografi, Avatar, Dinamik Konum, Sosyal Medya)  │
 │                                                                        │
 │   [Client Leaf Components - İzole Edilmiş Uç Etkileşimler]             │
-│   ├── CommandPalette & SearchButton (⌘K arama penceresi)               │
 │   ├── ShelfShowcase & ShelfGridClient (Radix Dialog eser detay modalı) │
 │   ├── LiteYouTubeEmbed (Tıklanınca yüklenen hafif YouTube oynatıcısı)  │
 │   ├── TableOfContents (IntersectionObserver aktif başlık takibi)       │
@@ -167,10 +165,8 @@ c:\Users\Yusuf\Desktop\SİTE\
     │
     ├── components/              # Yeniden kullanılabilir React bileşenleri
     │   ├── common/              # Ortak arayüz bileşenleri
-    │   │   ├── navbar.tsx       # Üst navigasyon çubuğu (YB monogram, menü, arama, tema, iletişim)
+    │   │   ├── navbar.tsx       # Üst navigasyon çubuğu (YB monogram, menü, tema, iletişim)
     │   │   ├── footer.tsx       # Altbilgi (Telif, navigasyon, RSS bağlantısı)
-    │   │   ├── command-palette.tsx # ⌘K / Ctrl+K tam metin arama penceresi
-    │   │   ├── search-button.tsx # Üst bardaki arama tetikleyici butonu
     │   │   ├── theme-toggle.tsx # Karanlık/Aydınlık tema değiştirici
     │   │   ├── theme-provider.tsx # next-themes tema sağlayıcısı
     │   │   ├── share-modal.tsx  # Yuvarlak ikonlu açılır paylaşım penceresi
@@ -326,14 +322,7 @@ c:\Users\Yusuf\Desktop\SİTE\
 
 ---
 
-### 5.7. Global Arama Sistemi (Command Palette / ⌘K) — `src/components/common/command-palette.tsx`
-- **Erişim:** Üst bardaki büyüteç ikonu veya klavyeden `⌘K` / `Ctrl+K` kısayolu ile anında açılır.
-- **Kapsam:** Sitedeki tüm makaleler, akış notları, raf eserleri ve videolar üzerinde anlık tam metin arama yapar.
-- Klavye ok tuşları (`↑`, `↓`) ile seçim yapılabilir, `Enter` ile ilgili içeriğe doğrudan gidilir.
-
----
-
-### 5.8. Saat Dilimi ve Tarih Çözümleme — `src/lib/date-resolver.ts`
+### 5.7. Saat Dilimi ve Tarih Çözümleme — `src/lib/date-resolver.ts`
 - **Sorun:** Pages CMS gibi web tabanlı editörler tarih ve saati yerel olarak (örneğin `2026-11-17T00:21`) kaydeder. Sunucularda Node.js `new Date()` bunu UTC kabul ettiğinde Türkiye saat dilimi (+3 saat) bir kez daha eklenerek saat `03:21` olarak kayıyordu.
 - **Çözüm Algoritması (`resolveTurkeyTimestamp` / `resolveTurkishDate`):**
   1. Frontmatter içindeki string yerel formatındaysa (`YYYY-MM-DDTHH:mm`), kullanıcının seçtiği yerel saat doğrudan korunur ve sonuna `+03:00` eklenerek ikinci kez saat kayması önlenir.

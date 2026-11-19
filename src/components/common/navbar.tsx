@@ -6,7 +6,6 @@ import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { NAV_ITEMS } from '@/config/site';
 import { ThemeToggle } from '@/components/common/theme-toggle';
-import { SearchButton } from '@/components/common/search-button';
 import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 import { cn } from '@/lib/utils';
@@ -68,7 +67,6 @@ export function Navbar() {
 
           {/* Right Action Items */}
           <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            <SearchButton />
             <ThemeToggle />
             <Link
               href="/contact"

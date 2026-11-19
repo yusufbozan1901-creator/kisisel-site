@@ -5,7 +5,6 @@ import { ThemeProvider } from '@/components/common/theme-provider';
 import { Navbar } from '@/components/common/navbar';
 import { Footer } from '@/components/common/footer';
 import { InstallPrompt } from '@/components/pwa/install-prompt';
-import { CommandPalette } from '@/components/common/command-palette';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -106,7 +105,6 @@ export default function RootLayout({
             </main>
             <Footer />
             <InstallPrompt />
-            <CommandPalette />
           </div>
         </ThemeProvider>
         <Analytics />
