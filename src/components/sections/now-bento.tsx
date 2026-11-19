@@ -24,6 +24,9 @@ export function NowBento({ now }: NowBentoProps) {
 
   const thoughtDate = thought.thoughtDate?.trim() || thought.date?.trim() || '';
 
+  const primaryBadge = [shelf.itemType?.trim(), shelf.itemMeta?.trim()].filter(Boolean).join(' • ');
+  const secondaryBadge = [secType, secMeta].filter(Boolean).join(' • ');
+
   const activeCount = (hasFocus ? 1 : 0) + (hasShelf ? 1 : 0) + (hasThought ? 1 : 0);
   const gridColsClass =
     activeCount === 3
@@ -66,36 +69,36 @@ export function NowBento({ now }: NowBentoProps) {
         {/* Card 2: Şu An Rafta */}
         {hasShelf && (
           <div className="p-4 bg-card border border-border rounded-xl flex flex-col justify-between hover:border-foreground/30 transition-colors min-h-[12rem]">
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               <div className="flex items-center justify-between">
                 <span className="text-xs font-mono text-muted-foreground tracking-wider uppercase font-semibold">
                   ŞU AN RAFTA
                 </span>
                 <Bookmark className="w-3.5 h-3.5 text-muted-foreground" />
               </div>
-              <div className="space-y-2 text-xs">
+              <div className="space-y-2.5 text-xs">
                 {/* Birincil Eser */}
-                <div className="flex items-center justify-between gap-1">
-                  <div className="truncate font-medium text-foreground">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="truncate text-sm font-semibold text-foreground tracking-tight">
                     {shelf.itemTitle}
                   </div>
-                  {(shelf.itemType || shelf.itemMeta) && (
+                  {primaryBadge && (
                     <span className="px-1.5 py-0.5 rounded bg-muted border border-border text-[10px] font-mono text-muted-foreground shrink-0">
-                      {shelf.itemType ? `${shelf.itemType} • ` : ''}{shelf.itemMeta}
+                      {primaryBadge}
                     </span>
                   )}
                 </div>
 
                 {/* İkincil Eser (Varsa) */}
                 {secTitle && (
-                  <div className="pt-2 border-t border-border space-y-1">
-                    <div className="flex items-center justify-between gap-1">
-                      <div className="truncate font-medium text-foreground">
+                  <div className="pt-2.5 border-t border-border space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="truncate text-sm font-semibold text-foreground tracking-tight">
                         {secTitle}
                       </div>
-                      {(secType || secMeta) && (
+                      {secondaryBadge && (
                         <span className="px-1.5 py-0.5 rounded bg-muted border border-border text-[10px] font-mono text-muted-foreground shrink-0">
-                          {secType ? `${secType} • ` : ''}{secMeta}
+                          {secondaryBadge}
                         </span>
                       )}
                     </div>
@@ -121,14 +124,14 @@ export function NowBento({ now }: NowBentoProps) {
         {/* Card 3: Son Düşünce */}
         {hasThought && (
           <div className="p-4 bg-card border border-border rounded-xl flex flex-col justify-between hover:border-foreground/30 transition-colors min-h-[12rem]">
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-mono text-muted-foreground tracking-wider uppercase font-semibold">
-                  SON DÜŞÜNCE
-                </span>
-                <Quote className="w-3.5 h-3.5 text-muted-foreground" />
-              </div>
-              <h3 className="text-xs font-medium text-foreground italic leading-snug">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-mono text-muted-foreground tracking-wider uppercase font-semibold">
+                SON DÜŞÜNCE
+              </span>
+              <Quote className="w-3.5 h-3.5 text-muted-foreground" />
+            </div>
+            <div className="my-auto py-2.5 space-y-1.5">
+              <h3 className="text-sm sm:text-base font-medium text-foreground italic leading-snug">
                 &ldquo;{thought.quote}&rdquo;
               </h3>
               {thought.context && (
