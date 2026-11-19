@@ -27,7 +27,7 @@ Bu platform, geleneksel kurumsal portföylerden veya algoritmaların dikte etti�
 | **CMS (Yönetim Paneli)** | **Pages CMS (`.pages.yml`)** | Git tabanlı, sunucusuz (serverless), commit bazlı headless içerik yönetim arayüzü |
 | **Arama (Command Palette)**| **⌘K Komut Paleti & /api/search** | Makaleler, anlık düşünceler, raf arşivi ve videolar üzerinde anlık tam metin arama |
 | **PWA (Web Uygulaması)** | **Web App Manifest + Custom Prompt** | Masaüstü ve mobilde uygulama olarak yüklenebilirlik (`standalone`), YB maskable ikonlar |
-| **Form & Güvenlik** | **Web3Forms API + Zod + /api/contact Proxy** | Gizli iletişim formu; e-posta ve Web3Forms API anahtarı istemciye sızdırılmaz (`WEB3FORMS_ACCESS_KEY`), `/api/contact` üzerinden güvenli sunucu tarafı iletim ve sanitizasyon sağlanır |
+| **Form & Güvenlik** | **Web3Forms API + Zod İstemci Mimarisi** | Zod doğrulamalı ve honeypot (`website`/`botcheck`) bot korumalı doğrudan istemci form mimarisi; şu anda form arayüzde geçici olarak gizlenmiş olup kod saklanmaktadır. Anahtar `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` üzerinden yönetilir |
 | **Birim Testleri** | **Vitest (`src/lib/__tests__/`)** | Kritik yardımcı fonksiyonlar (`turkishSlugify`, duplicate TOC başlıkları, `extractYouTubeId`, `resolveTurkeyTimestamp`) için %100 tip güvenli ve hızlı birim testleri |
 | **SEO & Meta** | **Next.js Metadata API + @vercel/og** | Otomatik dinamik Open Graph kartları, JSON-LD, dinamik XML sitemap ve robots.txt |
 | **RSS & Sindikasyon** | **Route Handlers (`/rss.xml` & `/feed.xml`)** | Standart RSS 2.0 XML akışı; hem yazıları hem anlık düşünceleri kronolojik birleştiren akış |
@@ -156,7 +156,6 @@ c:\Users\Yusuf\Desktop\SİTE\
     │   │   └── page.tsx         # Güvenli iletişim formu
     │   │
     │   ├── api/                 # API Uç Noktaları (Route Handlers)
-    │   │   ├── contact/route.ts # Web3Forms güvenli e-posta proxy uç noktası
     │   │   └── search/route.ts  # Tüm koleksiyonları kapsayan statik/dinamik arama API'si
     │   │
     │   ├── rss.xml/route.ts     # Salt blog makaleleri için RSS 2.0 XML akışı
@@ -359,7 +358,7 @@ c:\Users\Yusuf\Desktop\SİTE\
 - **Görsel Lightbox (`ImageLightbox`):** Yazı ve akış görsellerine tıklandığında tam ekran görüntüleme, `ESC` veya dışarı tıklama ile kapatma.
 - **Paylaşım Modalı (`ShareModal`):** Tek tıkla bağlantı kopyalama ve WhatsApp, X, Telegram, LinkedIn, Facebook, Reddit üzerinde orijinal marka renklerinde dairesel butonlarla doğrudan paylaşım.
 - **PWA (`InstallPrompt`):** Masaüstü ve mobil cihazlarda tek tıkla ana ekrana eklenebilen hafif web uygulaması; tercih `localStorage` üzerinde saklanır.
-- **Gizli İletişim Formu (`ContactForm`):** E-posta adresi açıkta görünmez, Web3Forms API üzerinden sunucu taraflı proxy ile iletilir.
+- **Gizli İletişim Formu (`ContactForm`):** E-posta adresi açıkta görünmez; honeypot bot tuzağı (`botcheck`) ve Zod şeması ile donatılmış doğrudan istemci gönderim mimarisi hazırlanmıştır. Güncel durumda form sitede geçici olarak devre dışı bırakılmış olup, kod tabanında tam olarak korunmaktadır.
 
 ---
 
@@ -450,7 +449,7 @@ Pages CMS (`app.pagescms.org`), doğrudan GitHub deposuyla konuşan modern bir h
      - `extractYouTubeId` (standart, shorts, embed, youtu.be ve saf 11 karakter ID desteği).
      - `resolveTurkeyTimestamp` (yerel tarih koruması, gece yarısı düzeltmesi ve +03:00 saat dilimi).
 5. **Ortam Değişkenleri (Environment Variables):**
-   - `WEB3FORMS_ACCESS_KEY`: Sunucu tarafında `/api/contact` içinde güvenle tüketilir; istemci tarafına ifşa edilmez. Örnek şablon `.env.example` içinde tanımlanmıştır.
+   - `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`: Web3Forms form entegrasyonu için istemci erişim anahtarı. Örnek şablon `.env.example` içinde tanımlanmıştır.
 
 ---
 

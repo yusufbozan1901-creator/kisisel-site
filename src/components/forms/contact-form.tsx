@@ -1,3 +1,10 @@
+/**
+ * ContactForm Bileşeni
+ * 
+ * DURUM: Şimdilik sitede geçici olarak gizlenmiştir (/contact sayfasında devre dışı bırakılmıştır).
+ * KOD SİLİNMEMİŞTİR: Zod doğrulama şeması, honeypot (`website`/`botcheck`) bot koruması ve
+ * Web3Forms doğrudan istemci gönderim mimarisi tam ve işlevsel olarak saklanmaktadır.
+ */
 'use client';
 
 import * as React from 'react';

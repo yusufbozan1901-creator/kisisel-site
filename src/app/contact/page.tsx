@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Container } from '@/components/ui/container';
-import { ContactForm } from '@/components/forms/contact-form';
+// NOTE: İletişim formu geçici olarak devre dışı bırakılmıştır.
+// Form bileşeni ve Web3Forms gönderim mantığı silinmemiştir; reactivate edilmek üzere saklanmaktadır.
+// import { ContactForm } from '@/components/forms/contact-form';
 import { SITE_CONFIG } from '@/config/site';
 
 export const metadata: Metadata = {
@@ -37,14 +39,27 @@ export default function ContactPage() {
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
             İletişim
           </h1>
-          <p className="text-zinc-600 dark:text-zinc-400 text-base leading-relaxed">
-            Yazılarım hakkında bir fikir paylaşmak, soru sormak veya selam vermek için aşağıdaki formu kullanabilirsiniz.
+          <p className="text-muted-foreground text-base leading-relaxed">
+            Düşüncelerinizi paylaşmak, soru iletmek veya bağlantı kurmak için bana ulaşabilirsiniz.
           </p>
         </div>
 
-        {/* Secure Form */}
+        {/* Temporary Deactivation Notice (Form is kept in code, hidden on UI) */}
         <div className="max-w-xl">
-          <ContactForm />
+          <div className="rounded-xl border border-border bg-card p-6 sm:p-8 text-center space-y-3 shadow-sm">
+            <h2 className="font-semibold text-foreground text-base sm:text-lg">
+              İletişim Formu Geçici Olarak Kapalıdır
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              İletişim formu altyapı güncellemeleri nedeniyle şu anda doğrudan ileti gönderimine kapatılmıştır.
+              Bana profil sayfamdaki sosyal medya bağlantıları üzerinden ulaşabilirsiniz.
+            </p>
+          </div>
+          {/* 
+            Geliştirici Notu: 
+            Formu tekrar aktif etmek için yukarıdaki bildirim kutusu yerine 
+            `<ContactForm />` bileşenini geri açınız.
+          */}
         </div>
       </Container>
     </div>
