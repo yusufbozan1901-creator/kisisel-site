@@ -26,10 +26,27 @@ export function InstallPrompt() {
       return;
     }
 
+    let hasPassed30Seconds = false;
+    let capturedEvent: BeforeInstallPromptEvent | null = null;
+
+    // Wait at least 30 seconds before allowing the prompt to be displayed
+    const timer = setTimeout(() => {
+      hasPassed30Seconds = true;
+      if (capturedEvent && localStorage.getItem(DISMISSED_KEY) !== 'true') {
+        setIsVisible(true);
+      }
+    }, 30000);
+
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
-      setDeferredPrompt(e as BeforeInstallPromptEvent);
-      setIsVisible(true);
+      const promptEvent = e as BeforeInstallPromptEvent;
+      capturedEvent = promptEvent;
+      setDeferredPrompt(promptEvent);
+
+      // Only display if 30 seconds have already elapsed
+      if (hasPassed30Seconds && localStorage.getItem(DISMISSED_KEY) !== 'true') {
+        setIsVisible(true);
+      }
     };
 
     const handleAppInstalled = () => {
@@ -42,6 +59,7 @@ export function InstallPrompt() {
     window.addEventListener('appinstalled', handleAppInstalled);
 
     return () => {
+      clearTimeout(timer);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
     };
