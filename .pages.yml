@@ -348,6 +348,32 @@ content:
             type: string
             description: "İlerleme oranı veya sayfa sayısı (örn. s. 84 / 176)."
 
+      - name: episodes
+        label: Bölüm Notları (Dizi)
+        type: object
+        list:
+          collapsible: true
+          collapsed: true
+          summary: "S{season}B{episode} (Puan: {rating})"
+        description: "Diziler için izlenen bölümler, puanlar ve bölüm yorumları (isteğe bağlı)."
+        fields:
+          - name: season
+            label: Sezon No
+            type: string
+            description: "İzlenen sezon numarası (örn. 1)."
+          - name: episode
+            label: Bölüm No
+            type: string
+            description: "İzlenen bölüm numarası (örn. 5)."
+          - name: rating
+            label: Puan
+            type: string
+            description: "Bölüm değerlendirme puanı (örn. 8.5)."
+          - name: note
+            label: Bölüm Notu / Yorumu
+            type: text
+            description: "Bölüm hakkında düşünceler veya kısa inceleme."
+
       - name: updatedAt
         label: Son Durum Zamanı
         type: string
