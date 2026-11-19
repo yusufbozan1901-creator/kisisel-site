@@ -114,24 +114,6 @@ content:
         options:
           media: gorseller
 
-      - name: mediaDetails
-        label: Dizi / Film Notu
-        type: object
-        description: "Eğer bir dizi veya film izlerken not alıyorsanız ilgili detaylar (isteğe bağlı)."
-        fields:
-          - name: season
-            label: Sezon No
-            type: string
-            description: "İzlenen sezon numarası (örn. 2)."
-          - name: episode
-            label: Bölüm No
-            type: string
-            description: "İzlenen bölüm numarası (örn. 15)."
-          - name: rating
-            label: Puan
-            type: string
-            description: "Eser için kişisel puanınız (örn. 7.5 veya 9)."
-
   # 3. Şu Sıralar (Now Bento Şeridi)
   - name: now
     label: Şu Sıralar
