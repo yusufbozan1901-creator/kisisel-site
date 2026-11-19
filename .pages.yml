@@ -426,6 +426,16 @@ content:
     type: file
     path: src/content/profil.json
     fields:
+      - name: heroTitle
+        label: Ana Sayfa Başlığı
+        type: string
+        description: "Ana sayfa karşılama alanındaki büyük manşet metni."
+
+      - name: heroDescription
+        label: Ana Sayfa Açıklaması
+        type: text
+        description: "Ana sayfa başlığının altındaki tanıtım ve karşılama cümlesi."
+
       - name: title
         label: Sayfa Başlığı
         type: string

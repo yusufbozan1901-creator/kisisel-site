@@ -32,6 +32,8 @@ export interface ActiveSocialLink {
 }
 
 export interface ProfileData {
+  readonly heroTitle?: string;
+  readonly heroDescription?: string;
   readonly title: string;
   readonly location?: string;
   readonly avatar?: string;
@@ -42,6 +44,9 @@ export interface ProfileData {
 }
 
 const DEFAULT_PROFILE: ProfileData = {
+  heroTitle: 'Dijital bahçem ve kişisel arşivim.',
+  heroDescription:
+    'Burası internetin telaşından ve gürültüsünden uzakta; zihnimi toparlamak, editoryal notlar tutmak ve zamanla biriktirdiğim düşünce kırıntılarını paylaşmak için açtığım sakin bir köşe.',
   title: 'Hakkımda',
   location: '',
   avatar: '',

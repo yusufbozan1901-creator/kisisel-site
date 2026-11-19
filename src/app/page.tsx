@@ -55,7 +55,11 @@ export default async function HomePage() {
       <ImageLightbox />
 
       {/* 1. Hero Section */}
-      <HeroSection socialLinks={activeSocialLinks} />
+      <HeroSection
+        heroTitle={profile.heroTitle}
+        heroDescription={profile.heroDescription}
+        socialLinks={activeSocialLinks}
+      />
 
       {/* 2. "Şu Sıralar" Now Bento Strip */}
       <Container size="default">
