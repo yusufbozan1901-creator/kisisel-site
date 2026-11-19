@@ -210,27 +210,55 @@ content:
       fields:
         - title
         - type
-        - rating
         - status
+        - rating
       primary: title
+      sort:
+        - title
+        - type
+      default:
+        sort: title
+        order: asc
     fields:
       - name: title
         label: Eser Başlığı
         type: string
+        description: "Eserin tam adı (Film, dizi veya kitap başlığı)."
         required: true
+
       - name: type
         label: Tür
         type: select
+        description: "Eserin temel kategorisi."
         options:
           values:
             - Film
             - Dizi
             - Kitap
         required: true
+
+      - name: status
+        label: Durum
+        type: select
+        description: "Eserin güncel izleme veya okuma durumu."
+        options:
+          values:
+            - Tamamlandı
+            - İzleniyor
+            - Okunuyor
+            - Başyapıt
+        required: true
+
+      - name: rating
+        label: Puan
+        type: string
+        description: "Kişisel değerlendirme puanınız (örn. 8.0 veya ★ 9.4)."
+
       - name: category
-        label: Kategori / Türler
+        label: Kategori / Janrlar
         type: select
         list: true
+        description: "Eserin tür ve janr etiketleri (birden fazla seçilebilir)."
         options:
           multiple: true
           values:
@@ -246,45 +274,48 @@ content:
             - Biyografi
             - Belgesel
             - Animasyon
-      - name: rating
-        label: Puan (örn. ★ 9.4)
-        type: string
-      - name: status
-        label: Durum
-        type: select
-        options:
-          values:
-            - İzleniyor
-            - Okunuyor
-            - Tamamlandı
-            - Başyapıt
-        required: true
-      - name: details
-        label: Bölüm / Sayfa Detayı (İsteğe Bağlı)
-        type: object
-        fields:
-          - name: badge
-            label: Rozet / Sezon-Bölüm (örn. S02 • B04)
-            type: string
-          - name: progress
-            label: İlerleme (örn. s. 84 / 176)
-            type: string
-      - name: poster
-        label: Afiş Görseli
-        type: image
-        options:
-          media: gorseller
-      - name: year
-        label: Çıkış Yılı
-        type: string
-      - name: updatedAt
-        label: Son Durum Zamanı (örn. Dün)
-        type: string
+            - Fantastik
+            - Komedi
+            - Macera
+            - Psikoloji
+
       - name: body
         label: Kişisel Not & İnceleme
         type: rich-text
+        description: "Eser hakkında kişisel görüşleriniz, inceleme ve analiz notlarınız."
         options:
           media: gorseller
+
+      - name: poster
+        label: Afiş Görseli
+        type: image
+        description: "Eserin dikey afişi veya kapak görseli (isteğe bağlı)."
+        options:
+          media: gorseller
+
+      - name: year
+        label: Çıkış Yılı
+        type: string
+        description: "Eserin yayınlandığı veya vizyona girdiği yıl (örn. 2026)."
+
+      - name: details
+        label: Bölüm / Sayfa Detayı
+        type: object
+        description: "Dizi veya kitaplar için bölüm, sezon veya sayfa ilerleme detayları (isteğe bağlı)."
+        fields:
+          - name: badge
+            label: Rozet / Sezon-Bölüm
+            type: string
+            description: "Kart üzerinde görünecek kısa rozet (örn. S02 • B04 veya Cilt 1)."
+          - name: progress
+            label: İlerleme Durumu
+            type: string
+            description: "İlerleme oranı veya sayfa sayısı (örn. s. 84 / 176)."
+
+      - name: updatedAt
+        label: Son Durum Zamanı
+        type: string
+        description: "Raftaki durumun güncellenme zamanı (örn. Dün, Bugün veya tarih)."
 
   # 5. Videolar
   - name: videolar
