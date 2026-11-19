@@ -194,14 +194,8 @@ export type VideoItem = z.infer<typeof VideoItemSchema>;
  * Zod schema for Profile & Social settings
  */
 export const ProfileSchema = z.object({
-  heroTitle: z.string().trim().optional().default('Dijital bahçem ve kişisel arşivim.'),
-  heroDescription: z
-    .string()
-    .trim()
-    .optional()
-    .default(
-      'Burası internetin telaşından ve gürültüsünden uzakta; zihnimi toparlamak, editoryal notlar tutmak ve zamanla biriktirdiğim düşünce kırıntılarını paylaşmak için açtığım sakin bir köşe.'
-    ),
+  heroTitle: z.string().trim().optional(),
+  heroDescription: z.string().trim().optional(),
   title: z.string().trim().default('Hakkımda'),
   location: z.string().trim().optional().default(''),
   avatar: z.string().trim().optional().default(''),

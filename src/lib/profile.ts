@@ -44,9 +44,8 @@ export interface ProfileData {
 }
 
 const DEFAULT_PROFILE: ProfileData = {
-  heroTitle: 'Dijital bahçem ve kişisel arşivim.',
-  heroDescription:
-    'Burası internetin telaşından ve gürültüsünden uzakta; zihnimi toparlamak, editoryal notlar tutmak ve zamanla biriktirdiğim düşünce kırıntılarını paylaşmak için açtığım sakin bir köşe.',
+  heroTitle: undefined,
+  heroDescription: undefined,
   title: 'Hakkımda',
   location: '',
   avatar: '',
@@ -82,6 +81,8 @@ export async function getProfileData(): Promise<ProfileData> {
     const validated = ProfileSchema.safeParse(parsed);
     const data = validated.success ? validated.data : (parsed as Partial<ProfileData>);
 
+    const heroTitle = data.heroTitle?.trim() || undefined;
+    const heroDescription = data.heroDescription?.trim() || undefined;
     const title = data.title?.trim() || DEFAULT_PROFILE.title;
     const location = (data as { location?: string }).location?.trim() || undefined;
     const avatar = data.avatar?.trim() || undefined;
@@ -92,6 +93,8 @@ export async function getProfileData(): Promise<ProfileData> {
     const bioHtml = await marked.parse(bio);
 
     return {
+      heroTitle,
+      heroDescription,
       title,
       location,
       avatar,
