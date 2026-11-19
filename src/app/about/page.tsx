@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, MapPin } from 'lucide-react';
 import { Container } from '@/components/ui/container';
@@ -30,11 +31,14 @@ export default async function AboutPage() {
             <div className="p-5 sm:p-6 bg-white dark:bg-[#0A0A0A] border border-zinc-200/80 dark:border-[#1F1F1F] rounded-xl flex flex-col gap-4 shadow-sm">
               {profile.avatar && (
                 <div className="w-24 h-24 rounded-xl overflow-hidden border border-zinc-200 dark:border-[#27272A] bg-zinc-100 dark:bg-[#141414]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     src={profile.avatar}
                     alt={SITE_CONFIG.name}
+                    width={96}
+                    height={96}
+                    unoptimized={profile.avatar.startsWith('http')}
                     className="w-full h-full object-cover grayscale contrast-125"
+                    priority
                   />
                 </div>
               )}

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowRight, Star } from 'lucide-react';
 import { HeroSection } from '@/components/sections/hero-section';
 import { NowBento } from '@/components/sections/now-bento';
@@ -126,11 +127,13 @@ export default async function HomePage() {
                     )}
 
                     {thought.image && (
-                      <div className="mt-3 overflow-hidden rounded-lg border border-zinc-200 dark:border-[#1F1F1F]">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
+                      <div className="relative mt-3 overflow-hidden rounded-lg border border-zinc-200 dark:border-[#1F1F1F]">
+                        <Image
                           src={thought.image}
                           alt="Akış görseli"
+                          width={720}
+                          height={480}
+                          unoptimized={thought.image.startsWith('http')}
                           className="w-full max-h-72 object-cover cursor-zoom-in"
                         />
                       </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import { X } from 'lucide-react';
 
 export function ImageLightbox() {
@@ -59,11 +60,13 @@ export function ImageLightbox() {
         <X className="h-5 w-5" />
       </button>
 
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={src}
         alt={alt}
-        className="max-h-[90vh] max-w-[90vw] object-contain rounded-lg select-none"
+        width={1600}
+        height={1000}
+        unoptimized
+        className="max-h-[90vh] max-w-[90vw] w-auto h-auto object-contain rounded-lg select-none"
         onClick={(e) => e.stopPropagation()}
       />
     </div>

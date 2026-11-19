@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Star, X, Bookmark, Search, ArrowUpDown, Sparkles } from 'lucide-react';
 import type { ShelfItem } from '@/lib/schemas';
@@ -203,11 +204,13 @@ export function ShelfGridClient({ items }: ShelfGridClientProps) {
               {/* Poster 2:3 Aspect Ratio Container */}
               <div className="relative w-full aspect-[2/3] bg-zinc-100 dark:bg-[#141414] overflow-hidden">
                 {item.poster ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
+                  <Image
                     src={item.poster}
                     alt={item.title}
-                    className="w-full h-full object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-300"
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    unoptimized={item.poster.startsWith('http')}
+                    className="object-cover grayscale contrast-125 group-hover:scale-105 transition-transform duration-300"
                   />
                 ) : (
                   <div className="w-full h-full flex flex-col items-center justify-center p-4 text-center text-zinc-400">

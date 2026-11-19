@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
@@ -164,11 +165,14 @@ export default async function BlogPostPage({
 
               {/* Optional Top Cover Image if image field is selected in Pages CMS */}
               {post.image && (
-                <div className="my-8 overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                <div className="relative my-8 overflow-hidden rounded-lg border border-zinc-200 dark:border-zinc-800">
+                  <Image
                     src={post.image}
                     alt={post.title}
+                    width={1200}
+                    height={630}
+                    priority
+                    unoptimized={post.image.startsWith('http')}
                     className="w-full max-h-[500px] object-cover cursor-zoom-in"
                   />
                 </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import type { Thought } from '@/lib/thoughts';
 import { AudioPlayer } from '@/components/mdx/audio-player';
 import { ShareButton } from '@/components/common/share-button';
@@ -131,11 +132,13 @@ export function ThoughtCard({ thought }: ThoughtCardProps) {
 
         {/* Optional Image */}
         {thought.image && (
-          <div className="overflow-hidden rounded-xl border border-zinc-200 dark:border-[#1F1F1F] bg-zinc-100 dark:bg-[#141414]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+          <div className="relative overflow-hidden rounded-xl border border-zinc-200 dark:border-[#1F1F1F] bg-zinc-100 dark:bg-[#141414]">
+            <Image
               src={thought.image}
               alt="Akış görseli"
+              width={720}
+              height={480}
+              unoptimized={thought.image.startsWith('http')}
               className="w-full max-h-96 object-cover cursor-zoom-in hover:opacity-95 transition-opacity"
             />
           </div>

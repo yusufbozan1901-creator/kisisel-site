@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import Image from 'next/image';
 import { Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -70,11 +71,12 @@ export function LiteYouTubeEmbed({
       )}
     >
       {/* Poster Image */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src={thumbnailUrl}
         alt={title}
-        className="w-full h-full object-cover grayscale opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
+        fill
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        className="object-cover grayscale opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-300"
       />
 
       {/* Ambient Gradient */}
