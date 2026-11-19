@@ -27,7 +27,8 @@ Bu platform, geleneksel kurumsal portföylerden veya algoritmaların dikte etti�
 | **CMS (Yönetim Paneli)** | **Pages CMS (`.pages.yml`)** | Git tabanlı, sunucusuz (serverless), commit bazlı headless içerik yönetim arayüzü |
 | **Arama (Command Palette)**| **⌘K Komut Paleti & /api/search** | Makaleler, anlık düşünceler, raf arşivi ve videolar üzerinde anlık tam metin arama |
 | **PWA (Web Uygulaması)** | **Web App Manifest + Custom Prompt** | Masaüstü ve mobilde uygulama olarak yüklenebilirlik (`standalone`), YB maskable ikonlar |
-| **Form & Güvenlik** | **Web3Forms API + Zod + React Hook Form** | Gizli iletişim formu; e-posta adresi sitede ifşa edilmez, API proxy ile güvenli iletim |
+| **Form & Güvenlik** | **Web3Forms API + Zod + /api/contact Proxy** | Gizli iletişim formu; e-posta ve Web3Forms API anahtarı istemciye sızdırılmaz (`WEB3FORMS_ACCESS_KEY`), `/api/contact` üzerinden güvenli sunucu tarafı iletim ve sanitizasyon sağlanır |
+| **Birim Testleri** | **Vitest (`src/lib/__tests__/`)** | Kritik yardımcı fonksiyonlar (`turkishSlugify`, duplicate TOC başlıkları, `extractYouTubeId`, `resolveTurkeyTimestamp`) için %100 tip güvenli ve hızlı birim testleri |
 | **SEO & Meta** | **Next.js Metadata API + @vercel/og** | Otomatik dinamik Open Graph kartları, JSON-LD, dinamik XML sitemap ve robots.txt |
 | **RSS & Sindikasyon** | **Route Handlers (`/rss.xml` & `/feed.xml`)** | Standart RSS 2.0 XML akışı; hem yazıları hem anlık düşünceleri kronolojik birleştiren akış |
 | **Performans İzleme**| **@vercel/analytics** | Çerezsiz (cookie-less), GDPR uyumlu, sıfır yük getiren ziyaretçi ve performans metriği |
@@ -426,28 +427,37 @@ Pages CMS (`app.pagescms.org`), doğrudan GitHub deposuyla konuşan modern bir h
 
 ---
 
-## 7. Kalite, Performans ve SEO Göstergeleri
+## 7. Kalite, Performans, Test ve SEO Göstergeleri
 
 1. **Core Web Vitals:**
-   - **LCP (Largest Contentful Paint):** `< 1.2s` (Tüm sayfalar SSG olarak derlenir; sunucu bekleme süresi TTFB neredeyse sıfırdır. YouTube videolarında Lite Embed kullanılır).
-   - **CLS (Cumulative Layout Shift):** `0.0` (Tüm afiş, görsel ve dinamik kutularda en-boy oranları rezerve edilmiştir).
+   - **LCP (Largest Contentful Paint):** `< 2.0s` (Ölçülebilir hedef: Sayfalar SSG olarak derlenir; görseller `next/image` ile responsive `sizes` ve `priority` desteğiyle yüklenir; YouTube videolarında Lite Embed kullanılır).
+   - **CLS (Cumulative Layout Shift):** `0.0` (Tüm afiş, görsel ve dinamik kutularda en-boy oranları `aspect-[2/3]` ve `aspect-video` ile rezerve edilmiştir).
    - **INP (Interaction to Next Paint):** `< 50ms` (Gereksiz ağır istemci kütüphaneleri elenmiş, yalnızca uç bileşenlerde `'use client'` kullanılmıştır).
 2. **SEO & Arama Motoru Uyumu:**
-   - Sayfa bazlı dinamik `canonical` URL tanımları.
+   - Birincil alan adı `https://yusufbozan.com.tr` üzerinde birleştirilmiş dinamik `canonical` URL tanımları.
    - Sosyal paylaşımlar için otomatik üretilen 1200x630 OpenGraph ve Twitter kartları.
-   - Otomatik üretilen `/sitemap.xml` ve `/robots.txt`.
+   - Otomatik üretilen `/sitemap.xml` (tüm 8 ana rota + makaleler) ve `/robots.txt`.
    - Bağımsız web için çift RSS akışı (`/rss.xml` ve `/feed.xml`).
    - Google Search Console HTML mülk doğrulama dosyası entegrasyonu.
 3. **Erişilebilirlik (WCAG 2.1 AA):**
    - Yalnızca ikon içeren butonlarda anlamlı `aria-label` veya gizli metin (`.sr-only`).
-   - Klavye ile (`Tab`, `Enter`, `Space`, `ESC`) tam gezilebilirlik ve görünür `focus-visible` stilleri.
+   - Klavye ile (`Tab`, `Enter`, `Space`, `ESC`) tam gezilebilirlik, Radix Dialog focus trap ve görünür `focus-visible` stilleri.
+   - Klavye kullanıcıları için doğrudan ana içeriğe atlama bağlantısı (`#main-content` skip link).
+4. **Birim Testleri (Vitest):**
+   - `npm test` komutuyla çalışan 15 kapsamlı birim testi:
+     - `turkishSlugify` (Türkçe karakter dönüşümü, sembol temizleme ve fallback mekanizması).
+     - TOC ve HTML başlık tekilleştirmesi (`-1`, `-2` ID üretimi).
+     - `extractYouTubeId` (standart, shorts, embed, youtu.be ve saf 11 karakter ID desteği).
+     - `resolveTurkeyTimestamp` (yerel tarih koruması, gece yarısı düzeltmesi ve +03:00 saat dilimi).
+5. **Ortam Değişkenleri (Environment Variables):**
+   - `WEB3FORMS_ACCESS_KEY`: Sunucu tarafında `/api/contact` içinde güvenle tüketilir; istemci tarafına ifşa edilmez. Örnek şablon `.env.example` içinde tanımlanmıştır.
 
 ---
 
 ## 8. Dağıtım Hattı (CI/CD Pipeline)
 
 - **Uzak Depo (Git Remote):** `https://github.com/yusufbozan1901-creator/kisisel-site.git` (`main` dalı).
-- **Canlı Üretim URL'si:** `https://kisisel-site-cyan.vercel.app` (veya bağlı özel alan adı `https://yusufbozan.com.tr`).
+- **Canlı Üretim URL'si:** `https://yusufbozan.com.tr` (Vercel barındırma: `kisisel-site-cyan.vercel.app`).
 - **Dağıtım Mekanizması:** GitHub `main` dalına her `git push` yapıldığında veya Pages CMS üzerinden bir içerik kaydedildiğinde Vercel Webhook tetiklenir, `next build` çalıştırılır ve yaklaşık 20-30 saniye içinde sıfır kesintiyle (zero-downtime) üretim ortamına aktarılır.
 
 ---
