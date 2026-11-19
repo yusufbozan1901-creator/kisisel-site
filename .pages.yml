@@ -155,10 +155,7 @@ content:
             options:
               values:
                 - Çalışıyorum
-                - Aktif Geliştirme
-                - Odaklanıyorum
-                - Planlanıyor
-                - Tamamlandı
+                - Ara verildi
           - name: description
             label: Kısa Açıklama
             type: text
