@@ -6,7 +6,6 @@ rating: "8.0"
 category:
   - - Gerilim
     - Korku
-    - Romantik
 poster: /gorseller/3ec854e6af4ade99ff0d51c8234f9d60.webp
 year: "2026"
 ---
