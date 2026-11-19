@@ -28,11 +28,13 @@ content:
       - name: title
         label: Başlık
         type: string
+        description: "Yazının ana başlığı (URL bağlantısı bu başlıktan türetilir)."
         required: true
 
       - name: date
         label: Tarih ve Saat
         type: date
+        description: "Yazının yayınlanma tarihi ve saati."
         options:
           time: true
         required: true
@@ -40,25 +42,29 @@ content:
       - name: summary
         label: Kısa Özet
         type: text
-
-      - name: image
-        label: Kapak Görseli (İsteğe bağlı)
-        type: image
-        options:
-          media: gorseller
-
-      - name: audio
-        label: Ses Dosyası (İsteğe bağlı)
-        type: file
-        options:
-          media: gorseller
+        description: "Yazı listesinde ve arama motoru önizlemelerinde görünecek kısa özet."
 
       - name: body
         label: İçerik
         type: rich-text
+        description: "Yazının Markdown veya zengin metin içeriği."
         options:
           media: gorseller
         required: true
+
+      - name: image
+        label: Kapak Görseli
+        type: image
+        description: "Yazının başında ve sosyal medya önizlemelerinde görünecek görsel (isteğe bağlı)."
+        options:
+          media: gorseller
+
+      - name: audio
+        label: Ses Dosyası
+        type: file
+        description: "Yazı için kaydedilmiş seslendirme veya ses kaydı dosyası (isteğe bağlı)."
+        options:
+          media: gorseller
 
   # 2. Akış (Mikro-Blog / Anlık Düşünceler)
   - name: akis
@@ -81,6 +87,7 @@ content:
       - name: body
         label: Düşünce Metni
         type: rich-text
+        description: "Akışta paylaşılacak kısa düşünce, anlık not veya alıntı."
         options:
           media: gorseller
         required: true
@@ -88,35 +95,42 @@ content:
       - name: date
         label: Tarih ve Saat
         type: date
+        description: "Düşüncenin paylaşıldığı tarih ve saat."
         options:
           time: true
         required: true
 
-      - name: mediaDetails
-        label: Dizi / Film Notu (İsteğe Bağlı)
-        type: object
-        fields:
-          - name: season
-            label: Sezon No (İsteğe bağlı)
-            type: string
-          - name: episode
-            label: Bölüm No (İsteğe bağlı)
-            type: string
-          - name: rating
-            label: Puan (İsteğe bağlı)
-            type: string
-
       - name: image
-        label: Görsel (İsteğe bağlı)
+        label: Görsel
         type: image
+        description: "Düşünceye eklenecek fotoğraf veya ekran görüntüsü (isteğe bağlı)."
         options:
           media: gorseller
 
       - name: audio
-        label: Ses Notu (İsteğe bağlı)
+        label: Ses Notu
         type: file
+        description: "Düşünceye eklenecek kısa ses kaydı (isteğe bağlı)."
         options:
           media: gorseller
+
+      - name: mediaDetails
+        label: Dizi / Film Notu
+        type: object
+        description: "Eğer bir dizi veya film izlerken not alıyorsanız ilgili detaylar (isteğe bağlı)."
+        fields:
+          - name: season
+            label: Sezon No
+            type: string
+            description: "İzlenen sezon numarası (örn. 2)."
+          - name: episode
+            label: Bölüm No
+            type: string
+            description: "İzlenen bölüm numarası (örn. 15)."
+          - name: rating
+            label: Puan
+            type: string
+            description: "Eser için kişisel puanınız (örn. 7.5 veya 9)."
 
   # 3. Şu Sıralar (Now Bento Şeridi)
   - name: now
