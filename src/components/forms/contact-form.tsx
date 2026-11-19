@@ -42,19 +42,34 @@ export function ContactForm() {
     setStatus('loading');
     setServerMessage('');
 
+    // Honeypot check
+    if (data.website) {
+      setStatus('error');
+      setServerMessage('Geçersiz form gönderimi tespit edildi.');
+      return;
+    }
+
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      setStatus('error');
+      setServerMessage('İletişim servisi şu anda yapılandırılmamış (API anahtarı eksik).');
+      return;
+    }
+
     try {
-      const response = await fetch('/api/contact', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
         body: JSON.stringify({
+          access_key: accessKey,
           name: data.name,
           email: data.email,
           subject: data.subject,
           message: data.message,
-          website: data.website || '',
+          botcheck: '',
         }),
       });
 
@@ -66,7 +81,7 @@ export function ContactForm() {
         reset();
       } else {
         setStatus('error');
-        setServerMessage(result.error || 'Mesaj iletilemedi. Lütfen tekrar deneyin.');
+        setServerMessage(result.message || 'Mesaj iletilemedi. Lütfen tekrar deneyin.');
       }
     } catch {
       setStatus('error');

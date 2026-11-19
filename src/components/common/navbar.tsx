@@ -14,11 +14,13 @@ import { cn } from '@/lib/utils';
 export function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+  const [prevPathname, setPrevPathname] = React.useState(pathname);
 
   // Close mobile menu on route change
-  React.useEffect(() => {
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname);
     setMobileMenuOpen(false);
-  }, [pathname]);
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/85 backdrop-blur-md">

@@ -33,6 +33,16 @@ export function CommandPalette() {
     };
   }, []);
 
+  // Reset query and selectedIndex when palette opens
+  const [prevOpen, setPrevOpen] = React.useState(open);
+  if (prevOpen !== open) {
+    setPrevOpen(open);
+    if (open) {
+      setQuery('');
+      setSelectedIndex(0);
+    }
+  }
+
   // Fetch search index on open
   React.useEffect(() => {
     if (open && items.length === 0) {
@@ -40,10 +50,6 @@ export function CommandPalette() {
         .then((res) => res.json())
         .then((data: SearchResultItem[]) => setItems(data))
         .catch(() => {});
-    }
-    if (open) {
-      setQuery('');
-      setSelectedIndex(0);
     }
   }, [open, items.length]);
 
@@ -70,17 +76,19 @@ export function CommandPalette() {
       .slice(0, 10);
   }, [items, query]);
 
-  // Reset selected index when filtered list changes
-  React.useEffect(() => {
+  // Reset selected index when query changes
+  const [prevQuery, setPrevQuery] = React.useState(query);
+  if (prevQuery !== query) {
+    setPrevQuery(query);
     setSelectedIndex(0);
-  }, [filteredItems]);
+  }
 
   const selectItem = (item: SearchResultItem) => {
     setOpen(false);
     if (item.url.startsWith('/')) {
       router.push(item.url);
     } else {
-      window.location.href = item.url;
+      window.location.assign(item.url);
     }
   };
 

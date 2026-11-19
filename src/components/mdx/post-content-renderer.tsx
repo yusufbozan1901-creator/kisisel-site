@@ -13,14 +13,12 @@ interface PostContentRendererProps {
  * with the custom AudioPlayer component and making images clickable
  * for the lightbox (via CSS cursor).
  */
+const emptySubscribe = () => () => {};
+
 export function PostContentRenderer({ htmlContent }: PostContentRendererProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
   const [audioSources, setAudioSources] = React.useState<string[]>([]);
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = React.useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   React.useEffect(() => {
     const container = containerRef.current;
@@ -80,7 +78,8 @@ function AudioPlayerPortal({
   React.useEffect(() => {
     const el = document.getElementById(mountId);
     if (el) {
-      setTarget(el);
+      const handle = requestAnimationFrame(() => setTarget(el));
+      return () => cancelAnimationFrame(handle);
     }
   }, [mountId]);
 

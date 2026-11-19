@@ -35,10 +35,6 @@ export function ShareButton({
 
   const [fullUrl, setFullUrl] = React.useState('');
 
-  React.useEffect(() => {
-    setFullUrl(getFullUrl());
-  }, [getFullUrl]);
-
   const handleOpen = () => {
     setFullUrl(getFullUrl());
     setIsOpen(true);
