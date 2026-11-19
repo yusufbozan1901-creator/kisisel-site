@@ -11,7 +11,7 @@ export async function Footer() {
   const activeSocialLinks = getActiveSocialLinks(profile);
 
   return (
-    <footer className="mt-auto border-t border-zinc-200/70 dark:border-zinc-900/80 py-10">
+    <footer className="mt-auto border-t border-border py-10">
       <Container size="narrow">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-6 text-xs text-muted-foreground">
           {/* Copyright & Social */}

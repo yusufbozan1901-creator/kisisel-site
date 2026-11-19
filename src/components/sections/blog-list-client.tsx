@@ -54,7 +54,7 @@ export function BlogListClient({ posts }: BlogListClientProps) {
           placeholder="Yazılarda ara..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="w-full rounded-lg border border-zinc-200/80 dark:border-zinc-800/80 bg-background pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="w-full rounded-lg border border-border bg-background pl-10 pr-4 py-2.5 text-sm text-foreground placeholder:text-muted-foreground transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label="Yazılarda ara"
         />
       </div>
@@ -68,7 +68,7 @@ export function BlogListClient({ posts }: BlogListClientProps) {
             className={`text-xs font-medium px-3 py-1 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
               activeTag === null
                 ? 'bg-foreground text-background border-foreground'
-                : 'bg-transparent text-muted-foreground border-zinc-200 dark:border-zinc-800 hover:text-foreground hover:border-zinc-400 dark:hover:border-zinc-600'
+                : 'bg-transparent text-muted-foreground border-border hover:text-foreground hover:border-foreground/40'
             }`}
           >
             Tümü
@@ -81,7 +81,7 @@ export function BlogListClient({ posts }: BlogListClientProps) {
               className={`text-xs font-medium px-3 py-1 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                 activeTag === tag
                   ? 'bg-foreground text-background border-foreground'
-                  : 'bg-transparent text-muted-foreground border-zinc-200 dark:border-zinc-800 hover:text-foreground hover:border-zinc-400 dark:hover:border-zinc-600'
+                  : 'bg-transparent text-muted-foreground border-border hover:text-foreground hover:border-foreground/40'
               }`}
             >
               #{tag}
@@ -100,7 +100,7 @@ export function BlogListClient({ posts }: BlogListClientProps) {
           filteredPosts.map((post) => (
             <Card
               key={post.slug}
-              className="group border border-zinc-200/80 dark:border-zinc-800/80 bg-card hover:border-zinc-400 dark:hover:border-zinc-600 transition-all duration-200 rounded-lg p-1 sm:p-2"
+              className="group border border-border bg-card hover:border-foreground/30 transition-all duration-200 rounded-lg p-1 sm:p-2"
             >
               <CardHeader className="p-6 pb-3">
                 <div className="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400 mb-3 font-mono">

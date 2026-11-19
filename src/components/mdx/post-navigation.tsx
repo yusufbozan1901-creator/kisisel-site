@@ -17,7 +17,7 @@ export function PostNavigation({ previousPost, nextPost }: PostNavigationProps) 
       {previousPost ? (
         <Link
           href={`/blog/${previousPost.slug}`}
-          className="group flex flex-col gap-1.5 rounded-lg border border-zinc-200/80 dark:border-zinc-800/80 p-4 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors"
+          className="group flex flex-col gap-1.5 rounded-lg border border-border bg-card p-4 hover:border-foreground/30 transition-colors"
         >
           <span className="inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
             <ArrowLeft className="h-3 w-3" />
@@ -34,7 +34,7 @@ export function PostNavigation({ previousPost, nextPost }: PostNavigationProps) 
       {nextPost ? (
         <Link
           href={`/blog/${nextPost.slug}`}
-          className="group flex flex-col items-end gap-1.5 rounded-lg border border-zinc-200/80 dark:border-zinc-800/80 p-4 hover:border-zinc-400 dark:hover:border-zinc-600 transition-colors text-right"
+          className="group flex flex-col items-end gap-1.5 rounded-lg border border-border bg-card p-4 hover:border-foreground/30 transition-colors text-right"
         >
           <span className="inline-flex items-center gap-1 text-[11px] font-medium text-muted-foreground uppercase tracking-wider">
             Sonraki Yazı

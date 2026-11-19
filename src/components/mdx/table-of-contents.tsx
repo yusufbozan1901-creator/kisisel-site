@@ -69,16 +69,16 @@ export function TableOfContents({
   // Mobile Accordion Variant (<details>)
   if (variant === 'mobile') {
     return (
-      <details className={`group rounded-xl border border-zinc-200/80 dark:border-zinc-800/80 bg-zinc-50/50 dark:bg-zinc-900/40 p-4 transition-all ${className}`}>
+      <details className={`group rounded-xl border border-border bg-card p-4 transition-all ${className}`}>
         <summary className="flex items-center justify-between cursor-pointer list-none select-none text-xs font-medium text-foreground">
-          <span className="flex items-center gap-2 font-mono uppercase tracking-wider text-zinc-600 dark:text-zinc-400">
+          <span className="flex items-center gap-2 font-mono uppercase tracking-wider text-muted-foreground">
             <ListTree className="h-3.5 w-3.5" />
             <span>İçindekiler ({items.length})</span>
           </span>
           <ChevronDown className="h-4 w-4 text-muted-foreground group-open:rotate-180 transition-transform duration-200" />
         </summary>
 
-        <nav aria-label="İçindekiler" className="mt-3 pt-3 border-t border-zinc-200/60 dark:border-zinc-800/60">
+        <nav aria-label="İçindekiler" className="mt-3 pt-3 border-t border-border">
           <ul className="space-y-2 text-xs">
             {items.map((item) => {
               const isActive = activeId === item.id;
@@ -90,7 +90,7 @@ export function TableOfContents({
                     className={`block py-0.5 transition-colors leading-snug ${
                       isActive
                         ? 'font-medium text-foreground underline underline-offset-4'
-                        : 'text-zinc-600 dark:text-zinc-400 hover:text-foreground'
+                        : 'text-muted-foreground hover:text-foreground'
                     }`}
                   >
                     {item.text}
@@ -108,14 +108,14 @@ export function TableOfContents({
   return (
     <nav
       aria-label="İçindekiler"
-      className={`space-y-3 p-4 rounded-xl border border-zinc-200/60 dark:border-zinc-850/70 bg-card/50 backdrop-blur-sm ${className}`}
+      className={`space-y-3 p-4 rounded-xl border border-border bg-card/50 backdrop-blur-sm ${className}`}
     >
       <div className="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">
         <ListTree className="h-3.5 w-3.5" />
         <span>İçindekiler</span>
       </div>
 
-      <ul className="space-y-1 text-xs border-l border-zinc-200/70 dark:border-zinc-800/80">
+      <ul className="space-y-1 text-xs border-l border-border">
         {items.map((item) => {
           const isActive = activeId === item.id;
           return (
@@ -126,7 +126,7 @@ export function TableOfContents({
               } ${
                 isActive
                   ? 'border-foreground font-medium text-foreground'
-                  : 'border-transparent text-zinc-500 dark:text-zinc-400 hover:text-foreground hover:border-zinc-400 dark:hover:border-zinc-600'
+                  : 'border-transparent text-muted-foreground hover:text-foreground hover:border-foreground/40'
               }`}
             >
               <a
