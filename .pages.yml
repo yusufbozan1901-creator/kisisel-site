@@ -134,24 +134,24 @@ content:
 
   # 3. Şu Sıralar (Now Bento Şeridi)
   - name: now
-    label: Şu Sıralar (Now Bento)
+    label: Şu Sıralar
     type: file
     path: src/content/now.json
     fields:
       - name: focus
-        label: 1. Üzerinde Çalıştığım (Odak)
+        label: Güncel Odak
         type: object
-        description: "Ana sayfada 'Şu Sıralar' kutusunda görünen güncel odak ve proje alanı."
+        description: "Şu an üzerinde çalıştığınız proje, hedef veya meşguliyet."
         fields:
           - name: title
-            label: Proje / Odak Başlığı
+            label: Ne ile Uğraşıyorsunuz?
             type: string
-            description: "Üzerinde çalışılan hedefin, konunun veya projenin adı (örn. YKS)."
+            description: "Çalıştığınız hedefin veya projenin adı (örn. YKS)."
             required: true
           - name: status
-            label: Durum
+            label: Çalışma Durumu
             type: select
-            description: "Çalışmanın mevcut durumu."
+            description: "Gelişme ve ilerleme durumu."
             options:
               values:
                 - Çalışıyorum
@@ -160,28 +160,28 @@ content:
                 - Planlanıyor
                 - Tamamlandı
           - name: description
-            label: Açıklama
+            label: Kısa Açıklama
             type: text
-            description: "Hedef veya çalışma hakkında kısa açıklama."
+            description: "Hedef veya çalışma hakkında bir iki cümlelik not."
           - name: updatedAt
-            label: Güncelleme Zamanı
+            label: Zaman Notu
             type: string
-            description: "Son durum veya güncelleme notu (örn. Bugün veya Bu hafta)."
+            description: "Örn. Bugün, Bu hafta."
 
       - name: shelf
-        label: 2. Şu An Rafta (Dizi / Film / Kitap)
+        label: Şu An Rafta
         type: object
-        description: "Ana sayfada şu an izlediğiniz veya okuduğunuz birincil ve ikincil eserler."
+        description: "Takip ettiğiniz veya okuduğunuz eserler."
         fields:
           - name: itemTitle
-            label: Birincil Eser Adı
+            label: Ne İzliyor / Okuyorsunuz?
             type: string
-            description: "Şu an takip edilen birincil eserin adı (örn. THE MENTALIST)."
+            description: "Örn. THE MENTALIST."
             required: true
           - name: itemType
-            label: Birincil Tür
+            label: Türü
             type: select
-            description: "Birincil eserin türü."
+            description: "Dizi, film veya kitap."
             options:
               values:
                 - Dizi
@@ -189,9 +189,9 @@ content:
                 - Kitap
             required: true
           - name: status
-            label: Birincil Durum
+            label: Takip Durumu
             type: select
-            description: "Birincil eserin izleme veya okuma durumu."
+            description: "İzleme veya okuma durumu."
             options:
               values:
                 - Devam Ediyorum
@@ -201,26 +201,26 @@ content:
                 - Başyapıt
                 - Takip Ediliyor
           - name: itemMeta
-            label: Bölüm / Sayfa / Süre
+            label: Neresindesiniz?
             type: string
             description: "Sezon, bölüm veya sayfa bilgisi (örn. S02 • B04 veya s. 120)."
           - name: secondaryTitle
-            label: İkincil Eser Adı
+            label: İkinci Bir Eser (Varsa)
             type: string
-            description: "Takip edilen ikincil eser adı (isteğe bağlı, örn. SUÇ VE CEZA)."
+            description: "Aynı anda okuduğunuz bir kitap veya izlediğiniz başka bir yapım."
           - name: secondaryType
-            label: İkincil Tür
+            label: İkinci Eserin Türü
             type: select
-            description: "İkincil eserin türü (isteğe bağlı)."
+            description: "Kitap, dizi veya film."
             options:
               values:
                 - Kitap
                 - Dizi
                 - Film
           - name: secondaryStatus
-            label: İkincil Durum
+            label: İkinci Eserin Durumu
             type: select
-            description: "İkincil eserin izleme veya okuma durumu (isteğe bağlı)."
+            description: "Okuma veya izleme durumu."
             options:
               values:
                 - Okunuyor
@@ -230,32 +230,32 @@ content:
                 - Başyapıt
                 - Takip Ediliyor
           - name: secondaryMeta
-            label: İkincil Bölüm / Sayfa
+            label: İkinci Eser İlerlemesi
             type: string
-            description: "İkincil eser için detay bilgisi (örn. s. 45 / 320)."
+            description: "Örn. s. 45 / 320."
 
       - name: thought
-        label: 3. Son Düşünce (Aforizma / Alıntı)
+        label: Günün Düşüncesi
         type: object
-        description: "Ana sayfadaki bento kutusunda yer alan kısa alıntı veya aforizma."
+        description: "Aklınızda yer eden bir alıntı veya kısa not."
         fields:
           - name: quote
-            label: Düşünce / Alıntı Metni
+            label: Düşünce veya Alıntı
             type: text
-            description: "Günün veya haftanın akılda kalan aforizması veya düşüncesi."
+            description: "Paylaşmak istediğiniz cümle veya aforizma."
             required: true
           - name: context
-            label: Konu / Bağlam
+            label: Kime Ait / Kaynak
             type: string
-            description: "Düşüncenin kaynağı veya bağlamı (örn. Marcus Aurelius veya Yolda yürürken)."
+            description: "Alıntının sahibi veya bağlamı (örn. Marcus Aurelius)."
           - name: label
-            label: Etiket
+            label: Kutu Rozeti
             type: string
-            description: "Kutucuk üstündeki rozet başlığı (örn. Alıntı veya Mikro-Not Defteri)."
+            description: "Kart üzerindeki ufak etiket (örn. Alıntı, Mikro-Not)."
           - name: thoughtDate
-            label: Tarih / Zaman
+            label: Tarih / Not Zamanı
             type: string
-            description: "Düşüncenin zaman ibaresi (örn. 16 Kasım veya Bugün)."
+            description: "Örn. 16 Kasım veya Bugün."
 
   # 4. Rafım (Film, Dizi & Kitap Arşivi)
   - name: raf
@@ -422,140 +422,140 @@ content:
 
   # 6. Profil, Hakkımda ve Sosyal Medya Ayarları
   - name: profil
-    label: Hakkımda & Sosyal Medya
+    label: Profil & Hakkımda
     type: file
     path: src/content/profil.json
     fields:
       - name: title
-        label: Hakkımda Başlığı
+        label: Sayfa Başlığı
         type: string
-        description: "Hakkımda sayfasının üst başlığı (örn. Hakkımda veya Merhaba)."
+        description: "Hakkımda sayfasının başlığı (örn. Merhaba veya Hakkımda)."
 
       - name: bio
-        label: Biyografi Metni
+        label: Kendinizi Tanıtın
         type: rich-text
-        description: "Hakkımda sayfasında yer alan ana tanıtım ve biyografi metni."
+        description: "Hakkımda sayfasında yer alan ana biyografi metniniz."
         options:
           media: gorseller
 
       - name: avatar
         label: Profil Fotoğrafı
         type: image
-        description: "Profil veya portre fotoğrafınız (isteğe bağlı)."
+        description: "Portre veya profil fotoğrafınız (isteğe bağlı)."
         options:
           media: gorseller
 
       - name: location
         label: Şehir / Konum
         type: string
-        description: "Yaşadığınız şehir veya bölge bilgisi (isteğe bağlı, örn. İstanbul, Türkiye)."
+        description: "Yaşadığınız şehir veya bölge (örn. İstanbul, Türkiye)."
 
       - name: social
-        label: Sosyal Medya Bağlantıları
+        label: Sosyal Medya Hesapları
         type: object
-        description: "Sosyal medya platform bağlantıları ve aktiflik durumları."
+        description: "Sitede bağlantı vermek istediğiniz sosyal platformlar."
         fields:
           - name: twitter
             label: X (Twitter)
             type: object
-            description: "X (Twitter) profil bağlantısı ayarları."
+            description: "X profil ayarları."
             fields:
               - name: active
-                label: Aktif Et
+                label: Göster
                 type: boolean
-                description: "Bu bağlantıyı sitede göster."
+                description: "Profil bağlantısını sitede göster."
               - name: url
-                label: Profil Bağlantısı
+                label: Profil Adresi
                 type: string
-                description: "Tam profil web adresi (örn. https://x.com/kullanici)."
+                description: "Örn. https://x.com/kullanici."
 
           - name: instagram
             label: Instagram
             type: object
-            description: "Instagram profil bağlantısı ayarları."
+            description: "Instagram profil ayarları."
             fields:
               - name: active
-                label: Aktif Et
+                label: Göster
                 type: boolean
-                description: "Bu bağlantıyı sitede göster."
+                description: "Profil bağlantısını sitede göster."
               - name: url
-                label: Profil Bağlantısı
+                label: Profil Adresi
                 type: string
-                description: "Tam profil web adresi (örn. https://instagram.com/kullanici)."
+                description: "Örn. https://instagram.com/kullanici."
 
           - name: youtube
             label: YouTube
             type: object
-            description: "YouTube kanal bağlantısı ayarları."
+            description: "YouTube kanal ayarları."
             fields:
               - name: active
-                label: Aktif Et
+                label: Göster
                 type: boolean
-                description: "Bu bağlantıyı sitede göster."
+                description: "Kanal bağlantısını sitede göster."
               - name: url
-                label: Profil Bağlantısı
+                label: Profil Adresi
                 type: string
-                description: "Tam kanal web adresi (örn. https://youtube.com/@kanal)."
+                description: "Örn. https://youtube.com/@kanal."
 
           - name: facebook
             label: Facebook
             type: object
-            description: "Facebook profil bağlantısı ayarları."
+            description: "Facebook profil ayarları."
             fields:
               - name: active
-                label: Aktif Et
+                label: Göster
                 type: boolean
-                description: "Bu bağlantıyı sitede göster."
+                description: "Profil bağlantısını sitede göster."
               - name: url
-                label: Profil Bağlantısı
+                label: Profil Adresi
                 type: string
-                description: "Tam profil web adresi (örn. https://facebook.com/kullanici)."
+                description: "Örn. https://facebook.com/kullanici."
 
           - name: github
             label: GitHub
             type: object
-            description: "GitHub profil bağlantısı ayarları."
+            description: "GitHub profil ayarları."
             fields:
               - name: active
-                label: Aktif Et
+                label: Göster
                 type: boolean
-                description: "Bu bağlantıyı sitede göster."
+                description: "Profil bağlantısını sitede göster."
               - name: url
-                label: Profil Bağlantısı
+                label: Profil Adresi
                 type: string
-                description: "Tam profil web adresi (örn. https://github.com/kullanici)."
+                description: "Örn. https://github.com/kullanici."
 
           - name: linkedin
             label: LinkedIn
             type: object
-            description: "LinkedIn profil bağlantısı ayarları."
+            description: "LinkedIn profil ayarları."
             fields:
               - name: active
-                label: Aktif Et
+                label: Göster
                 type: boolean
-                description: "Bu bağlantıyı sitede göster."
+                description: "Profil bağlantısını sitede göster."
               - name: url
-                label: Profil Bağlantısı
+                label: Profil Adresi
                 type: string
-                description: "Tam profil web adresi (örn. https://linkedin.com/in/kullanici)."
+                description: "Örn. https://linkedin.com/in/kullanici."
 
       - name: customLinks
-        label: Özel Bağlantılar (Spotify, Substack vb.)
+        label: Diğer Bağlantılar
         type: object
         list: true
-        description: "Listede bulunmayan diğer platform bağlantıları (Medium, Spotify, Substack vb.)."
+        description: "Spotify, Substack gibi diğer platform bağlantılarınız."
         fields:
           - name: title
             label: Platform Adı
             type: string
-            description: "Platformun adı (örn. Spotify)."
+            description: "Örn. Spotify."
 
           - name: url
-            label: Bağlantı Adresi
+            label: Web Adresi
             type: string
-            description: "Tam web bağlantı adresi (örn. https://open.spotify.com/user/...)."
+            description: "Örn. https://open.spotify.com/user/..."
 
           - name: active
-            label: Aktif Et
+            label: Göster
             type: boolean
-            description: "Bu bağlantıyı sitede göster."
+            description: "Bağlantıyı sitede göster."
